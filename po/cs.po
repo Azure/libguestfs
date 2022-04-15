@@ -1,11 +1,11 @@
 # Zdenek <chmelarz@gmail.com>, 2017. #zanata
-# Pavel Borecki <pavel.borecki@gmail.com>, 2022, 2023.
+# Pavel Borecki <pavel.borecki@gmail.com>, 2022.
 msgid ""
 msgstr ""
 "Project-Id-Version: libguestfs 1.39.12\n"
-"Report-Msgid-Bugs-To: https://bugzilla.redhat.com/enter_bug.cgi?"
-"component=libguestfs&product=Virtualization+Tools\n"
-"POT-Creation-Date: 2022-04-14 15:53+0100\n"
+"Report-Msgid-Bugs-To: https://bugzilla.redhat.com/enter_bug."
+"cgi?component=libguestfs&product=Virtualization+Tools\n"
+"POT-Creation-Date: 2022-03-14 13:36+0000\n"
 "PO-Revision-Date: 2022-04-15 20:17+0000\n"
 "Last-Translator: Pavel Borecki <pavel.borecki@gmail.com>\n"
 "Language-Team: Czech <https://translate.fedoraproject.org/projects/"
@@ -15,7 +15,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;\n"
-"X-Generator: Weblate 4.15.2\n"
+"X-Generator: Weblate 4.11.2\n"
 
 #: common/options/config.c:72
 #, c-format
@@ -4061,7 +4061,17 @@ msgstr "qemu zatím ještě nebylo spuštěno"
 #: lib/launch.c:299
 #, c-format
 msgid "parameter ‘%s’ isn't allowed"
-msgstr "parametr „%s“ není povolený"
+msgstr ""
+
+#: lib/launch.c:327
+#, c-format
+msgid "socket path too long: %s/%s"
+msgstr ""
+
+#: lib/launch.c:331
+#, c-format
+msgid "%s"
+msgstr "%s"
 
 #: lib/libvirt-auth.c:96
 #, c-format
