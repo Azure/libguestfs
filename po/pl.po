@@ -41,13 +41,6 @@ msgstr ""
 #: common/options/decrypt.c:169
 #, c-format
 msgid ""
-"'clevis_luks_unlock', needed for decrypting %s, is unavailable in this "
-"libguestfs version"
-msgstr ""
-
-#: common/options/decrypt.c:184
-#, c-format
-msgid ""
 "could not find key to open LUKS encrypted %s.\n"
 "\n"
 "Try using --key on the command line.\n"

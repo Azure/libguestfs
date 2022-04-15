@@ -35,13 +35,6 @@ msgstr "字符串长度溢出"
 #: common/options/decrypt.c:169
 #, c-format
 msgid ""
-"'clevis_luks_unlock', needed for decrypting %s, is unavailable in this "
-"libguestfs version"
-msgstr "用于解密 %s 的 \"clevis_luks_unlock\" 在此 libguestfs 版本中不可用"
-
-#: common/options/decrypt.c:184
-#, c-format
-msgid ""
 "could not find key to open LUKS encrypted %s.\n"
 "\n"
 "Try using --key on the command line.\n"
