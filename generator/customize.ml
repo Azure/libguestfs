@@ -617,19 +617,22 @@ Note this does not change the default password encryption used
 by the guest when you create new user accounts inside the guest.
 If you want to do that, then you should use the I<--edit> option
 to modify C</etc/sysconfig/authconfig> (Fedora, RHEL) or
-C</etc/pam.d/common-password> (Debian, Ubuntu).|};
+C</etc/pam.d/common-password> (Debian, Ubuntu).";
   };
 
-  { flag_name = "selinux-relabel";
+  { flag_name = "no-selinux-relabel";
     flag_type = FlagBool false (* XXX - the default in virt-builder *);
-    flag_ml_var = "selinux_relabel";
-    flag_shortdesc = "Relabel files with correct SELinux labels";
+    flag_ml_var = "no_selinux_relabel";
+    flag_shortdesc = "Do not relabel files with correct SELinux labels";
     flag_pod_longdesc = "\
-Relabel files in the guest so that they have the correct SELinux label.
+Do not attempt to correct the SELinux labels of files in the guest.
 
-This will attempt to relabel files immediately, but if the operation fails
-this will instead touch F</.autorelabel> on the image to schedule a
-relabel operation for the next time the image boots.
+In such guests that support SELinux, customization automatically
+relabels files so that they have the correct SELinux label.  (The
+relabeling is performed immediately, but if the operation fails,
+customization will instead touch F</.autorelabel> on the image to
+schedule a relabel operation for the next time the image boots.)  This
+option disables the automatic relabeling.
 
 This option is a no-op for guests that do not support SELinux.";
   };
