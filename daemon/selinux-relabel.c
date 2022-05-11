@@ -59,7 +59,6 @@ do_selinux_relabel (const char *specfile, const char *path,
                     int force)
 {
   static int flag_m = -1;
-  static int flag_C = -1;
   const char *argv[MAX_ARGS];
   CLEANUP_FREE char *s_dev = NULL, *s_proc = NULL, *s_selinux = NULL,
     *s_sys = NULL, *s_specfile = NULL, *s_path = NULL;
