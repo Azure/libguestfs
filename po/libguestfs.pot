@@ -6,10 +6,10 @@
 #, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: libguestfs 1.48.2\n"
+"Project-Id-Version: libguestfs 1.48.3\n"
 "Report-Msgid-Bugs-To: https://bugzilla.redhat.com/enter_bug.cgi?"
 "component=libguestfs&product=Virtualization+Tools\n"
-"POT-Creation-Date: 2022-05-12 15:09+0100\n"
+"POT-Creation-Date: 2022-05-26 11:35+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -3933,7 +3933,7 @@ msgstr ""
 msgid "you must call guestfs_add_drive before guestfs_launch"
 msgstr ""
 
-#: lib/launch-direct.c:941 lib/launch-libvirt.c:713
+#: lib/launch-direct.c:934 lib/launch-libvirt.c:713
 msgid "qemu launched and contacted daemon, but state != READY"
 msgstr ""
 
@@ -4020,7 +4020,7 @@ msgstr ""
 msgid "‘iface’ parameter is not supported by the libvirt backend"
 msgstr ""
 
-#: lib/launch-libvirt.c:1523 lib/launch-libvirt.c:1781 lib/qemu.c:816
+#: lib/launch-libvirt.c:1523 lib/launch-libvirt.c:1781 lib/qemu.c:822
 #, c-format
 msgid "realpath: could not convert ‘%s’ to absolute path"
 msgstr ""
