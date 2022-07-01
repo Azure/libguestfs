@@ -190,7 +190,7 @@
   fun:caml_stop_stack_overflow_detection
 }
 
-# The OCaml PCRE.compile function calls pcre2_compile_8 which allocates
+# The OCaml PCRE.compile function calls pcre_compile2 which allocates
 # memory.  If these regexps are stored in a global variable then they
 # can never be freed.  This is not really a bug, so ignore it.
 {
