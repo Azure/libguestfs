@@ -591,7 +591,7 @@ and check_hostname_from_file filename =
 
   let hostname = Chroot.f chroot read_small_file filename in
 
-  let keep_line line = line <> "" && not (String.starts_with "#" line) in
+  let keep_line line = line <> "" && not (String.is_prefix line "#") in
   let lines = Option.map (List.filter keep_line) hostname in
   match lines with
   | None | Some [] -> None
