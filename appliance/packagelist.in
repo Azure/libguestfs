@@ -212,29 +212,6 @@ ifelse(OPENMANDRIVA,1,
   zstd
 )
 
-ifelse(OPENCLOUDOS,1,
-  clevis-luks
-  cryptsetup
-  cryptsetup-luks
-  dhclient
-  gfs2-utils
-  glibc-gconv-extra
-  hfsplus-tools
-  iproute
-  iputils
-  kernel
-  ntfsprogs
-  ntfs-3g
-  openssh-clients
-  policycoreutils
-  rpm-libs
-  syslinux-extlinux
-  systemd
-  vim-minimal
-  xz
-  zstd
-)
-
 include(guestfsd.deps)
 
 acl
