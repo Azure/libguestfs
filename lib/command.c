@@ -549,16 +549,18 @@ run_child (struct command *cmd, char **env)
   for (i = 1; i < NSIG; ++i)
     sigaction (i, &sa, NULL);
 
-  /* Close all other file descriptors.  This ensures that we don't
-   * hold open (eg) pipes from the parent process.
-   */
-  max_fd = sysconf (_SC_OPEN_MAX);
-  if (max_fd == -1)
-    max_fd = 1024;
-  if (max_fd > 65536)
-    max_fd = 65536;        /* bound the amount of work we do here */
-  for (fd = 3; fd < max_fd; ++fd)
-    close (fd);
+  if (cmd->close_files) {
+    /* Close all other file descriptors.  This ensures that we don't
+     * hold open (eg) pipes from the parent process.
+     */
+    max_fd = sysconf (_SC_OPEN_MAX);
+    if (max_fd == -1)
+      max_fd = 1024;
+    if (max_fd > 65536)
+      max_fd = 65536;        /* bound the amount of work we do here */
+    for (fd = 3; fd < max_fd; ++fd)
+      close (fd);
+  }
 
   /* Set the umask for all subcommands to something sensible (RHBZ#610880). */
   umask (022);
