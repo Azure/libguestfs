@@ -1215,7 +1215,7 @@ guestfs_session_close (GuestfsSession *session, GError **err)
           | n, FUUID ->
             pr "%smemcpy (%s%s, %s%s, sizeof (%s%s));\n"
               indent dst n src n dst n
-          | n, (FString|FDevice) ->
+          | n, FString ->
             pr "%sif (%s%s) %s%s = g_strdup (%s%s);\n"
               indent src n dst n src n
           | n, FBuffer ->
