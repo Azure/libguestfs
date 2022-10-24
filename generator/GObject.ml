@@ -830,7 +830,7 @@ guestfs_session_class_init (GuestfsSessionClass *klass)
 {
   GObjectClass *object_class = G_OBJECT_CLASS (klass);
 
-  object_class->finalize = guestfs_session_finalize;|};
+  object_class->finalize = guestfs_session_finalize;";
 
   List.iter (
     fun (name, _) ->
