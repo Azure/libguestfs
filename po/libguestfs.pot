@@ -6,10 +6,10 @@
 #, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: libguestfs 1.48.4\n"
+"Project-Id-Version: libguestfs 1.48.5\n"
 "Report-Msgid-Bugs-To: https://bugzilla.redhat.com/enter_bug.cgi?"
 "component=libguestfs&product=Virtualization+Tools\n"
-"POT-Creation-Date: 2022-07-06 13:58+0100\n"
+"POT-Creation-Date: 2022-11-21 18:33+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -28,14 +28,14 @@ msgstr ""
 msgid "string size overflow"
 msgstr ""
 
-#: common/options/decrypt.c:166
+#: common/options/decrypt.c:170
 #, c-format
 msgid ""
 "'clevis_luks_unlock', needed for decrypting %s, is unavailable in this "
 "libguestfs version"
 msgstr ""
 
-#: common/options/decrypt.c:180
+#: common/options/decrypt.c:184
 #, c-format
 msgid ""
 "could not find key to open LUKS encrypted %s.\n"
@@ -3929,31 +3929,11 @@ msgid ""
 "might need to log out and log in again)."
 msgstr ""
 
-#: lib/launch-direct.c:393
-#, c-format
-msgid "passt was killed with signal %d"
-msgstr ""
-
-#: lib/launch-direct.c:398
-#, c-format
-msgid "internal error: unexpected exit status from passt (%d)"
-msgstr ""
-
-#: lib/launch-direct.c:405
-#, c-format
-msgid "passt exited with status %d"
-msgstr ""
-
-#: lib/launch-direct.c:426
-#, c-format
-msgid "failed to parse passt PID from '%s'"
-msgstr ""
-
-#: lib/launch-direct.c:475
+#: lib/launch-direct.c:396
 msgid "you must call guestfs_add_drive before guestfs_launch"
 msgstr ""
 
-#: lib/launch-direct.c:934 lib/launch-libvirt.c:713
+#: lib/launch-direct.c:941 lib/launch-libvirt.c:713
 msgid "qemu launched and contacted daemon, but state != READY"
 msgstr ""
 
@@ -4040,7 +4020,7 @@ msgstr ""
 msgid "‘iface’ parameter is not supported by the libvirt backend"
 msgstr ""
 
-#: lib/launch-libvirt.c:1523 lib/launch-libvirt.c:1781 lib/qemu.c:822
+#: lib/launch-libvirt.c:1523 lib/launch-libvirt.c:1781 lib/qemu.c:816
 #, c-format
 msgid "realpath: could not convert ‘%s’ to absolute path"
 msgstr ""
@@ -4110,6 +4090,16 @@ msgstr ""
 #: lib/launch.c:299
 #, c-format
 msgid "parameter ‘%s’ isn't allowed"
+msgstr ""
+
+#: lib/launch.c:328
+#, c-format
+msgid "socket path too long: %s/%s"
+msgstr ""
+
+#: lib/launch.c:332
+#, c-format
+msgid "%s"
 msgstr ""
 
 #: lib/libvirt-auth.c:96
