@@ -134,12 +134,12 @@ guestfs_int_py_event_callback_wrapper (guestfs_h *g,
   args = Py_BuildValue ("(Kiy#O)",
                         (unsigned PY_LONG_LONG) event, event_handle,
                         buf, buf_len, py_array);
-  Py_DECREF (py_array);
   if (args == NULL) {
     PyErr_PrintEx (0);
     goto out;
   }
 
+  Py_INCREF (args);
   py_r = PyObject_CallObject (py_callback, args);
   Py_DECREF (args);
   if (py_r != NULL)
