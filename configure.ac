@@ -19,12 +19,12 @@
 # add extra information using --with-extra="..." which may be any
 # freeform string.
 m4_define([libguestfs_major],   [1])
-m4_define([libguestfs_minor],   [52])
-m4_define([libguestfs_release], [1])
-m4_define([release_date],       [2024-05-13])
+m4_define([libguestfs_minor],   [50])
+m4_define([libguestfs_release], [0])
+                   RELEASE_DATE=2023-02-07
 
 AC_INIT([libguestfs],libguestfs_major.libguestfs_minor.libguestfs_release)
-AC_SUBST([RELEASE_DATE],release_date)
+AC_SUBST([RELEASE_DATE])
 
 # Headings within the configure script output.
 m4_define([HEADING],
