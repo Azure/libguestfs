@@ -2574,9 +2574,9 @@ To get the checksums for many files, use C<guestfs_checksums_out>.|} };
 The optional C<compress> flag controls compression.  If not given,
 then the input should be an uncompressed tar file.  Otherwise one
 of the following strings may be given to select the compression
-type of the input file: C<compress>, C<gzip>, C<bzip2>, C<xz>, C<lzop>.
-(Note that not all builds of libguestfs will support all of these
-compression types).
+type of the input file: C<compress>, C<gzip>, C<bzip2>, C<xz>, C<lzop>,
+C<lzma>, C<zstd>.  (Note that not all builds of libguestfs will support
+all of these compression types).
 
 The other optional arguments are:
 
@@ -2608,9 +2608,9 @@ it to local file C<tarfile>.
 The optional C<compress> flag controls compression.  If not given,
 then the output will be an uncompressed tar file.  Otherwise one
 of the following strings may be given to select the compression
-type of the output file: C<compress>, C<gzip>, C<bzip2>, C<xz>, C<lzop>.
-(Note that not all builds of libguestfs will support all of these
-compression types).
+type of the output file: C<compress>, C<gzip>, C<bzip2>, C<xz>, C<lzop>,
+C<lzma>, C<zstd>.  (Note that not all builds of libguestfs will support
+all of these compression types).
 
 The other optional arguments are:
 
