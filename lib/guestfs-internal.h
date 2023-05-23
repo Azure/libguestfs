@@ -49,8 +49,43 @@
  */
 typedef struct hash_table Hash_table;
 
+/* Minimum required version of libvirt for the libvirt backend.
+ *
+ * This is also checked at runtime because you can dynamically link
+ * with a different version from what you were compiled with.
+ */
+#define MIN_LIBVIRT_MAJOR 0
+#define MIN_LIBVIRT_MINOR 10
+#define MIN_LIBVIRT_MICRO 2 /* XXX patches in > 2 already */
+#define MIN_LIBVIRT_VERSION (MIN_LIBVIRT_MAJOR * 1000000 +	\
+                             MIN_LIBVIRT_MINOR * 1000 +		\
+                             MIN_LIBVIRT_MICRO)
+
 #ifdef HAVE_LIBVIRT
 #include <libvirt/libvirt.h>
+#if LIBVIR_VERSION_NUMBER >= MIN_LIBVIRT_VERSION
+#define HAVE_LIBVIRT_BACKEND
+#endif
+#endif
+
+#if ENABLE_PROBES
+#include <sys/sdt.h>
+/* NB: The 'name' parameter is a literal identifier, NOT a string! */
+#define TRACE0(name) DTRACE_PROBE(guestfs, name)
+#define TRACE1(name, arg1) \
+  DTRACE_PROBE(guestfs, name, (arg1))
+#define TRACE2(name, arg1, arg2) \
+  DTRACE_PROBE(guestfs, name, (arg1), (arg2))
+#define TRACE3(name, arg1, arg2, arg3) \
+  DTRACE_PROBE(guestfs, name, (arg1), (arg2), (arg3))
+#define TRACE4(name, arg1, arg2, arg3, arg4) \
+  DTRACE_PROBE(guestfs, name, (arg1), (arg2), (arg3), (arg4))
+#else /* !ENABLE_PROBES */
+#define TRACE0(name)
+#define TRACE1(name, arg1)
+#define TRACE2(name, arg1, arg2)
+#define TRACE3(name, arg1, arg2, arg3)
+#define TRACE4(name, arg1, arg2, arg3, arg4)
 #endif
 
 #if ENABLE_PROBES
@@ -138,9 +173,6 @@ cleanup_mutex_unlock (pthread_mutex_t **ptr)
 #define MAX_WINDOWS_EXPLORER_SIZE (4 * 1000 * 1000)
 
 /* Machine types. */
-#if defined(__x86_64__)
-#define MACHINE_TYPE "q35"
-#endif
 #ifdef __arm__
 #define MACHINE_TYPE "virt"
 #endif
@@ -169,7 +201,7 @@ cleanup_mutex_unlock (pthread_mutex_t **ptr)
  * hardware with PCI. Necessary only before libvirt 3.8.0. Refer to
  * RHBZ#2034160.
  */
-#ifdef HAVE_LIBVIRT
+#ifdef HAVE_LIBVIRT_BACKEND
 #if defined(__arm__) || defined(__s390x__)
 #define VIRTIO_NET_PCI_ADDR ""
 #else
@@ -545,7 +577,7 @@ struct guestfs_h {
   int ml_debug_calls;        /* Extra debug info on each FUSE call. */
 #endif
 
-#ifdef HAVE_LIBVIRT
+#ifdef HAVE_LIBVIRT_BACKEND
   /* Used by lib/libvirt-auth.c. */
 #define NR_CREDENTIAL_TYPES 9
   unsigned int nr_supported_credentials;
@@ -807,7 +839,7 @@ extern void guestfs_int_cleanup_cmd_close (struct command **);
 
 /* launch-*.c constructors */
 void guestfs_int_init_direct_backend (void) __attribute__((constructor));
-#ifdef HAVE_LIBVIRT
+#ifdef HAVE_LIBVIRT_BACKEND
 void guestfs_int_init_libvirt_backend (void) __attribute__((constructor));
 #endif
 

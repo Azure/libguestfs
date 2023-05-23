@@ -72,7 +72,7 @@
 #endif
 /* End of fixes for Mac OS X */
 
-#ifdef HAVE_LIBVIRT
+#ifdef HAVE_LIBVIRT_BACKEND
 
 #ifndef HAVE_XMLBUFFERDETACH
 /* Added in libxml2 2.8.0.  This is mostly a copy of the function from
@@ -346,6 +346,15 @@ launch_libvirt (guestfs_h *g, void *datav, const char *libvirt_uri)
          data->libvirt_version.v_major,
          data->libvirt_version.v_minor,
          data->libvirt_version.v_micro);
+  if (!guestfs_int_version_ge (&data->libvirt_version,
+                               MIN_LIBVIRT_MAJOR, MIN_LIBVIRT_MINOR,
+                               MIN_LIBVIRT_MICRO)) {
+    error (g, _("you must have libvirt >= %d.%d.%d "
+                "to use the ‘libvirt’ backend"),
+           MIN_LIBVIRT_MAJOR, MIN_LIBVIRT_MINOR, MIN_LIBVIRT_MICRO);
+    return -1;
+  }
+
   guestfs_int_launch_send_progress (g, 0);
   TRACE0 (launch_libvirt_start);
 
@@ -2247,4 +2256,4 @@ guestfs_int_init_libvirt_backend (void)
   guestfs_int_register_backend ("libvirt", &backend_libvirt_ops);
 }
 
-#endif /* HAVE_LIBVIRT */
+#endif /* HAVE_LIBVIRT_BACKEND */

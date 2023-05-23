@@ -521,7 +521,7 @@ hive is a valid Windows Registry hive.
 
 You can use C<guestfs_hivex_open> to read or write to the hive.
 
-Please read L<guestfs(3)/INSPECTION> for more details.|} };
+Please read L<guestfs(3)/INSPECTION> for more details." };
 
   { defaults with
     name = "inspect_get_mountpoints"; added = (1, 5, 3);

@@ -171,8 +171,6 @@ and string_of_inspection_data data =
              data.arch;
   Option.may (fun v -> bpf "    hostname: %s\n" v)
              data.hostname;
-  Option.iter (fun v -> bpf "    build ID: %s\n" v)
-             data.build_id;
   if data.fstab <> [] then (
     let v = List.map (
       fun (a, b) -> sprintf "(%s, %s)" (Mountable.to_string a) b

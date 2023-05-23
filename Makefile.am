@@ -116,7 +116,7 @@ SUBDIRS += po-docs
 endif
 
 EXTRA_DIST = \
-	AUTHORS HACKING TODO \
+	AUTHORS HACKING RELEASES TODO \
 	.gitignore \
 	.gitpublish \
 	.lvimrc \

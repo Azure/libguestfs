@@ -2574,9 +2574,9 @@ To get the checksums for many files, use C<guestfs_checksums_out>.|} };
 The optional C<compress> flag controls compression.  If not given,
 then the input should be an uncompressed tar file.  Otherwise one
 of the following strings may be given to select the compression
-type of the input file: C<compress>, C<gzip>, C<bzip2>, C<xz>, C<lzop>,
-C<lzma>, C<zstd>.  (Note that not all builds of libguestfs will support
-all of these compression types).
+type of the input file: C<compress>, C<gzip>, C<bzip2>, C<xz>, C<lzop>.
+(Note that not all builds of libguestfs will support all of these
+compression types).
 
 The other optional arguments are:
 
@@ -2608,9 +2608,9 @@ it to local file C<tarfile>.
 The optional C<compress> flag controls compression.  If not given,
 then the output will be an uncompressed tar file.  Otherwise one
 of the following strings may be given to select the compression
-type of the output file: C<compress>, C<gzip>, C<bzip2>, C<xz>, C<lzop>,
-C<lzma>, C<zstd>.  (Note that not all builds of libguestfs will support
-all of these compression types).
+type of the output file: C<compress>, C<gzip>, C<bzip2>, C<xz>, C<lzop>.
+(Note that not all builds of libguestfs will support all of these
+compression types).
 
 The other optional arguments are:
 
@@ -3840,6 +3840,66 @@ See also C<guestfs_get_umask>,
 L<umask(2)>, C<guestfs_mknod>, C<guestfs_mkdir>.
 
 This call returns the previous umask.|} };
+
+  { defaults with
+    name = "readdir"; added = (1, 0, 55);
+    style = RStructList ("entries", "dirent"), [String (Pathname, "dir")], [];
+    protocol_limit_warning = true;
+    shortdesc = "read directories entries";
+    longdesc = "\
+This returns the list of directory entries in directory C<dir>.
+
+All entries in the directory are returned, including C<.> and
+C<..>.  The entries are I<not> sorted, but returned in the same
+order as the underlying filesystem.
+
+Also this call returns basic file type information about each
+file.  The C<ftyp> field will contain one of the following characters:
+
+=over 4
+
+=item 'b'
+
+Block special
+
+=item 'c'
+
+Char special
+
+=item 'd'
+
+Directory
+
+=item 'f'
+
+FIFO (named pipe)
+
+=item 'l'
+
+Symbolic link
+
+=item 'r'
+
+Regular file
+
+=item 's'
+
+Socket
+
+=item 'u'
+
+Unknown file type
+
+=item '?'
+
+The L<readdir(3)> call returned a C<d_type> field with an
+unexpected value
+
+=back
+
+This function is primarily intended for use by programs.  To
+get a simple list of names, use C<guestfs_ls>.  To get a printable
+directory for human consumption, use C<guestfs_ll>." };
 
   { defaults with
     name = "readdir"; added = (1, 0, 55);

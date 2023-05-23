@@ -30,13 +30,6 @@ msgstr ""
 #: common/options/decrypt.c:169
 #, c-format
 msgid ""
-"'clevis_luks_unlock', needed for decrypting %s, is unavailable in this "
-"libguestfs version"
-msgstr ""
-
-#: common/options/decrypt.c:184
-#, c-format
-msgid ""
 "could not find key to open LUKS encrypted %s.\n"
 "\n"
 "Try using --key on the command line.\n"
@@ -668,10 +661,6 @@ msgstr "přidat parametry pro hypervizor"
 
 #: fish/cmds.c:618
 msgid "copy the attributes of a path (file/directory) to another"
-msgstr "zkopírovat atributy popisu umístění (soubor/složka) do jiného"
-
-#: fish/cmds.c:618
-msgid "copy the attributes of a path (file/directory) to another"
 msgstr ""
 
 #: fish/cmds.c:619
@@ -709,10 +698,6 @@ msgstr "zkopírovat soubor"
 #: fish/cmds.c:627 fish/cmds.c:628
 msgid "copy a file or directory recursively"
 msgstr "rekurzivně zkopírovat soubor nebo složku"
-
-#: fish/cmds.c:629
-msgid "pack directory into cpio file"
-msgstr "zabalit složku do cpio souboru"
 
 #: fish/cmds.c:629
 msgid "pack directory into cpio file"
@@ -764,14 +749,6 @@ msgstr "vytvořit prázdný obraz disku"
 
 #: fish/cmds.c:644
 msgid "detect the disk format of a disk image"
-msgstr "zjistit formát obrazu disku"
-
-#: fish/cmds.c:645
-msgid "return whether disk has a backing file"
-msgstr "vypsat zda je disk založen na souboru"
-
-#: fish/cmds.c:644
-msgid "detect the disk format of a disk image"
 msgstr ""
 
 #: fish/cmds.c:645
@@ -793,14 +770,6 @@ msgstr "vypsat hlášení z jádra systému"
 #: fish/cmds.c:652
 msgid "download a file to the local machine"
 msgstr "stáhnout si soubor na místní stroj"
-
-#: fish/cmds.c:653
-msgid "download the given data units from the disk"
-msgstr "stáhnout si dané datové jednotky z disku"
-
-#: fish/cmds.c:654 fish/cmds.c:947
-msgid "download a file to the local machine given its inode"
-msgstr "stáhnout si soubor (určený jeho i-uzlem) na místní stroj"
 
 #: fish/cmds.c:653
 msgid "download the given data units from the disk"
@@ -846,14 +815,6 @@ msgstr "vypsat řádky odpovídající vzoru"
 
 #: fish/cmds.c:668
 msgid "test if two files have equal contents"
-msgstr "vyzkoušet zda dva soubory mají stejný obsah"
-
-#: fish/cmds.c:669
-msgid "register a handler for an event or events"
-msgstr "zaregistrovat obsluhu pro událost(i)"
-
-#: fish/cmds.c:668
-msgid "test if two files have equal contents"
 msgstr ""
 
 #: fish/cmds.c:669
@@ -884,14 +845,6 @@ msgstr "zjistit typ souboru"
 msgid "detect the architecture of a binary file"
 msgstr ""
 "zjistit pro jakou architekturu procesoru byl binární soubor zkompilován"
-
-#: fish/cmds.c:680
-msgid "return the size of the file in bytes"
-msgstr "vypsat velikost souboru (v bajtech)"
-
-#: fish/cmds.c:681
-msgid "check if filesystem is available"
-msgstr "zkontrolovat zda je souborový systém k dispozici"
 
 #: fish/cmds.c:680
 msgid "return the size of the file in bytes"
@@ -932,14 +885,6 @@ msgstr ""
 #: fish/cmds.c:689
 msgid "find a filesystem by label"
 msgstr "hledat souborový systém podle štítku"
-
-#: fish/cmds.c:690
-msgid "find a filesystem by UUID"
-msgstr "hledat souborový systém podle UUID"
-
-#: fish/cmds.c:691
-msgid "run the filesystem checker"
-msgstr "spustit kontrolu souborového systému"
 
 #: fish/cmds.c:690
 msgid "find a filesystem by UUID"
@@ -1115,14 +1060,6 @@ msgstr "vypsat prvních N řádků souboru"
 
 #: fish/cmds.c:739
 msgid "dump a file in hexadecimal"
-msgstr "vypsat obsah souboru v šestnáctkové podobě"
-
-#: fish/cmds.c:740
-msgid "edit with a hex editor"
-msgstr "upravit pomocí hex editoru"
-
-#: fish/cmds.c:739
-msgid "dump a file in hexadecimal"
 msgstr ""
 
 #: fish/cmds.c:740
@@ -1236,14 +1173,6 @@ msgstr ""
 
 #: fish/cmds.c:774
 msgid "get distro of inspected operating system"
-msgstr "zjistit distribuci zkoumaného operačního systému"
-
-#: fish/cmds.c:775
-msgid "get drive letter mappings"
-msgstr "zjistit mapování písmen disků"
-
-#: fish/cmds.c:774
-msgid "get distro of inspected operating system"
 msgstr ""
 
 #: fish/cmds.c:775
@@ -1261,18 +1190,6 @@ msgstr ""
 #: fish/cmds.c:778
 msgid "get hostname of the operating system"
 msgstr "zjistit název stroje operačního systému"
-
-#: fish/cmds.c:779
-msgid "get the icon corresponding to this operating system"
-msgstr "získat ikonu odpovídající tomuto operačnímu systému"
-
-#: fish/cmds.c:780
-msgid "get major version of inspected operating system"
-msgstr "zjistit hlavní verzi zkoumaného operačního systému"
-
-#: fish/cmds.c:781
-msgid "get minor version of inspected operating system"
-msgstr "zjistit vedlejší verzi zkoumaného operačního systému"
 
 #: fish/cmds.c:779
 msgid "get the icon corresponding to this operating system"
@@ -1301,18 +1218,6 @@ msgstr ""
 #: fish/cmds.c:785
 msgid "get package management tool used by the operating system"
 msgstr "zjistit nástroj pro správu balíčků, používaný operačním systémem"
-
-#: fish/cmds.c:786
-msgid "get product name of inspected operating system"
-msgstr "zjistit název produktu zkoumaného operačního systému"
-
-#: fish/cmds.c:787
-msgid "get product variant of inspected operating system"
-msgstr "zjistit variantu produktu zkoumaného operačního systému"
-
-#: fish/cmds.c:788
-msgid "return list of operating systems found by last inspection"
-msgstr "vypsat seznam operačních systémů nalezených při posledním zkoumání"
 
 #: fish/cmds.c:786
 msgid "get product name of inspected operating system"
@@ -1373,18 +1278,6 @@ msgstr ""
 #: fish/cmds.c:801
 msgid "test if block device"
 msgstr "zjistit zda se jedná o blokové zařízení"
-
-#: fish/cmds.c:802
-msgid "test if character device"
-msgstr "zjistit zda se jedná o znakové zařízení"
-
-#: fish/cmds.c:803
-msgid "is in configuration state"
-msgstr "je stav nastavení"
-
-#: fish/cmds.c:804
-msgid "test if a directory"
-msgstr "zjistit zda se jedná o složku"
 
 #: fish/cmds.c:802
 msgid "test if character device"
@@ -1476,14 +1369,6 @@ msgstr "vynutit ukončení hypervizoru"
 
 #: fish/cmds.c:824
 msgid "launch the backend"
-msgstr "spustit podpůrnou vrstvu"
-
-#: fish/cmds.c:825
-msgid "change working directory"
-msgstr "změnit pracovní složku"
-
-#: fish/cmds.c:824
-msgid "launch the backend"
 msgstr ""
 
 #: fish/cmds.c:825
@@ -1529,18 +1414,6 @@ msgstr ""
 #: fish/cmds.c:842
 msgid "list 9p filesystems"
 msgstr "vypsat 9p souborové systémy"
-
-#: fish/cmds.c:843
-msgid "list the block devices"
-msgstr "vypsat bloková zařízení"
-
-#: fish/cmds.c:844
-msgid "mapping of disk labels to devices"
-msgstr "mapování štítků disku na zařízení"
-
-#: fish/cmds.c:845
-msgid "list device mapper devices"
-msgstr "vypsat zařízení mapovače zařízení"
 
 #: fish/cmds.c:843
 msgid "list the block devices"
@@ -1636,18 +1509,6 @@ msgstr "odebrat klíč z LUKS šifrovaného zařízení"
 
 #: fish/cmds.c:871
 msgid "open a LUKS-encrypted block device"
-msgstr "otevřít LUKS šifrované blokové zařízení"
-
-#: fish/cmds.c:872
-msgid "open a LUKS-encrypted block device read-only"
-msgstr "otevřít LUKS šifrované blokové zařízení pouze pro čtení"
-
-#: fish/cmds.c:873
-msgid "get the UUID of a LUKS device"
-msgstr "zjistit UUID LUKS zařízení"
-
-#: fish/cmds.c:871
-msgid "open a LUKS-encrypted block device"
 msgstr ""
 
 #: fish/cmds.c:872
@@ -1673,18 +1534,6 @@ msgstr ""
 #: fish/cmds.c:877
 msgid "clear LVM device filter"
 msgstr "vyčistit filtr LVM zařízení"
-
-#: fish/cmds.c:878
-msgid "remove all LVM LVs, VGs and PVs"
-msgstr "odebrat veškeré LVM LV svazky, VG skupiny a PV svazky"
-
-#: fish/cmds.c:879
-msgid "scan for LVM physical volumes, volume groups and logical volumes"
-msgstr "skenovat na LVM fyzické svazky, skupiny svazků a logické svazky"
-
-#: fish/cmds.c:880
-msgid "set LVM device filter"
-msgstr "nastavit filtr LVM zařízení"
 
 #: fish/cmds.c:878
 msgid "remove all LVM LVs, VGs and PVs"
@@ -1732,18 +1581,6 @@ msgstr "otevřít příručku"
 
 #: fish/cmds.c:893
 msgid "maximum number of disks that may be added"
-msgstr "nejvyšší možný počet disků, který je možné přidat"
-
-#: fish/cmds.c:894
-msgid "create a Linux md (RAID) device"
-msgstr "vytvořit Linux md (RAID) zařízení"
-
-#: fish/cmds.c:895
-msgid "obtain metadata for an MD device"
-msgstr "získat metadata MD zařízení"
-
-#: fish/cmds.c:893
-msgid "maximum number of disks that may be added"
 msgstr ""
 
 #: fish/cmds.c:894
@@ -1761,18 +1598,6 @@ msgstr ""
 #: fish/cmds.c:897
 msgid "stop a Linux md (RAID) device"
 msgstr "zastavit Linux md (RAID) zařízení"
-
-#: fish/cmds.c:901
-msgid "create a directory"
-msgstr "vytvořit složku"
-
-#: fish/cmds.c:902
-msgid "create a directory with a particular mode"
-msgstr "vytvořit složku s konkrétními oprávněními"
-
-#: fish/cmds.c:903
-msgid "create a directory and parents"
-msgstr "vytvořit složku a jí nadřazené"
 
 #: fish/cmds.c:901
 msgid "create a directory"
@@ -1816,18 +1641,6 @@ msgstr "vytvořit FIFO (pojmenovanou rouru)"
 
 #: fish/cmds.c:913
 msgid "make a filesystem"
-msgstr "vytvořit souborový systém"
-
-#: fish/cmds.c:914
-msgid "make a filesystem with block size"
-msgstr "vytvořit souborový systém s danou velikostí bloku"
-
-#: fish/cmds.c:915
-msgid "create a btrfs filesystem"
-msgstr "vytvořit btrfs souborový systém"
-
-#: fish/cmds.c:913
-msgid "make a filesystem"
 msgstr ""
 
 #: fish/cmds.c:914
@@ -1845,18 +1658,6 @@ msgstr ""
 #: fish/cmds.c:917
 msgid "create a mountpoint"
 msgstr "vytvořit přípojný bod"
-
-#: fish/cmds.c:918
-msgid "make block, character or FIFO devices"
-msgstr "vytvořit bloková, znaková či FIFO zařízení"
-
-#: fish/cmds.c:919
-msgid "make block device node"
-msgstr "vytvořit uzel blokového zařízení"
-
-#: fish/cmds.c:920
-msgid "make char device node"
-msgstr "vytvořit uzel znakového zařízení"
 
 #: fish/cmds.c:918
 msgid "make block, character or FIFO devices"
@@ -2376,18 +2177,6 @@ msgstr "vytvořit oddíly na blokovém zařízení"
 
 #: fish/cmds.c:1084
 msgid "modify a single partition on a block device"
-msgstr "změnit jednotlivý oddíl na blokovém zařízení"
-
-#: fish/cmds.c:1085
-msgid "display the disk geometry from the partition table"
-msgstr "zobrazit uspořádání disku z tabulky oddílů"
-
-#: fish/cmds.c:1086
-msgid "display the kernel geometry"
-msgstr "zobrazit uspořádání, které má načtené jádro systému"
-
-#: fish/cmds.c:1084
-msgid "modify a single partition on a block device"
 msgstr ""
 
 #: fish/cmds.c:1085
@@ -2456,18 +2245,6 @@ msgstr "vypnout swap na swap oddílu podle UUID"
 
 #: fish/cmds.c:1106
 msgid "enable swap on device"
-msgstr "zapnout swap na zařízení"
-
-#: fish/cmds.c:1107
-msgid "enable swap on file"
-msgstr "zapnout swap na souboru"
-
-#: fish/cmds.c:1108
-msgid "enable swap on labeled swap partition"
-msgstr "zapnout swap na oddílu, opatřeném štítkem swap"
-
-#: fish/cmds.c:1106
-msgid "enable swap on device"
 msgstr ""
 
 #: fish/cmds.c:1107
@@ -2521,18 +2298,6 @@ msgstr "vypsat uplynulý čas zabraný během příkazu"
 #: fish/cmds.c:1122
 msgid "update file timestamps or create a new file"
 msgstr "aktualizovat časová razítka nebo vytvořit nový soubor"
-
-#: fish/cmds.c:1126
-msgid "truncate a file to zero size"
-msgstr "zkrátit soubor na nulovou délku"
-
-#: fish/cmds.c:1127
-msgid "truncate a file to a particular size"
-msgstr "zkrátit soubor na konkrétní velikost"
-
-#: fish/cmds.c:1128
-msgid "adjust ext2/ext3/ext4 filesystem parameters"
-msgstr "upravit parametry ext2/ext3/ext4 souborového systému"
 
 #: fish/cmds.c:1126
 msgid "truncate a file to zero size"
@@ -2648,14 +2413,6 @@ msgstr "odebrat LVM skupinu svazků"
 
 #: fish/cmds.c:1165
 msgid "rename an LVM volume group"
-msgstr "přejmenovat LVM skupinu svazků"
-
-#: fish/cmds.c:1166 fish/cmds.c:1167
-msgid "list the LVM volume groups (VGs)"
-msgstr "vypsat LVM skupiny svazků (VG)"
-
-#: fish/cmds.c:1165
-msgid "rename an LVM volume group"
 msgstr ""
 
 #: fish/cmds.c:1166 fish/cmds.c:1167
@@ -2669,18 +2426,6 @@ msgstr ""
 #: fish/cmds.c:1169
 msgid "get the UUID of a volume group"
 msgstr "získat UUID skupiny svazků"
-
-#: fish/cmds.c:1173
-msgid "count characters in a file"
-msgstr "spočítat znaky v souboru"
-
-#: fish/cmds.c:1174
-msgid "count lines in a file"
-msgstr "spočítat řádky v souboru"
-
-#: fish/cmds.c:1175
-msgid "count words in a file"
-msgstr "spočítat slova v souboru"
 
 #: fish/cmds.c:1173
 msgid "count characters in a file"
@@ -2821,7 +2566,7 @@ msgstr "Ohledně dalších informací zkuste „%s --help“\n"
 msgid ""
 "%s: guest filesystem shell\n"
 "%s lets you edit virtual machine filesystems\n"
-"Copyright (C) 2009-2023 Red Hat Inc.\n"
+"Copyright (C) 2009-2020 Red Hat Inc.\n"
 "Usage:\n"
 "  %s [--options] cmd [: cmd : cmd ...]\n"
 "Options:\n"
@@ -3475,7 +3220,7 @@ msgstr ""
 msgid ""
 "%s: FUSE module for libguestfs\n"
 "%s lets you mount a virtual machine filesystem\n"
-"Copyright (C) 2009-2023 Red Hat Inc.\n"
+"Copyright (C) 2009-2020 Red Hat Inc.\n"
 "Usage:\n"
 "  %s [--options] mountpoint\n"
 "Options:\n"
@@ -4146,7 +3891,7 @@ msgstr ""
 msgid "you must call guestfs_add_drive before guestfs_launch"
 msgstr ""
 
-#: lib/launch-direct.c:902 lib/launch-libvirt.c:698
+#: lib/launch-direct.c:923 lib/launch-libvirt.c:713
 msgid "qemu launched and contacted daemon, but state != READY"
 msgstr "qemu spuštěno a proces služby kontaktován, ale stav není PŘIPRAVENO"
 
@@ -4175,20 +3920,25 @@ msgstr ""
 "pro libvirt podpůrnou vrstvu zatím ještě není podporován příznak přímého "
 "režimu"
 
-#: lib/launch-libvirt.c:382
+#: lib/launch-libvirt.c:358
+#, c-format
+msgid "you must have libvirt >= %d.%d.%d to use the ‘libvirt’ backend"
+msgstr ""
+
+#: lib/launch-libvirt.c:392
 #, c-format
 msgid "could not connect to libvirt (URI = %s)"
 msgstr "nepodařilo se připojit k libvirt (URI = %s)"
 
-#: lib/launch-libvirt.c:411
+#: lib/launch-libvirt.c:421
 msgid "could not get libvirt capabilities"
 msgstr "nepodařilo se získat libvirt schopnosti"
 
-#: lib/launch-libvirt.c:432
+#: lib/launch-libvirt.c:442
 msgid "could not get libvirt domain capabilities"
 msgstr ""
 
-#: lib/launch-libvirt.c:627
+#: lib/launch-libvirt.c:642
 msgid ""
 "could not create appliance through libvirt.\n"
 "\n"
@@ -4198,21 +3948,21 @@ msgid ""
 "Original error from libvirt"
 msgstr ""
 
-#: lib/launch-libvirt.c:763
+#: lib/launch-libvirt.c:780
 msgid "unable to parse capabilities XML returned by libvirt"
 msgstr "nepodařilo se zpracovat XML schopností, vrácené libvirt"
 
-#: lib/launch-libvirt.c:769 lib/launch-libvirt.c:871 lib/libvirt-domain.c:397
-#: lib/libvirt-domain.c:481
+#: lib/launch-libvirt.c:786 lib/launch-libvirt.c:888 lib/libvirt-domain.c:412
+#: lib/libvirt-domain.c:496
 msgid "unable to create new XPath context"
 msgstr "nepodařilo se vytvořit nový XPath kontext"
 
-#: lib/launch-libvirt.c:779 lib/launch-libvirt.c:879 lib/launch-libvirt.c:895
+#: lib/launch-libvirt.c:796 lib/launch-libvirt.c:896 lib/launch-libvirt.c:912
 #, c-format
 msgid "unable to evaluate XPath expression: %s"
 msgstr ""
 
-#: lib/launch-libvirt.c:818
+#: lib/launch-libvirt.c:835
 #, c-format
 msgid ""
 "libvirt hypervisor doesn’t support qemu or KVM,\n"
@@ -4227,47 +3977,51 @@ msgid ""
 "For further help, read the guestfs(3) man page and libguestfs FAQ."
 msgstr ""
 
-#: lib/launch-libvirt.c:865
+#: lib/launch-libvirt.c:882
 msgid "unable to parse domain capabilities XML returned by libvirt"
 msgstr ""
 
-#: lib/launch-libvirt.c:1500 lib/launch-libvirt.c:1758 lib/qemu.c:816
+#: lib/launch-libvirt.c:1470
+msgid "‘iface’ parameter is not supported by the libvirt backend"
+msgstr ""
+
+#: lib/launch-libvirt.c:1516 lib/launch-libvirt.c:1774 lib/qemu.c:822
 #, c-format
 msgid "realpath: could not convert ‘%s’ to absolute path"
 msgstr ""
 
-#: lib/launch-libvirt.c:1583
+#: lib/launch-libvirt.c:1599
 msgid ""
 "libvirt does not support the qemu curl driver protocols (ftp, http, etc.); "
 "try setting LIBGUESTFS_BACKEND=direct"
 msgstr ""
 
-#: lib/launch-libvirt.c:1973
+#: lib/launch-libvirt.c:1989
 msgid "could not define libvirt secret"
 msgstr "nepodařilo se definovat tajemství pro libvirt"
 
-#: lib/launch-libvirt.c:1984
+#: lib/launch-libvirt.c:2000
 msgid "rbd protocol secret must be base64 encoded"
 msgstr "je třeba, aby tajemství pro rdb protokol bylo v base64 kódování"
 
-#: lib/launch-libvirt.c:1988
+#: lib/launch-libvirt.c:2004
 #, c-format
 msgid "base64_decode_alloc: %m"
 msgstr ""
 
-#: lib/launch-libvirt.c:2009
+#: lib/launch-libvirt.c:2025
 msgid "could not set libvirt secret value"
 msgstr "nepodařilo se nastavit hodnotu libvirt tajemství"
 
-#: lib/launch-libvirt.c:2022
+#: lib/launch-libvirt.c:2038
 msgid "could not get UUID from libvirt secret"
 msgstr ""
 
-#: lib/launch-libvirt.c:2195
+#: lib/launch-libvirt.c:2211
 msgid "could not destroy libvirt domain"
 msgstr "nepodařilo se zlikvidovat libvirt doménu"
 
-#: lib/launch-libvirt.c:2216 lib/launch-libvirt.c:2249
+#: lib/launch-libvirt.c:2232 lib/launch-libvirt.c:2265
 #, c-format
 msgid "%s: internal error forming error message"
 msgstr ""
@@ -4692,7 +4446,7 @@ msgstr "  distribuce: %s"
 #, c-format
 msgid ""
 "%s: Run a rescue shell on a virtual machine\n"
-"Copyright (C) 2009-2023 Red Hat Inc.\n"
+"Copyright (C) 2009-2020 Red Hat Inc.\n"
 "Usage:\n"
 "  %s [--options] -d domname\n"
 "  %s [--options] -a disk.img [-a disk.img ...]\n"
@@ -4813,7 +4567,7 @@ msgstr "Počet %s má typ „%s“\n"
 #, c-format
 msgid ""
 "libguestfs-test-tool: interactive test tool\n"
-"Copyright (C) 2009-2023 Red Hat Inc.\n"
+"Copyright (C) 2009-2020 Red Hat Inc.\n"
 "Usage:\n"
 "  libguestfs-test-tool [--options]\n"
 "Options:\n"
