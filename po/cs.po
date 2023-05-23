@@ -98,7 +98,7 @@ msgstr "Zadejte klíč nebo heslovou frázi („%s“): "
 #: common/options/keys.c:173
 #, c-format
 msgid "could not read key from user"
-msgstr "nepodařilo se načíst klíč od uživatele"
+msgstr ""
 
 #: common/options/options.c:283
 #, c-format
@@ -641,11 +641,11 @@ msgstr ""
 
 #: fish/cmds.c:613
 msgid "run a command from the guest filesystem"
-msgstr "spustit příkaz ze souborového systému hosta"
+msgstr ""
 
 #: fish/cmds.c:614
 msgid "run a command, returning lines"
-msgstr "spustit příkaz, vypsat jeho výstup"
+msgstr ""
 
 #: fish/cmds.c:615
 msgid "output compressed device"
@@ -663,33 +663,37 @@ msgstr "přidat parametry pro hypervizor"
 msgid "copy the attributes of a path (file/directory) to another"
 msgstr "zkopírovat atributy popisu umístění (soubor/složka) do jiného"
 
+#: fish/cmds.c:618
+msgid "copy the attributes of a path (file/directory) to another"
+msgstr ""
+
 #: fish/cmds.c:619
 msgid "copy from source device to destination device"
-msgstr "zkopírovat ze zdrojového do cílového zařízení"
+msgstr ""
 
 #: fish/cmds.c:620
 msgid "copy from source device to destination file"
-msgstr "zkopírovat ze zdrojového do cílového souboru"
+msgstr ""
 
 #: fish/cmds.c:621
 msgid "copy from source file to destination device"
-msgstr "zkopírovat ze zdrojového do cílového zařízení"
+msgstr ""
 
 #: fish/cmds.c:622
 msgid "copy from source file to destination file"
-msgstr "zkopírovat ze zdrojového do cílového souboru"
+msgstr ""
 
 #: fish/cmds.c:623
 msgid "copy local files or directories into an image"
-msgstr "zkopírovat místní soubory či složky do obrazu"
+msgstr ""
 
 #: fish/cmds.c:624
 msgid "copy remote files or directories out of an image"
-msgstr "zkopírovat vzdálené soubory či složky do obrazu"
+msgstr ""
 
 #: fish/cmds.c:625
 msgid "copy size bytes from source to destination using dd"
-msgstr "zkopírovat (velikost) bajtů ze zdroje do cíle pomocí nástroje dd"
+msgstr ""
 
 #: fish/cmds.c:626
 msgid "copy a file"
@@ -703,21 +707,25 @@ msgstr "rekurzivně zkopírovat soubor nebo složku"
 msgid "pack directory into cpio file"
 msgstr "zabalit složku do cpio souboru"
 
+#: fish/cmds.c:629
+msgid "pack directory into cpio file"
+msgstr ""
+
 #: fish/cmds.c:630
 msgid "close an encrypted device"
-msgstr "zavřít šifrované zařízení"
+msgstr ""
 
 #: fish/cmds.c:631
 msgid "open an encrypted block device"
-msgstr "otevřít šifrované blokové zařízení"
+msgstr ""
 
 #: fish/cmds.c:632
 msgid "copy from source to destination using dd"
-msgstr "zkopírovat ze zdroje do cíle pomocí nástroje dd"
+msgstr ""
 
 #: fish/cmds.c:633
 msgid "debugging and internals"
-msgstr "ladění a vnitřní"
+msgstr ""
 
 #: fish/cmds.c:634
 msgid "debug the drives (internal use only)"
@@ -755,13 +763,21 @@ msgstr "zjistit formát obrazu disku"
 msgid "return whether disk has a backing file"
 msgstr "vypsat zda je disk založen na souboru"
 
+#: fish/cmds.c:644
+msgid "detect the disk format of a disk image"
+msgstr ""
+
+#: fish/cmds.c:645
+msgid "return whether disk has a backing file"
+msgstr ""
+
 #: fish/cmds.c:646
 msgid "return virtual size of a disk"
-msgstr "vypsat virtuální velikost disku"
+msgstr ""
 
 #: fish/cmds.c:647
 msgid "display an image"
-msgstr "zobrazit obraz"
+msgstr ""
 
 #: fish/cmds.c:648
 msgid "return kernel messages"
@@ -778,6 +794,14 @@ msgstr "stáhnout si dané datové jednotky z disku"
 #: fish/cmds.c:654 fish/cmds.c:947
 msgid "download a file to the local machine given its inode"
 msgstr "stáhnout si soubor (určený jeho i-uzlem) na místní stroj"
+
+#: fish/cmds.c:653
+msgid "download the given data units from the disk"
+msgstr ""
+
+#: fish/cmds.c:654 fish/cmds.c:947
+msgid "download a file to the local machine given its inode"
+msgstr ""
 
 #: fish/cmds.c:655
 msgid "download a file to the local machine with offset and size"
@@ -821,13 +845,21 @@ msgstr "vyzkoušet zda dva soubory mají stejný obsah"
 msgid "register a handler for an event or events"
 msgstr "zaregistrovat obsluhu pro událost(i)"
 
+#: fish/cmds.c:668
+msgid "test if two files have equal contents"
+msgstr ""
+
+#: fish/cmds.c:669
+msgid "register a handler for an event or events"
+msgstr ""
+
 #: fish/cmds.c:670
 msgid "test if file or directory exists"
-msgstr "vyzkoušet zda soubor či složka existuje"
+msgstr ""
 
 #: fish/cmds.c:671
 msgid "install the SYSLINUX bootloader on an ext2/3/4 or btrfs filesystem"
-msgstr "nainstalovat zavaděč SYSLINUX na souborový systém ext2/3/4 nebo btrfs"
+msgstr ""
 
 #: fish/cmds.c:672
 msgid "expand a f2fs filesystem"
@@ -854,9 +886,17 @@ msgstr "vypsat velikost souboru (v bajtech)"
 msgid "check if filesystem is available"
 msgstr "zkontrolovat zda je souborový systém k dispozici"
 
+#: fish/cmds.c:680
+msgid "return the size of the file in bytes"
+msgstr ""
+
+#: fish/cmds.c:681
+msgid "check if filesystem is available"
+msgstr ""
+
 #: fish/cmds.c:682
 msgid "walk through the filesystem content"
-msgstr "procházet obsahem souborového systému"
+msgstr ""
 
 #: fish/cmds.c:683
 msgid "fill a file with octets"
@@ -893,6 +933,14 @@ msgstr "hledat souborový systém podle UUID"
 #: fish/cmds.c:691
 msgid "run the filesystem checker"
 msgstr "spustit kontrolu souborového systému"
+
+#: fish/cmds.c:690
+msgid "find a filesystem by UUID"
+msgstr ""
+
+#: fish/cmds.c:691
+msgid "run the filesystem checker"
+msgstr ""
 
 #: fish/cmds.c:692
 msgid "trim free space in a filesystem"
@@ -1066,6 +1114,14 @@ msgstr "vypsat obsah souboru v šestnáctkové podobě"
 msgid "edit with a hex editor"
 msgstr "upravit pomocí hex editoru"
 
+#: fish/cmds.c:739
+msgid "dump a file in hexadecimal"
+msgstr ""
+
+#: fish/cmds.c:740
+msgid "edit with a hex editor"
+msgstr ""
+
 #: fish/cmds.c:741
 msgid "close the current hivex handle"
 msgstr ""
@@ -1179,9 +1235,17 @@ msgstr "zjistit distribuci zkoumaného operačního systému"
 msgid "get drive letter mappings"
 msgstr "zjistit mapování písmen disků"
 
+#: fish/cmds.c:774
+msgid "get distro of inspected operating system"
+msgstr ""
+
+#: fish/cmds.c:775
+msgid "get drive letter mappings"
+msgstr ""
+
 #: fish/cmds.c:776
 msgid "get filesystems associated with inspected operating system"
-msgstr "zjistit souborové systémy související se zkoumaným operačním systémem"
+msgstr ""
 
 #: fish/cmds.c:777
 msgid "get format of inspected operating system"
@@ -1203,9 +1267,21 @@ msgstr "zjistit hlavní verzi zkoumaného operačního systému"
 msgid "get minor version of inspected operating system"
 msgstr "zjistit vedlejší verzi zkoumaného operačního systému"
 
+#: fish/cmds.c:779
+msgid "get the icon corresponding to this operating system"
+msgstr ""
+
+#: fish/cmds.c:780
+msgid "get major version of inspected operating system"
+msgstr ""
+
+#: fish/cmds.c:781
+msgid "get minor version of inspected operating system"
+msgstr ""
+
 #: fish/cmds.c:782
 msgid "get mountpoints of inspected operating system"
-msgstr "zjistit přípojné body zkoumaného operačního systému"
+msgstr ""
 
 #: fish/cmds.c:783
 msgid "get a possible osinfo short ID corresponding to this operating system"
@@ -1231,9 +1307,21 @@ msgstr "zjistit variantu produktu zkoumaného operačního systému"
 msgid "return list of operating systems found by last inspection"
 msgstr "vypsat seznam operačních systémů nalezených při posledním zkoumání"
 
+#: fish/cmds.c:786
+msgid "get product name of inspected operating system"
+msgstr ""
+
+#: fish/cmds.c:787
+msgid "get product variant of inspected operating system"
+msgstr ""
+
+#: fish/cmds.c:788
+msgid "return list of operating systems found by last inspection"
+msgstr ""
+
 #: fish/cmds.c:789
 msgid "get type of inspected operating system"
-msgstr "zjistit typ zkoumaného operačního systému"
+msgstr ""
 
 #: fish/cmds.c:790
 msgid "get Windows CurrentControlSet of inspected operating system"
@@ -1291,33 +1379,45 @@ msgstr "je stav nastavení"
 msgid "test if a directory"
 msgstr "zjistit zda se jedná o složku"
 
+#: fish/cmds.c:802
+msgid "test if character device"
+msgstr ""
+
+#: fish/cmds.c:803
+msgid "is in configuration state"
+msgstr ""
+
+#: fish/cmds.c:804
+msgid "test if a directory"
+msgstr ""
+
 #: fish/cmds.c:805
 msgid "test if FIFO (named pipe)"
-msgstr "zjistit zda se jedná o FIFO (pojmenovaná roura)"
+msgstr ""
 
 #: fish/cmds.c:806
 msgid "test if a regular file"
-msgstr "zjistit zda se jedná o běžný soubor"
+msgstr ""
 
 #: fish/cmds.c:807
 msgid "test if mountable is a logical volume"
-msgstr "zjistit zda připojitelné je logický svazek"
+msgstr ""
 
 #: fish/cmds.c:808
 msgid "test if socket"
-msgstr "zjistit zda se jedná o soket"
+msgstr ""
 
 #: fish/cmds.c:809
 msgid "test if symbolic link"
-msgstr "zjistit zda se jedná o symbolický odkaz"
+msgstr ""
 
 #: fish/cmds.c:810
 msgid "test if a device is a whole device"
-msgstr "zjistit zda se jedná o celé zařízení"
+msgstr ""
 
 #: fish/cmds.c:811
 msgid "test if a file contains all zero bytes"
-msgstr "zjistit zda soubor obsahuje samé nulové bajty"
+msgstr ""
 
 #: fish/cmds.c:812
 msgid "test if a device contains all zero bytes"
@@ -1375,6 +1475,14 @@ msgstr "spustit podpůrnou vrstvu"
 msgid "change working directory"
 msgstr "změnit pracovní složku"
 
+#: fish/cmds.c:824
+msgid "launch the backend"
+msgstr ""
+
+#: fish/cmds.c:825
+msgid "change working directory"
+msgstr ""
+
 #: fish/cmds.c:827
 msgid "scan and create Windows dynamic disk volumes"
 msgstr ""
@@ -1427,13 +1535,25 @@ msgstr "mapování štítků disku na zařízení"
 msgid "list device mapper devices"
 msgstr "vypsat zařízení mapovače zařízení"
 
+#: fish/cmds.c:843
+msgid "list the block devices"
+msgstr ""
+
+#: fish/cmds.c:844
+msgid "mapping of disk labels to devices"
+msgstr ""
+
+#: fish/cmds.c:845
+msgid "list device mapper devices"
+msgstr ""
+
 #: fish/cmds.c:846
 msgid "list event handlers"
-msgstr "vypsat obsluhy událostí"
+msgstr ""
 
 #: fish/cmds.c:847
 msgid "list filesystems"
-msgstr "vypsat souborové systémy"
+msgstr ""
 
 #: fish/cmds.c:848
 msgid "list all Windows dynamic disk partitions"
@@ -1519,13 +1639,25 @@ msgstr "otevřít LUKS šifrované blokové zařízení pouze pro čtení"
 msgid "get the UUID of a LUKS device"
 msgstr "zjistit UUID LUKS zařízení"
 
+#: fish/cmds.c:871
+msgid "open a LUKS-encrypted block device"
+msgstr ""
+
+#: fish/cmds.c:872
+msgid "open a LUKS-encrypted block device read-only"
+msgstr ""
+
+#: fish/cmds.c:873
+msgid "get the UUID of a LUKS device"
+msgstr ""
+
 #: fish/cmds.c:874
 msgid "create an LVM logical volume"
-msgstr "vytvořit LVM logický svazek"
+msgstr ""
 
 #: fish/cmds.c:875
 msgid "create an LVM logical volume in % remaining free space"
-msgstr "vytvořit LVM logický svazek v % zbývajícího volného prostoru"
+msgstr ""
 
 #: fish/cmds.c:876
 msgid "get canonical name of an LV"
@@ -1547,17 +1679,29 @@ msgstr "skenovat na LVM fyzické svazky, skupiny svazků a logické svazky"
 msgid "set LVM device filter"
 msgstr "nastavit filtr LVM zařízení"
 
+#: fish/cmds.c:878
+msgid "remove all LVM LVs, VGs and PVs"
+msgstr ""
+
+#: fish/cmds.c:879
+msgid "scan for LVM physical volumes, volume groups and logical volumes"
+msgstr ""
+
+#: fish/cmds.c:880
+msgid "set LVM device filter"
+msgstr ""
+
 #: fish/cmds.c:881
 msgid "remove an LVM logical volume"
-msgstr "odebrat LVM logický svazek"
+msgstr ""
 
 #: fish/cmds.c:882
 msgid "rename an LVM logical volume"
-msgstr "odebrat LVM logický svazek"
+msgstr ""
 
 #: fish/cmds.c:883
 msgid "resize an LVM logical volume"
-msgstr "změnit velikost LVM logického svazku"
+msgstr ""
 
 #: fish/cmds.c:884
 msgid "expand an LV to fill free space"
@@ -1591,9 +1735,21 @@ msgstr "vytvořit Linux md (RAID) zařízení"
 msgid "obtain metadata for an MD device"
 msgstr "získat metadata MD zařízení"
 
+#: fish/cmds.c:893
+msgid "maximum number of disks that may be added"
+msgstr ""
+
+#: fish/cmds.c:894
+msgid "create a Linux md (RAID) device"
+msgstr ""
+
+#: fish/cmds.c:895
+msgid "obtain metadata for an MD device"
+msgstr ""
+
 #: fish/cmds.c:896
 msgid "get underlying devices from an MD device"
-msgstr "zjistit zařízení, na kterých je MD zařízení založeno"
+msgstr ""
 
 #: fish/cmds.c:897
 msgid "stop a Linux md (RAID) device"
@@ -1611,9 +1767,21 @@ msgstr "vytvořit složku s konkrétními oprávněními"
 msgid "create a directory and parents"
 msgstr "vytvořit složku a jí nadřazené"
 
+#: fish/cmds.c:901
+msgid "create a directory"
+msgstr ""
+
+#: fish/cmds.c:902
+msgid "create a directory with a particular mode"
+msgstr ""
+
+#: fish/cmds.c:903
+msgid "create a directory and parents"
+msgstr ""
+
 #: fish/cmds.c:904
 msgid "create a temporary directory"
-msgstr "vytvořit dočasnou složku"
+msgstr ""
 
 #: fish/cmds.c:905
 msgid "create an ext2/ext3/ext4 filesystem on device"
@@ -1651,6 +1819,18 @@ msgstr "vytvořit souborový systém s danou velikostí bloku"
 msgid "create a btrfs filesystem"
 msgstr "vytvořit btrfs souborový systém"
 
+#: fish/cmds.c:913
+msgid "make a filesystem"
+msgstr ""
+
+#: fish/cmds.c:914
+msgid "make a filesystem with block size"
+msgstr ""
+
+#: fish/cmds.c:915
+msgid "create a btrfs filesystem"
+msgstr ""
+
 #: fish/cmds.c:916
 msgid "make lost+found directory on an ext2/3/4 filesystem"
 msgstr ""
@@ -1671,13 +1851,25 @@ msgstr "vytvořit uzel blokového zařízení"
 msgid "make char device node"
 msgstr "vytvořit uzel znakového zařízení"
 
+#: fish/cmds.c:918
+msgid "make block, character or FIFO devices"
+msgstr ""
+
+#: fish/cmds.c:919
+msgid "make block device node"
+msgstr ""
+
+#: fish/cmds.c:920
+msgid "make char device node"
+msgstr ""
+
 #: fish/cmds.c:921
 msgid "create a squashfs filesystem"
-msgstr "vytvořit squashfs souborový systém"
+msgstr ""
 
 #: fish/cmds.c:922
 msgid "create a swap partition"
-msgstr "vytvořit odkládací (swap) oddíl"
+msgstr ""
 
 #: fish/cmds.c:923
 msgid "create a swap partition with a label"
@@ -2187,13 +2379,25 @@ msgstr "zobrazit uspořádání disku z tabulky oddílů"
 msgid "display the kernel geometry"
 msgstr "zobrazit uspořádání, které má načtené jádro systému"
 
+#: fish/cmds.c:1084
+msgid "modify a single partition on a block device"
+msgstr ""
+
+#: fish/cmds.c:1085
+msgid "display the disk geometry from the partition table"
+msgstr ""
+
+#: fish/cmds.c:1086
+msgid "display the kernel geometry"
+msgstr ""
+
 #: fish/cmds.c:1087
 msgid "display the partition table"
-msgstr "zobrazit tabulku oddílů"
+msgstr ""
 
 #: fish/cmds.c:1088
 msgid "run a command via the shell"
-msgstr "spustit příkaz prostřednictvím shellu"
+msgstr ""
 
 #: fish/cmds.c:1089
 msgid "run a command via the shell returning lines"
@@ -2255,41 +2459,53 @@ msgstr "zapnout swap na souboru"
 msgid "enable swap on labeled swap partition"
 msgstr "zapnout swap na oddílu, opatřeném štítkem swap"
 
+#: fish/cmds.c:1106
+msgid "enable swap on device"
+msgstr ""
+
+#: fish/cmds.c:1107
+msgid "enable swap on file"
+msgstr ""
+
+#: fish/cmds.c:1108
+msgid "enable swap on labeled swap partition"
+msgstr ""
+
 #: fish/cmds.c:1109
 msgid "enable swap on swap partition by UUID"
-msgstr "zapnout odkládací oddíl (swap) podle UUID"
+msgstr ""
 
 #: fish/cmds.c:1110
 msgid "sync disks, writes are flushed through to the disk image"
-msgstr "sesynchronizovat disky – zápisy jsou vyprázdněny napříč obrazem disku"
+msgstr ""
 
 #: fish/cmds.c:1111
 msgid "install the SYSLINUX bootloader"
-msgstr "Nainstalovat zavaděč SYSLINUX"
+msgstr ""
 
 #: fish/cmds.c:1112
 msgid "return last 10 lines of a file"
-msgstr "vypsat posledních 10 řádků ze souboru"
+msgstr ""
 
 #: fish/cmds.c:1113
 msgid "return last N lines of a file"
-msgstr "vypsat posledních N řádků ze souboru"
+msgstr ""
 
 #: fish/cmds.c:1114
 msgid "unpack tarfile to directory"
-msgstr "rozbalit tar soubor do složky"
+msgstr ""
 
 #: fish/cmds.c:1115
 msgid "pack directory into tarfile"
-msgstr "sbalit složku do tar souboru"
+msgstr ""
 
 #: fish/cmds.c:1116 fish/cmds.c:1130
 msgid "unpack compressed tarball to directory"
-msgstr "rozbalit komprimovaný tar do složky"
+msgstr ""
 
 #: fish/cmds.c:1117 fish/cmds.c:1131
 msgid "pack directory into compressed tarball"
-msgstr "sbalit složku do komprimovaného taru"
+msgstr ""
 
 #: fish/cmds.c:1118
 msgid "print elapsed time taken to run a command"
@@ -2311,9 +2527,21 @@ msgstr "zkrátit soubor na konkrétní velikost"
 msgid "adjust ext2/ext3/ext4 filesystem parameters"
 msgstr "upravit parametry ext2/ext3/ext4 souborového systému"
 
+#: fish/cmds.c:1126
+msgid "truncate a file to zero size"
+msgstr ""
+
+#: fish/cmds.c:1127
+msgid "truncate a file to a particular size"
+msgstr ""
+
+#: fish/cmds.c:1128
+msgid "adjust ext2/ext3/ext4 filesystem parameters"
+msgstr ""
+
 #: fish/cmds.c:1129
 msgid "get ext2/ext3/ext4 superblock details"
-msgstr "načíst podrobnosti o ext2/ext3/ext4 superbloku"
+msgstr ""
 
 #: fish/cmds.c:1132
 msgid "set file mode creation mask (umask)"
@@ -2419,6 +2647,14 @@ msgstr "přejmenovat LVM skupinu svazků"
 msgid "list the LVM volume groups (VGs)"
 msgstr "vypsat LVM skupiny svazků (VG)"
 
+#: fish/cmds.c:1165
+msgid "rename an LVM volume group"
+msgstr ""
+
+#: fish/cmds.c:1166 fish/cmds.c:1167
+msgid "list the LVM volume groups (VGs)"
+msgstr ""
+
 #: fish/cmds.c:1168
 msgid "rescan for LVM physical volumes, volume groups and logical volumes"
 msgstr ""
@@ -2439,61 +2675,73 @@ msgstr "spočítat řádky v souboru"
 msgid "count words in a file"
 msgstr "spočítat slova v souboru"
 
+#: fish/cmds.c:1173
+msgid "count characters in a file"
+msgstr ""
+
+#: fish/cmds.c:1174
+msgid "count lines in a file"
+msgstr ""
+
+#: fish/cmds.c:1175
+msgid "count words in a file"
+msgstr ""
+
 #: fish/cmds.c:1176
 msgid "wipe a filesystem signature from a device"
-msgstr "odstranit ze zařízení signatury souborového systému"
+msgstr ""
 
 #: fish/cmds.c:1177
 msgid "create a new file"
-msgstr "vytvořit nový soubor"
+msgstr ""
 
 #: fish/cmds.c:1178
 msgid "append content to end of file"
-msgstr "přidat obsah na konec souboru"
+msgstr ""
 
 #: fish/cmds.c:1179
 msgid "create a file"
-msgstr "vytvořit soubor"
+msgstr ""
 
 #: fish/cmds.c:1180
 msgid "change parameters of an XFS filesystem"
-msgstr "změnit parametry XFS souborového systému"
+msgstr ""
 
 #: fish/cmds.c:1181
 msgid "expand an existing XFS filesystem"
-msgstr "zvětšit existující XFS souborový systém"
+msgstr ""
 
 #: fish/cmds.c:1182
 msgid "get geometry of XFS filesystem"
-msgstr "načíst uspořádání XFS souborového systému"
+msgstr ""
 
 #: fish/cmds.c:1183
 msgid "repair an XFS filesystem"
-msgstr "opravit XFS souborový systém"
+msgstr ""
 
 #: fish/cmds.c:1184
 msgid "destroy previously loaded yara rules"
-msgstr "zlikvidovat dříve nahraná yara pravidla"
+msgstr ""
 
 #: fish/cmds.c:1185
 msgid "load yara rules within libguestfs"
-msgstr "načíst yara pravidla v rámci libguestfs"
+msgstr ""
 
 #: fish/cmds.c:1186
 msgid "scan a file with the loaded yara rules"
-msgstr "skenovat soubor s nahranými yara pravidly"
+msgstr ""
 
 #: fish/cmds.c:1189
 msgid "write zeroes to the device"
-msgstr "zapsat na zařízení nuly"
+msgstr ""
 
 #: fish/cmds.c:1190
 msgid "write zeroes to an entire device"
-msgstr "přepsat celé zařízení nulami"
+msgstr ""
 
 #: fish/cmds.c:1191
 msgid "zero free space in a filesystem"
-msgstr "přepsat volné místo v souborovém systému nulami"
+msgstr ""
 
 #: fish/cmds.c:1192
 msgid "zero unused inodes and disk blocks on ext2/3 filesystem"
@@ -3313,7 +3561,7 @@ msgstr "%s: nepodařilo se odpojit %s: %s\n"
 #: fuse/guestunmount.c:219
 #, c-format
 msgid "%s: %s is not mounted: %s\n"
-msgstr "%s: %s není připojeno: %s\n"
+msgstr ""
 
 #: lib/appliance-kcmdline.c:74
 #, c-format
@@ -3682,7 +3930,7 @@ msgstr "podpora připojování za chodu byla odebrána v libguestfs 1.48"
 #: lib/drives.c:1084
 #, c-format
 msgid "%s: device not found"
-msgstr "%s: zařízení nenalezeno"
+msgstr ""
 
 #: lib/errors.c:426
 #, c-format
