@@ -21,7 +21,6 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include <sys/stat.h>
 
 #include "guestfs_protocol.h"
 #include "daemon.h"
@@ -100,10 +99,8 @@ do_selinux_relabel (const char *specfile, const char *path,
    */
   ADD_ARG (argv, i, "-e"); ADD_ARG (argv, i, s_dev);
   ADD_ARG (argv, i, "-e"); ADD_ARG (argv, i, s_proc);
+  ADD_ARG (argv, i, "-e"); ADD_ARG (argv, i, s_selinux);
   ADD_ARG (argv, i, "-e"); ADD_ARG (argv, i, s_sys);
-  if (dir_exists (s_selinux)) {
-    ADD_ARG (argv, i, "-e"); ADD_ARG (argv, i, s_selinux);
-  }
 
   /* You have to use the -m option (where available) otherwise
    * setfiles puts all the mountpoints on the excludes list for no
