@@ -161,11 +161,6 @@ I<Required>.
 
 I<Required>.
 
-=item ocaml-augeas
-
-I<Required>.  These are the OCaml bindings for Augeas, found at:
-L<http://people.redhat.com/~rjones/augeas/>
-
 =item xz
 
 I<Required>.
@@ -207,6 +202,10 @@ eg. F</etc/libguestfs-tools.conf>.
 
 Optional.  Used by the L<libvirt backend|guestfs(3)/BACKEND> to
 securely confine the appliance (sVirt).
+
+=item systemtap
+
+Optional.  For userspace probes.
 
 =item readline
 
@@ -748,4 +747,4 @@ Richard W.M. Jones (C<rjones at redhat dot com>)
 
 =head1 COPYRIGHT
 
-Copyright (C) 2009-2025 Red Hat Inc.
+Copyright (C) 2009-2020 Red Hat Inc.

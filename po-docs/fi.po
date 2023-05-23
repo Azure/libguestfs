@@ -8,8 +8,8 @@ msgstr ""
 "Project-Id-Version: libguestfs 1.43.1\n"
 "Report-Msgid-Bugs-To: guestfs@lists.libguestfs.org\n"
 "POT-Creation-Date: 2020-08-12 15:34+0200\n"
-"PO-Revision-Date: 2025-03-22 10:53+0000\n"
-"Last-Translator: Ricky Tigg <ricky.tigg@gmail.com>\n"
+"PO-Revision-Date: 2022-01-25 17:16+0000\n"
+"Last-Translator: Jan Kuparinen <copper_fin@hotmail.com>\n"
 "Language-Team: Finnish <https://translate.fedoraproject.org/projects/"
 "libguestfs/libguestfs-docs-master/fi/>\n"
 "Language: fi\n"
@@ -17,7 +17,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 5.10.4\n"
+"X-Generator: Weblate 4.10.1\n"
 
 #. type: =head1
 #: align/virt-alignment-scan.pod:1
@@ -58461,7 +58461,7 @@ msgstr ""
 #. type: textblock
 #: fish/guestfish-actions.pod:4108 lib/guestfs-actions.pod:6668
 msgid "Oracle Linux."
-msgstr "Oracle Linux."
+msgstr ""
 
 #. type: =item
 #: fish/guestfish-actions.pod:4110 lib/guestfs-actions.pod:6670
@@ -66848,7 +66848,7 @@ msgstr ""
 #. type: =item
 #: fish/guestfish-actions.pod:8354 lib/guestfs-actions.pod:13556
 msgid "C<realm>"
-msgstr "C<alue>"
+msgstr ""
 
 #. type: =item
 #: fish/guestfish-actions.pod:8356 lib/guestfs-actions.pod:13558
@@ -75248,7 +75248,7 @@ msgstr ""
 #. type: textblock
 #: format/virt-format.pod:119 make-fs/virt-make-fs.pod:193
 msgid "Set the filesystem label."
-msgstr "Aseta tiedostojärjestelmän nimiö."
+msgstr ""
 
 #. type: =item
 #: format/virt-format.pod:121
