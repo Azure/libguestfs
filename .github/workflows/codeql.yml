@@ -17,7 +17,7 @@ on:
   pull_request:
     branches: [ "master" ]
   schedule:
-    - cron: '23 22 * * 0'
+    - cron: '19 11 * * 1'
 
 jobs:
   analyze:
@@ -74,29 +74,6 @@ jobs:
       with:
         languages: ${{ matrix.language }}
         build-mode: ${{ matrix.build-mode }}
-    - if: ${{ matrix.build-mode == 'manual' }}
-      name: Build C and C++ code
-      shell: bash
-      run: |
-        echo 'If you are using a "manual" build mode for one or more of the' \
-          'languages you are analyzing, replace this with the commands to build' \
-          'your code, for example:'
-        pwd
-        sudo cp .github/workflows/source.list /etc/apt/sources.list
-        # sudo apt build-dep libguestfs -y
-        sudo apt update -y
-        sudo apt upgrade -y
-        sudo apt install -y autoconf
-        sudo apt install -y automake
-        sudo apt install -y libtool
-        sudo apt install -y gettext
-        sudo apt install -y gperf
-        sudo apt-get install -y augeas-tools
-        sudo apt install -y libaugeas-dev
-        git submodule update --init
-        autoreconf -i
-        ./configure CFLAGS=-fPIC
-        make
         # If you wish to specify custom queries, you can do so here or in a config file.
         # By default, queries listed here will override any specified in a config file.
         # Prefix the list here with "+" to use these queries and those in the config file.
