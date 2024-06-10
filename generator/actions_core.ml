@@ -7157,8 +7157,7 @@ See C<guestfs_get_e2generation>." };
          ["btrfs_subvolume_create"; "/test1"; "NOARG"];
          ["btrfs_subvolume_create"; "/test2"; "NOARG"];
          ["btrfs_subvolume_create"; "/dir/test3"; "NOARG"];
-         ["btrfs_subvolume_snapshot"; "/dir/test3"; "/dir/test5"; "true"; "NOARG"];
-         ["btrfs_subvolume_snapshot"; "/dir/test3"; "/dir/test6"; ""; "0/1000"]]), []
+         ["btrfs_subvolume_snapshot"; "/dir/test3"; "/dir/test5"; "true"; "NOARG"]]), []
     ];
     shortdesc = "create a btrfs snapshot";
     longdesc = "\
@@ -8140,9 +8139,7 @@ for a useful list of type GUIDs." };
     ];
     shortdesc = "get the type GUID of a GPT partition";
     longdesc = "\
-Return the type GUID of numbered GPT partition C<partnum>. For MBR partitions,
-return an appropriate GUID corresponding to the MBR type. Behaviour is undefined
-for other partition types." };
+Return the type GUID of numbered GPT partition C<partnum>." };
 
   { defaults with
     name = "part_set_gpt_attributes"; added = (1, 21, 1);
@@ -8782,7 +8779,7 @@ Limit the size of the subvolume with path C<subvolume>." };
          ["mount"; "/dev/sda1"; "/"];
          ["btrfs_quota_enable"; "/"; "true"];
          ["btrfs_subvolume_create"; "/sub1"; "NOARG"];
-         ["btrfs_qgroup_create"; "0/1000"; "/sub1"]]), [];
+         ["btrfs_qgroup_create"; "1/1000"; "/sub1"]]), [];
     ];
     shortdesc = "create a subvolume quota group";
     longdesc = "\
@@ -8798,8 +8795,8 @@ Create a quota group (qgroup) for subvolume at C<subvolume>." };
          ["mount"; "/dev/sda1"; "/"];
          ["btrfs_quota_enable"; "/"; "true"];
          ["btrfs_subvolume_create"; "/sub1"; "NOARG"];
-         ["btrfs_qgroup_create"; "0/1000"; "/sub1"];
-         ["btrfs_qgroup_destroy"; "0/1000"; "/sub1"]]), [];
+         ["btrfs_qgroup_create"; "1/1000"; "/sub1"];
+         ["btrfs_qgroup_destroy"; "1/1000"; "/sub1"]]), [];
     ];
     shortdesc = "destroy a subvolume quota group";
     longdesc = "\
@@ -8814,7 +8811,7 @@ Destroy a quota group." };
          ["mount"; "/dev/sda1"; "/"];
          ["btrfs_quota_enable"; "/"; "true"];
          ["btrfs_subvolume_create"; "/sub1"; "NOARG"];
-         ["btrfs_qgroup_create"; "0/1000"; "/sub1"];
+         ["btrfs_qgroup_create"; "1/1000"; "/sub1"];
          ["btrfs_qgroup_show"; "/"]]), [];
     ];
     optional = Some "btrfs"; camel_name = "BTRFSQgroupShow";
@@ -8832,9 +8829,9 @@ usages." };
         [["mkfs_btrfs"; "/dev/sda1"; ""; ""; "NOARG"; ""; "NOARG"; "NOARG"; ""; ""];
          ["mount"; "/dev/sda1"; "/"];
          ["btrfs_quota_enable"; "/"; "true"];
-         ["btrfs_qgroup_create"; "0/1000"; "/"];
          ["btrfs_qgroup_create"; "1/1000"; "/"];
-         ["btrfs_qgroup_assign"; "0/1000"; "1/1000"; "/"]]), [];
+         ["btrfs_qgroup_create"; "2/1000"; "/"];
+         ["btrfs_qgroup_assign"; "1/1000"; "2/1000"; "/"]]), [];
     ];
     shortdesc = "add a qgroup to a parent qgroup";
     longdesc = "\
@@ -8850,10 +8847,10 @@ several qgroups into a parent qgroup to share common limit." };
         [["mkfs_btrfs"; "/dev/sda1"; ""; ""; "NOARG"; ""; "NOARG"; "NOARG"; ""; ""];
          ["mount"; "/dev/sda1"; "/"];
          ["btrfs_quota_enable"; "/"; "true"];
-         ["btrfs_qgroup_create"; "0/1000"; "/"];
          ["btrfs_qgroup_create"; "1/1000"; "/"];
-         ["btrfs_qgroup_assign"; "0/1000"; "1/1000"; "/"];
-         ["btrfs_qgroup_remove"; "0/1000"; "1/1000"; "/"]]), [];
+         ["btrfs_qgroup_create"; "2/1000"; "/"];
+         ["btrfs_qgroup_assign"; "1/1000"; "2/1000"; "/"];
+         ["btrfs_qgroup_remove"; "1/1000"; "2/1000"; "/"]]), [];
     ];
     shortdesc = "remove a qgroup from its parent qgroup";
     longdesc = "\
