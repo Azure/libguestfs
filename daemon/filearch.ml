@@ -1,5 +1,5 @@
 (* guestfs-inspection
- * Copyright (C) 2009-2020 Red Hat Inc.
+ * Copyright (C) 2009-2023 Red Hat Inc.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -98,8 +98,6 @@ and canonical_elf_arch bits endianness elf_arch =
     | "64" -> "s390x"
     | _ -> failwithf "unknown S/390 bit size: %s" bits
   )
-  else if substr "LoongArch" then
-    sprintf "loongarch%s" bits
   else
     elf_arch
 

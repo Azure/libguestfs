@@ -1,5 +1,5 @@
 (* libguestfs
- * Copyright (C) 2009-2020 Red Hat Inc.
+ * Copyright (C) 2009-2023 Red Hat Inc.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -140,6 +140,66 @@ This returns the current state as an opaque integer.  This is
 only useful for printing debug and internal error messages.
 
 For more information on states, see L<guestfs(3)>." };
+
+  { defaults with
+    name = "readdir"; added = (1, 0, 55);
+    style = RStructList ("entries", "dirent"), [String (Pathname, "dir")], [];
+    progress = true; cancellable = true;
+    shortdesc = "read directories entries";
+    longdesc = "\
+This returns the list of directory entries in directory C<dir>.
+
+All entries in the directory are returned, including C<.> and
+C<..>.  The entries are I<not> sorted, but returned in the same
+order as the underlying filesystem.
+
+Also this call returns basic file type information about each
+file.  The C<ftyp> field will contain one of the following characters:
+
+=over 4
+
+=item 'b'
+
+Block special
+
+=item 'c'
+
+Char special
+
+=item 'd'
+
+Directory
+
+=item 'f'
+
+FIFO (named pipe)
+
+=item 'l'
+
+Symbolic link
+
+=item 'r'
+
+Regular file
+
+=item 's'
+
+Socket
+
+=item 'u'
+
+Unknown file type
+
+=item '?'
+
+The L<readdir(3)> call returned a C<d_type> field with an
+unexpected value
+
+=back
+
+This function is primarily intended for use by programs.  To
+get a simple list of names, use C<guestfs_ls>.  To get a printable
+directory for human consumption, use C<guestfs_ll>." };
 
   { defaults with
     name = "version"; added = (1, 0, 58);
@@ -737,7 +797,29 @@ returns the index of the device in the list of devices.
 Index numbers start from 0.  The named device must exist,
 for example as a string returned from C<guestfs_list_devices>.
 
-See also C<guestfs_list_devices>, C<guestfs_part_to_dev>." };
+See also C<guestfs_list_devices>, C<guestfs_part_to_dev>,
+C<guestfs_device_name>." };
+
+  { defaults with
+    name = "device_name"; added = (1, 49, 1);
+    style = RString (RPlainString, "name"), [Int "index"], [];
+    tests = [
+      InitEmpty, Always, TestResult (
+        [["device_name"; "0"]], "STREQ (ret, \"/dev/sda\")"), [];
+      InitEmpty, Always, TestResult (
+        [["device_name"; "1"]], "STREQ (ret, \"/dev/sdb\")"), [];
+      InitEmpty, Always, TestLastFail (
+        [["device_name"; "99"]]), []
+    ];
+    shortdesc = "convert device index to name";
+    longdesc = "\
+This function takes a device index and returns the device
+name.  For example index C<0> will return the string C</dev/sda>.
+
+The drive index must have been added to the handle.
+
+See also C<guestfs_list_devices>, C<guestfs_part_to_dev>,
+C<guestfs_device_index>." };
 
   { defaults with
     name = "shutdown"; added = (1, 19, 16);
@@ -2570,13 +2652,6 @@ parameter which must have one of the following values:
 Compute the cyclic redundancy check (CRC) specified by POSIX
 for the C<cksum> command.
 
-=item C<gost>
-
-=item C<gost12>
-
-Compute the checksum using GOST R34.11-94 or
-GOST R34.11-2012 message digest.
-
 =item C<md5>
 
 Compute the MD5 hash (using the L<md5sum(1)> program).
@@ -2635,9 +2710,9 @@ This command uploads and unpacks local file C<tarfile> into F<directory>.
 The optional C<compress> flag controls compression.  If not given,
 then the input should be an uncompressed tar file.  Otherwise one
 of the following strings may be given to select the compression
-type of the input file: C<compress>, C<gzip>, C<bzip2>, C<xz>, C<lzop>.
-(Note that not all builds of libguestfs will support all of these
-compression types).
+type of the input file: C<compress>, C<gzip>, C<bzip2>, C<xz>, C<lzop>,
+C<lzma>, C<zstd>.  (Note that not all builds of libguestfs will support
+all of these compression types).
 
 The other optional arguments are:
 
@@ -2670,9 +2745,9 @@ it to local file C<tarfile>.
 The optional C<compress> flag controls compression.  If not given,
 then the output will be an uncompressed tar file.  Otherwise one
 of the following strings may be given to select the compression
-type of the output file: C<compress>, C<gzip>, C<bzip2>, C<xz>, C<lzop>.
-(Note that not all builds of libguestfs will support all of these
-compression types).
+type of the output file: C<compress>, C<gzip>, C<bzip2>, C<xz>, C<lzop>,
+C<lzma>, C<zstd>.  (Note that not all builds of libguestfs will support
+all of these compression types).
 
 The other optional arguments are:
 
@@ -3922,66 +3997,6 @@ See also C<guestfs_get_umask>,
 L<umask(2)>, C<guestfs_mknod>, C<guestfs_mkdir>.
 
 This call returns the previous umask." };
-
-  { defaults with
-    name = "readdir"; added = (1, 0, 55);
-    style = RStructList ("entries", "dirent"), [String (Pathname, "dir")], [];
-    protocol_limit_warning = true;
-    shortdesc = "read directories entries";
-    longdesc = "\
-This returns the list of directory entries in directory C<dir>.
-
-All entries in the directory are returned, including C<.> and
-C<..>.  The entries are I<not> sorted, but returned in the same
-order as the underlying filesystem.
-
-Also this call returns basic file type information about each
-file.  The C<ftyp> field will contain one of the following characters:
-
-=over 4
-
-=item 'b'
-
-Block special
-
-=item 'c'
-
-Char special
-
-=item 'd'
-
-Directory
-
-=item 'f'
-
-FIFO (named pipe)
-
-=item 'l'
-
-Symbolic link
-
-=item 'r'
-
-Regular file
-
-=item 's'
-
-Socket
-
-=item 'u'
-
-Unknown file type
-
-=item '?'
-
-The L<readdir(3)> call returned a C<d_type> field with an
-unexpected value
-
-=back
-
-This function is primarily intended for use by programs.  To
-get a simple list of names, use C<guestfs_ls>.  To get a printable
-directory for human consumption, use C<guestfs_ll>." };
 
   { defaults with
     name = "getxattrs"; added = (1, 0, 59);
@@ -5287,7 +5302,7 @@ See also C<guestfs_part_set_bootable>." };
   { defaults with
     name = "part_get_mbr_id"; added = (1, 3, 2);
     style = RInt "idbyte", [String (Device, "device"); Int "partnum"], [];
-    impl = OCaml "Sfdisk.part_get_mbr_id";
+    impl = OCaml "Parted.part_get_mbr_id";
     fish_output = Some FishOutputHexadecimal;
     tests = [
       InitEmpty, Always, TestResult (
@@ -8113,7 +8128,7 @@ group with GUID C<diskgroup>." };
   { defaults with
     name = "part_set_gpt_type"; added = (1, 21, 1);
     style = RErr, [String (Device, "device"); Int "partnum"; String (GUID, "guid")], [];
-    impl = OCaml "Sfdisk.part_set_gpt_type";
+    optional = Some "gdisk";
     tests = [
       InitGPT, Always, TestLastFail (
         [["part_set_gpt_type"; "/dev/sda"; "1"; "f"]]), [];
@@ -8135,7 +8150,8 @@ for a useful list of type GUIDs." };
   { defaults with
     name = "part_get_gpt_type"; added = (1, 21, 1);
     style = RString (RPlainString, "guid"), [String (Device, "device"); Int "partnum"], [];
-    impl = OCaml "Sfdisk.part_get_gpt_type";
+    impl = OCaml "Parted.part_get_gpt_type";
+    optional = Some "gdisk";
     tests = [
       InitGPT, Always, TestResultString (
         [["part_set_gpt_type"; "/dev/sda"; "1";
@@ -8150,7 +8166,8 @@ Return the type GUID of numbered GPT partition C<partnum>." };
   { defaults with
     name = "part_set_gpt_attributes"; added = (1, 21, 1);
     style = RErr, [String (Device, "device"); Int "partnum"; Int64 "attributes"], [];
-    impl = OCaml "Sfdisk.part_set_gpt_attributes";
+    impl = OCaml "Parted.part_set_gpt_attributes";
+    optional = Some "gdisk";
     tests = [
       InitGPT, Always, TestResult (
         [["part_set_gpt_attributes"; "/dev/sda"; "1";
@@ -8169,7 +8186,8 @@ for a useful list of partition attributes." };
   { defaults with
     name = "part_get_gpt_attributes"; added = (1, 21, 1);
     style = RInt64 "attributes", [String (Device, "device"); Int "partnum"], [];
-    impl = OCaml "Sfdisk.part_get_gpt_attributes";
+    impl = OCaml "Parted.part_get_gpt_attributes";
+    optional = Some "gdisk";
     tests = [
       InitGPT, Always, TestResult (
         [["part_set_gpt_attributes"; "/dev/sda"; "1";
@@ -8969,7 +8987,7 @@ Recover bad superblocks from good copies." };
   { defaults with
     name = "part_set_gpt_guid"; added = (1, 29, 25);
     style = RErr, [String (Device, "device"); Int "partnum"; String (GUID, "guid")], [];
-    impl = OCaml "Sfdisk.part_set_gpt_guid";
+    optional = Some "gdisk";
     tests = [
       InitGPT, Always, TestLastFail (
         [["part_set_gpt_guid"; "/dev/sda"; "1"; "f"]]), [];
@@ -8988,7 +9006,8 @@ valid GUID." };
   { defaults with
     name = "part_get_gpt_guid"; added = (1, 29, 25);
     style = RString (RPlainString, "guid"), [String (Device, "device"); Int "partnum"], [];
-    impl = OCaml "Sfdisk.part_get_gpt_guid";
+    impl = OCaml "Parted.part_get_gpt_guid";
+    optional = Some "gdisk";
     tests = [
       InitGPT, Always, TestResultString (
         [["part_set_gpt_guid"; "/dev/sda"; "1";
@@ -9187,7 +9206,7 @@ This is the internal call which implements C<guestfs_feature_available>." };
   { defaults with
     name = "part_set_disk_guid"; added = (1, 33, 2);
     style = RErr, [String (Device, "device"); String (GUID, "guid")], [];
-    impl = OCaml "Sfdisk.part_set_disk_guid";
+    optional = Some "gdisk";
     tests = [
       InitGPT, Always, TestLastFail (
         [["part_set_disk_guid"; "/dev/sda"; "f"]]), [];
@@ -9206,7 +9225,7 @@ or if C<guid> is not a valid GUID." };
   { defaults with
     name = "part_get_disk_guid"; added = (1, 33, 2);
     style = RString (RPlainString, "guid"), [String (Device, "device")], [];
-    impl = OCaml "Sfdisk.part_get_disk_guid";
+    optional = Some "gdisk";
     tests = [
       InitGPT, Always, TestResultString (
         [["part_set_disk_guid"; "/dev/sda";
@@ -9222,7 +9241,7 @@ Behaviour is undefined for other partition types." };
   { defaults with
     name = "part_set_disk_guid_random"; added = (1, 33, 2);
     style = RErr, [String (Device, "device")], [];
-    impl = OCaml "Sfdisk.part_set_disk_guid_random";
+    optional = Some "gdisk";
     tests = [
       InitGPT, Always, TestRun (
         [["part_set_disk_guid_random"; "/dev/sda"]]), [];
@@ -9355,8 +9374,6 @@ with large files, such as the resulting squashfs will be over 3GB big." };
       InitISOFS, Always, TestResultString (
         [["file_architecture"; "/bin-riscv64-dynamic"]], "riscv64"), [];
       InitISOFS, Always, TestResultString (
-        [["file_architecture"; "/bin-loongarch64-dynamic"]], "loongarch64"), [];
-      InitISOFS, Always, TestResultString (
         [["file_architecture"; "/bin-s390x-dynamic"]], "s390x"), [];
       InitISOFS, Always, TestResultString (
         [["file_architecture"; "/bin-sparc-dynamic"]], "sparc"), [];
@@ -9378,8 +9395,6 @@ with large files, such as the resulting squashfs will be over 3GB big." };
         [["file_architecture"; "/lib-ppc64le.so"]], "ppc64le"), [];
       InitISOFS, Always, TestResultString (
         [["file_architecture"; "/lib-riscv64.so"]], "riscv64"), [];
-      InitISOFS, Always, TestResultString (
-        [["file_architecture"; "/lib-loongarch64.so"]], "loongarch64"), [];
       InitISOFS, Always, TestResultString (
         [["file_architecture"; "/lib-s390x.so"]], "s390x"), [];
       InitISOFS, Always, TestResultString (
@@ -9438,10 +9453,6 @@ Intel Itanium.
 =item \"ppc64le\"
 
 64 bit Power PC (little endian).
-
-=item \"loongarch64\"
-
-64 bit LoongArch64 (little endian).
 
 =item \"riscv32\"
 
@@ -9699,5 +9710,52 @@ This closes an encrypted device that was created earlier by
 C<guestfs_cryptsetup_open>.  The C<device> parameter must be
 the name of the mapping device (ie. F</dev/mapper/mapname>)
 and I<not> the name of the underlying block device." };
+
+  { defaults with
+    name = "internal_readdir"; added = (1, 48, 2);
+    style = RErr, [String (Pathname, "dir"); String (FileOut, "filename")], [];
+    visibility = VInternal;
+    shortdesc = "read directories entries";
+    longdesc = "Internal function for readdir." };
+
+  { defaults with
+    name = "clevis_luks_unlock"; added = (1, 49, 3);
+    style = RErr,
+            [String (Device, "device"); String (PlainString, "mapname")],
+            [];
+    optional = Some "clevisluks";
+    test_excuse = "needs networking and a configured Tang server";
+    shortdesc = "open an encrypted LUKS block device with Clevis and Tang";
+    longdesc = "\
+This command opens a block device that has been encrypted according to
+the Linux Unified Key Setup (LUKS) standard, using network-bound disk
+encryption (NBDE).
+
+C<device> is the encrypted block device.
+
+The appliance will connect to the Tang servers noted in the tree of
+Clevis pins that is bound to a keyslot of the LUKS header.  The Clevis
+pin tree may comprise C<sss> (redudancy) pins as internal nodes
+(optionally), and C<tang> pins as leaves.  C<tpm2> pins are not
+supported.  The appliance unlocks the encrypted block device by
+combining responses from the Tang servers with metadata from the LUKS
+header; there is no C<key> parameter.
+
+This command will fail if networking has not been enabled for the
+appliance. Refer to C<guestfs_set_network>.
+
+The command creates a new block device called F</dev/mapper/mapname>.
+Reads and writes to this block device are decrypted from and encrypted
+to the underlying C<device> respectively.  Close the decrypted block
+device with C<guestfs_cryptsetup_close>.
+
+C<mapname> cannot be C<\"control\"> because that name is reserved by
+device-mapper.
+
+If this block device contains LVM volume groups, then calling
+C<guestfs_lvm_scan> with the C<activate> parameter C<true> will make
+them visible.
+
+Use C<guestfs_list_dm_devices> to list all device mapper devices." };
 
 ]

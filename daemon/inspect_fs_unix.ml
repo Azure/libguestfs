@@ -1,5 +1,5 @@
 (* guestfs-inspection
- * Copyright (C) 2009-2020 Red Hat Inc.
+ * Copyright (C) 2009-2023 Red Hat Inc.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -32,8 +32,6 @@ let re_rhel_no_minor = PCRE.compile "Red Hat.*release (\\d+)"
 let re_centos_old = PCRE.compile "CentOS.*release (\\d+).*Update (\\d+)"
 let re_centos = PCRE.compile "CentOS.*release (\\d+)\\.(\\d+)"
 let re_centos_no_minor = PCRE.compile "CentOS.*release (\\d+)"
-let re_circle= PCRE.compile "Circle Linux.*release (\\d+)\\.(\\d+)"
-let re_circle_no_minor = PCRE.compile "Circle Linux.*release (\\d+)"
 let re_rocky = PCRE.compile "Rocky Linux.*release (\\d+)\\.(\\d+)"
 let re_rocky_no_minor = PCRE.compile "Rocky Linux.*release (\\d+)"
 let re_scientific_linux_old =
@@ -99,6 +97,8 @@ let rec parse_os_release release_file data =
            data.product_name <- Some value
          else if key = "VERSION_ID" then
            parse_os_release_version_id value data
+         else if key = "BUILD_ID" then
+           data.build_id <- Some value
        ) values;
 
      (* If we haven't got all the fields, exit right away. *)
@@ -111,7 +111,7 @@ let rec parse_os_release release_file data =
         * we detect that situation then bail out and use the release
         * files instead.
         *)
-       | { distro = Some (DISTRO_DEBIAN|DISTRO_CENTOS|DISTRO_CIRCLE|DISTRO_ROCKY);
+       | { distro = Some (DISTRO_DEBIAN|DISTRO_CENTOS|DISTRO_ROCKY);
            version = Some (_, 0) } ->
           false
 
@@ -145,7 +145,6 @@ and distro_of_os_release_id = function
   | "altlinux" -> Some DISTRO_ALTLINUX
   | "arch" -> Some DISTRO_ARCHLINUX
   | "centos" -> Some DISTRO_CENTOS
-  | "circle" -> Some DISTRO_CIRCLE
   | "coreos" -> Some DISTRO_COREOS
   | "debian" -> Some DISTRO_DEBIAN
   | "fedora" -> Some DISTRO_FEDORA
@@ -416,10 +415,6 @@ let linux_root_tests : tests = [
                                        DISTRO_CENTOS;
   "/etc/centos-release", parse_generic ~rex:re_centos_no_minor
                                        DISTRO_CENTOS;
-  "/etc/circle-release", parse_generic ~rex:re_circle
-                                       DISTRO_CIRCLE;
-  "/etc/circle-release", parse_generic ~rex:re_circle_no_minor
-                                       DISTRO_CIRCLE;
   "/etc/rocky-release", parse_generic ~rex:re_rocky
                                        DISTRO_ROCKY;
   "/etc/rocky-release", parse_generic ~rex:re_rocky_no_minor
@@ -439,10 +434,6 @@ let linux_root_tests : tests = [
                                        DISTRO_CENTOS;
   "/etc/redhat-release", parse_generic ~rex:re_centos_no_minor
                                        DISTRO_CENTOS;
-  "/etc/redhat-release", parse_generic ~rex:re_circle
-                                       DISTRO_CIRCLE;
-  "/etc/redhat-release", parse_generic ~rex:re_circle_no_minor
-                                       DISTRO_CIRCLE;
   "/etc/redhat-release", parse_generic ~rex:re_rocky
                                        DISTRO_ROCKY;
   "/etc/redhat-release", parse_generic ~rex:re_rocky_no_minor

@@ -1,5 +1,5 @@
 /* libguestfs - the guestfsd daemon
- * Copyright (C) 2009-2020 Red Hat Inc.
+ * Copyright (C) 2009-2023 Red Hat Inc.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -46,12 +46,8 @@ program_of_csum (const char *csumtype)
     return "sha384sum";
   else if (STRCASEEQ (csumtype, "sha512"))
     return "sha512sum";
-  else if (STRCASEEQ (csumtype, "gost"))
-    return "gostsum";
-  else if (STRCASEEQ (csumtype, "gost12"))
-    return "gost12sum";
   else {
-    reply_with_error ("unknown checksum type, expecting crc|md5|sha1|sha224|sha256|sha384|sha512|gost|gost12");
+    reply_with_error ("unknown checksum type, expecting crc|md5|sha1|sha224|sha256|sha384|sha512");
     return NULL;
   }
 }

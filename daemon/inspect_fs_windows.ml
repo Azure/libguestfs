@@ -1,5 +1,5 @@
 (* guestfs-inspection
- * Copyright (C) 2009-2020 Red Hat Inc.
+ * Copyright (C) 2009-2023 Red Hat Inc.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -263,6 +263,20 @@ and check_windows_software_registry software_hive data =
          with
            Not_found -> ()
         );
+
+        (* CurrentBuildNumber (build_id).
+         *
+         * In modern Windows, the "CurrentBuild" and "CurrentBuildNumber"
+         * keys are the same.  But in Windows XP, "CurrentBuild"
+         * contained something quite different.  So always use
+         * "CurrentBuildNumber".
+         *)
+        (try
+           let v = List.assoc "CurrentBuildNumber" values in
+           data.build_id <- Some (Hivex.value_string h v)
+         with
+           Not_found -> ()
+        );
       with
       | Not_found ->
          if verbose () then
@@ -405,7 +419,7 @@ and map_registry_disk_blob_gpt partitions blob =
           let typ = Parted.part_get_parttype device in
           if typ <> "gpt" then false
           else (
-            let guid = Sfdisk.part_get_gpt_guid device partnum in
+            let guid = Parted.part_get_gpt_guid device partnum in
             String.lowercase_ascii guid = blob_guid
           )
       ) partitions in
