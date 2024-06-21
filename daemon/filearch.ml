@@ -1,5 +1,5 @@
 (* guestfs-inspection
- * Copyright (C) 2009-2020 Red Hat Inc.
+ * Copyright (C) 2009-2023 Red Hat Inc.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -128,7 +128,10 @@ and cpio_arch magic orig_path path =
         | bin :: bins ->
            let bin_path = tmpdir // bin in
            if is_regular_file bin_path then (
-             let out = command "file" ["-zSb"; bin_path] in
+             let file_options =
+               sprintf "-z%sb"
+                 (if File_helper.file_has_S_option () then "S" else "") in
+             let out = command "file" [file_options; bin_path] in
              file_architecture_of_magic out orig_path bin_path
            )
            else

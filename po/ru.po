@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: libguestfs 1.39.12\n"
 "Report-Msgid-Bugs-To: https://bugzilla.redhat.com/enter_bug.cgi?"
 "component=libguestfs&product=Virtualization+Tools\n"
-"POT-Creation-Date: 2022-04-14 15:53+0100\n"
+"POT-Creation-Date: 2023-11-16 11:22+0000\n"
 "PO-Revision-Date: 2015-02-21 10:52+0000\n"
 "Last-Translator: Copied by Zanata <copied-by-zanata@zanata.org>\n"
 "Language-Team: Russian (http://www.transifex.com/projects/p/libguestfs/"
@@ -32,7 +32,14 @@ msgstr ""
 msgid "string size overflow"
 msgstr ""
 
-#: common/options/decrypt.c:169
+#: common/options/decrypt.c:170
+#, c-format
+msgid ""
+"'clevis_luks_unlock', needed for decrypting %s, is unavailable in this "
+"libguestfs version"
+msgstr ""
+
+#: common/options/decrypt.c:184
 #, c-format
 msgid ""
 "could not find key to open LUKS encrypted %s.\n"
@@ -3950,7 +3957,7 @@ msgstr ""
 msgid "you must call guestfs_add_drive before guestfs_launch"
 msgstr ""
 
-#: lib/launch-direct.c:902 lib/launch-libvirt.c:698
+#: lib/launch-direct.c:1042 lib/launch-libvirt.c:698
 msgid "qemu launched and contacted daemon, but state != READY"
 msgstr ""
 
@@ -4033,43 +4040,43 @@ msgstr ""
 msgid "unable to parse domain capabilities XML returned by libvirt"
 msgstr ""
 
-#: lib/launch-libvirt.c:1500 lib/launch-libvirt.c:1758 lib/qemu.c:816
+#: lib/launch-libvirt.c:1511 lib/launch-libvirt.c:1769 lib/qemu.c:816
 #, c-format
 msgid "realpath: could not convert ‘%s’ to absolute path"
 msgstr ""
 
-#: lib/launch-libvirt.c:1583
+#: lib/launch-libvirt.c:1594
 msgid ""
 "libvirt does not support the qemu curl driver protocols (ftp, http, etc.); "
 "try setting LIBGUESTFS_BACKEND=direct"
 msgstr ""
 
-#: lib/launch-libvirt.c:1973
+#: lib/launch-libvirt.c:1984
 msgid "could not define libvirt secret"
 msgstr ""
 
-#: lib/launch-libvirt.c:1984
+#: lib/launch-libvirt.c:1995
 msgid "rbd protocol secret must be base64 encoded"
 msgstr ""
 
-#: lib/launch-libvirt.c:1988
+#: lib/launch-libvirt.c:1999
 #, c-format
 msgid "base64_decode_alloc: %m"
 msgstr ""
 
-#: lib/launch-libvirt.c:2009
+#: lib/launch-libvirt.c:2020
 msgid "could not set libvirt secret value"
 msgstr ""
 
-#: lib/launch-libvirt.c:2022
+#: lib/launch-libvirt.c:2033
 msgid "could not get UUID from libvirt secret"
 msgstr ""
 
-#: lib/launch-libvirt.c:2195
+#: lib/launch-libvirt.c:2206
 msgid "could not destroy libvirt domain"
 msgstr ""
 
-#: lib/launch-libvirt.c:2216 lib/launch-libvirt.c:2249
+#: lib/launch-libvirt.c:2227 lib/launch-libvirt.c:2260
 #, c-format
 msgid "%s: internal error forming error message"
 msgstr ""

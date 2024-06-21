@@ -6,10 +6,10 @@
 #, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: libguestfs 1.48.6\n"
+"Project-Id-Version: libguestfs 1.52.1\n"
 "Report-Msgid-Bugs-To: https://bugzilla.redhat.com/enter_bug.cgi?"
 "component=libguestfs&product=Virtualization+Tools\n"
-"POT-Creation-Date: 2022-11-28 11:45+0000\n"
+"POT-Creation-Date: 2024-05-13 14:54+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -103,42 +103,42 @@ msgstr ""
 msgid "Enter key or passphrase (\"%s\"): "
 msgstr ""
 
-#: common/options/keys.c:144
+#: common/options/keys.c:145
 #, c-format
 msgid "size_t overflow"
 msgstr ""
 
-#: common/options/keys.c:187
+#: common/options/keys.c:192
 #, c-format
 msgid "could not read key from user"
 msgstr ""
 
-#: common/options/keys.c:226
+#: common/options/keys.c:231
 #, c-format
 msgid "selector '%s': missing ID"
 msgstr ""
 
-#: common/options/keys.c:233
+#: common/options/keys.c:238
 #, c-format
 msgid "selector '%s': missing TYPE"
 msgstr ""
 
-#: common/options/keys.c:239
+#: common/options/keys.c:244
 #, c-format
 msgid "selector '%s': missing KEY_STRING, or too many fields"
 msgstr ""
 
-#: common/options/keys.c:248
+#: common/options/keys.c:253
 #, c-format
 msgid "selector '%s': missing FILENAME, or too many fields"
 msgstr ""
 
-#: common/options/keys.c:256
+#: common/options/keys.c:261
 #, c-format
 msgid "selector '%s': too many fields"
 msgstr ""
 
-#: common/options/keys.c:258
+#: common/options/keys.c:263
 #, c-format
 msgid "selector '%s': invalid TYPE"
 msgstr ""
@@ -3929,11 +3929,31 @@ msgid ""
 "might need to log out and log in again)."
 msgstr ""
 
-#: lib/launch-direct.c:396
+#: lib/launch-direct.c:393
+#, c-format
+msgid "passt was killed with signal %d"
+msgstr ""
+
+#: lib/launch-direct.c:398
+#, c-format
+msgid "internal error: unexpected exit status from passt (%d)"
+msgstr ""
+
+#: lib/launch-direct.c:405
+#, c-format
+msgid "passt exited with status %d"
+msgstr ""
+
+#: lib/launch-direct.c:426
+#, c-format
+msgid "failed to parse passt PID from '%s'"
+msgstr ""
+
+#: lib/launch-direct.c:475
 msgid "you must call guestfs_add_drive before guestfs_launch"
 msgstr ""
 
-#: lib/launch-direct.c:941 lib/launch-libvirt.c:713
+#: lib/launch-direct.c:1042 lib/launch-libvirt.c:699
 msgid "qemu launched and contacted daemon, but state != READY"
 msgstr ""
 
@@ -3960,20 +3980,20 @@ msgstr ""
 msgid "direct mode flag is not supported yet for libvirt backend"
 msgstr ""
 
-#: lib/launch-libvirt.c:382
+#: lib/launch-libvirt.c:383
 #, c-format
 msgid "could not connect to libvirt (URI = %s)"
 msgstr ""
 
-#: lib/launch-libvirt.c:411
+#: lib/launch-libvirt.c:412
 msgid "could not get libvirt capabilities"
 msgstr ""
 
-#: lib/launch-libvirt.c:432
+#: lib/launch-libvirt.c:433
 msgid "could not get libvirt domain capabilities"
 msgstr ""
 
-#: lib/launch-libvirt.c:627
+#: lib/launch-libvirt.c:628
 msgid ""
 "could not create appliance through libvirt.\n"
 "\n"
@@ -3983,21 +4003,21 @@ msgid ""
 "Original error from libvirt"
 msgstr ""
 
-#: lib/launch-libvirt.c:763
+#: lib/launch-libvirt.c:764
 msgid "unable to parse capabilities XML returned by libvirt"
 msgstr ""
 
-#: lib/launch-libvirt.c:769 lib/launch-libvirt.c:871 lib/libvirt-domain.c:397
+#: lib/launch-libvirt.c:770 lib/launch-libvirt.c:872 lib/libvirt-domain.c:397
 #: lib/libvirt-domain.c:481
 msgid "unable to create new XPath context"
 msgstr ""
 
-#: lib/launch-libvirt.c:779 lib/launch-libvirt.c:879 lib/launch-libvirt.c:895
+#: lib/launch-libvirt.c:780 lib/launch-libvirt.c:880 lib/launch-libvirt.c:896
 #, c-format
 msgid "unable to evaluate XPath expression: %s"
 msgstr ""
 
-#: lib/launch-libvirt.c:818
+#: lib/launch-libvirt.c:819
 #, c-format
 msgid ""
 "libvirt hypervisor doesn’t support qemu or KVM,\n"
@@ -4012,60 +4032,56 @@ msgid ""
 "For further help, read the guestfs(3) man page and libguestfs FAQ."
 msgstr ""
 
-#: lib/launch-libvirt.c:865
+#: lib/launch-libvirt.c:866
 msgid "unable to parse domain capabilities XML returned by libvirt"
 msgstr ""
 
-#: lib/launch-libvirt.c:1477
-msgid "‘iface’ parameter is not supported by the libvirt backend"
-msgstr ""
-
-#: lib/launch-libvirt.c:1523 lib/launch-libvirt.c:1781 lib/qemu.c:816
+#: lib/launch-libvirt.c:1512 lib/launch-libvirt.c:1770 lib/qemu.c:816
 #, c-format
 msgid "realpath: could not convert ‘%s’ to absolute path"
 msgstr ""
 
-#: lib/launch-libvirt.c:1606
+#: lib/launch-libvirt.c:1595
 msgid ""
 "libvirt does not support the qemu curl driver protocols (ftp, http, etc.); "
 "try setting LIBGUESTFS_BACKEND=direct"
 msgstr ""
 
-#: lib/launch-libvirt.c:1996
+#: lib/launch-libvirt.c:1985
 msgid "could not define libvirt secret"
 msgstr ""
 
-#: lib/launch-libvirt.c:2007
+#: lib/launch-libvirt.c:1996
 msgid "rbd protocol secret must be base64 encoded"
 msgstr ""
 
-#: lib/launch-libvirt.c:2011
+#: lib/launch-libvirt.c:2000
 #, c-format
 msgid "base64_decode_alloc: %m"
 msgstr ""
 
-#: lib/launch-libvirt.c:2032
+#: lib/launch-libvirt.c:2021
 msgid "could not set libvirt secret value"
 msgstr ""
 
-#: lib/launch-libvirt.c:2045
+#: lib/launch-libvirt.c:2034
 msgid "could not get UUID from libvirt secret"
 msgstr ""
 
-#: lib/launch-libvirt.c:2218
+#: lib/launch-libvirt.c:2207
 msgid "could not destroy libvirt domain"
 msgstr ""
 
-#: lib/launch-libvirt.c:2239 lib/launch-libvirt.c:2272
+#: lib/launch-libvirt.c:2228 lib/launch-libvirt.c:2261
 #, c-format
 msgid "%s: internal error forming error message"
 msgstr ""
 
-#: lib/launch.c:64
+#: lib/launch.c:65
 msgid "the libguestfs handle has already been launched"
 msgstr ""
 
-#: lib/launch.c:77
+#: lib/launch.c:78
 #, c-format
 msgid ""
 "too many drives have been added, the current backend only supports %d drives"
@@ -4090,16 +4106,6 @@ msgstr ""
 #: lib/launch.c:299
 #, c-format
 msgid "parameter ‘%s’ isn't allowed"
-msgstr ""
-
-#: lib/launch.c:328
-#, c-format
-msgid "socket path too long: %s/%s"
-msgstr ""
-
-#: lib/launch.c:332
-#, c-format
-msgid "%s"
 msgstr ""
 
 #: lib/libvirt-auth.c:96
