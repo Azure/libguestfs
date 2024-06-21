@@ -32,6 +32,16 @@ msgid "string size overflow"
 msgstr ""
 
 #: common/options/decrypt.c:169
+<<<<<<< HEAD
+=======
+#, c-format
+msgid ""
+"'clevis_luks_unlock', needed for decrypting %s, is unavailable in this "
+"libguestfs version"
+msgstr ""
+
+#: common/options/decrypt.c:184
+>>>>>>> ec7fc14db08ff5c6bf8a02275e0cdde9414d6300
 #, c-format
 msgid ""
 "could not find key to open LUKS encrypted %s.\n"

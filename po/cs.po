@@ -660,10 +660,13 @@ msgid "add hypervisor parameters"
 msgstr "přidat parametry pro hypervizor"
 
 #: fish/cmds.c:618
+<<<<<<< HEAD
 msgid "copy the attributes of a path (file/directory) to another"
 msgstr "zkopírovat atributy popisu umístění (soubor/složka) do jiného"
 
 #: fish/cmds.c:618
+=======
+>>>>>>> ec7fc14db08ff5c6bf8a02275e0cdde9414d6300
 msgid "copy the attributes of a path (file/directory) to another"
 msgstr ""
 
@@ -704,10 +707,13 @@ msgid "copy a file or directory recursively"
 msgstr "rekurzivně zkopírovat soubor nebo složku"
 
 #: fish/cmds.c:629
+<<<<<<< HEAD
 msgid "pack directory into cpio file"
 msgstr "zabalit složku do cpio souboru"
 
 #: fish/cmds.c:629
+=======
+>>>>>>> ec7fc14db08ff5c6bf8a02275e0cdde9414d6300
 msgid "pack directory into cpio file"
 msgstr ""
 
@@ -756,6 +762,7 @@ msgid "create a blank disk image"
 msgstr "vytvořit prázdný obraz disku"
 
 #: fish/cmds.c:644
+<<<<<<< HEAD
 msgid "detect the disk format of a disk image"
 msgstr "zjistit formát obrazu disku"
 
@@ -764,6 +771,8 @@ msgid "return whether disk has a backing file"
 msgstr "vypsat zda je disk založen na souboru"
 
 #: fish/cmds.c:644
+=======
+>>>>>>> ec7fc14db08ff5c6bf8a02275e0cdde9414d6300
 msgid "detect the disk format of a disk image"
 msgstr ""
 
@@ -788,6 +797,7 @@ msgid "download a file to the local machine"
 msgstr "stáhnout si soubor na místní stroj"
 
 #: fish/cmds.c:653
+<<<<<<< HEAD
 msgid "download the given data units from the disk"
 msgstr "stáhnout si dané datové jednotky z disku"
 
@@ -796,6 +806,8 @@ msgid "download a file to the local machine given its inode"
 msgstr "stáhnout si soubor (určený jeho i-uzlem) na místní stroj"
 
 #: fish/cmds.c:653
+=======
+>>>>>>> ec7fc14db08ff5c6bf8a02275e0cdde9414d6300
 msgid "download the given data units from the disk"
 msgstr ""
 
@@ -838,6 +850,7 @@ msgid "return lines matching a pattern"
 msgstr "vypsat řádky odpovídající vzoru"
 
 #: fish/cmds.c:668
+<<<<<<< HEAD
 msgid "test if two files have equal contents"
 msgstr "vyzkoušet zda dva soubory mají stejný obsah"
 
@@ -846,6 +859,8 @@ msgid "register a handler for an event or events"
 msgstr "zaregistrovat obsluhu pro událost(i)"
 
 #: fish/cmds.c:668
+=======
+>>>>>>> ec7fc14db08ff5c6bf8a02275e0cdde9414d6300
 msgid "test if two files have equal contents"
 msgstr ""
 
@@ -879,6 +894,7 @@ msgstr ""
 "zjistit pro jakou architekturu procesoru byl binární soubor zkompilován"
 
 #: fish/cmds.c:680
+<<<<<<< HEAD
 msgid "return the size of the file in bytes"
 msgstr "vypsat velikost souboru (v bajtech)"
 
@@ -887,6 +903,8 @@ msgid "check if filesystem is available"
 msgstr "zkontrolovat zda je souborový systém k dispozici"
 
 #: fish/cmds.c:680
+=======
+>>>>>>> ec7fc14db08ff5c6bf8a02275e0cdde9414d6300
 msgid "return the size of the file in bytes"
 msgstr ""
 
@@ -927,6 +945,7 @@ msgid "find a filesystem by label"
 msgstr "hledat souborový systém podle štítku"
 
 #: fish/cmds.c:690
+<<<<<<< HEAD
 msgid "find a filesystem by UUID"
 msgstr "hledat souborový systém podle UUID"
 
@@ -935,6 +954,8 @@ msgid "run the filesystem checker"
 msgstr "spustit kontrolu souborového systému"
 
 #: fish/cmds.c:690
+=======
+>>>>>>> ec7fc14db08ff5c6bf8a02275e0cdde9414d6300
 msgid "find a filesystem by UUID"
 msgstr ""
 
@@ -1107,6 +1128,7 @@ msgid "return first N lines of a file"
 msgstr "vypsat prvních N řádků souboru"
 
 #: fish/cmds.c:739
+<<<<<<< HEAD
 msgid "dump a file in hexadecimal"
 msgstr "vypsat obsah souboru v šestnáctkové podobě"
 
@@ -1115,6 +1137,8 @@ msgid "edit with a hex editor"
 msgstr "upravit pomocí hex editoru"
 
 #: fish/cmds.c:739
+=======
+>>>>>>> ec7fc14db08ff5c6bf8a02275e0cdde9414d6300
 msgid "dump a file in hexadecimal"
 msgstr ""
 
@@ -1228,6 +1252,7 @@ msgstr ""
 "zjistit pro jakou architekturu procesoru je zkoumaný operační systém určen"
 
 #: fish/cmds.c:774
+<<<<<<< HEAD
 msgid "get distro of inspected operating system"
 msgstr "zjistit distribuci zkoumaného operačního systému"
 
@@ -1236,6 +1261,8 @@ msgid "get drive letter mappings"
 msgstr "zjistit mapování písmen disků"
 
 #: fish/cmds.c:774
+=======
+>>>>>>> ec7fc14db08ff5c6bf8a02275e0cdde9414d6300
 msgid "get distro of inspected operating system"
 msgstr ""
 
@@ -1256,6 +1283,7 @@ msgid "get hostname of the operating system"
 msgstr "zjistit název stroje operačního systému"
 
 #: fish/cmds.c:779
+<<<<<<< HEAD
 msgid "get the icon corresponding to this operating system"
 msgstr "získat ikonu odpovídající tomuto operačnímu systému"
 
@@ -1268,6 +1296,8 @@ msgid "get minor version of inspected operating system"
 msgstr "zjistit vedlejší verzi zkoumaného operačního systému"
 
 #: fish/cmds.c:779
+=======
+>>>>>>> ec7fc14db08ff5c6bf8a02275e0cdde9414d6300
 msgid "get the icon corresponding to this operating system"
 msgstr ""
 
@@ -1296,6 +1326,7 @@ msgid "get package management tool used by the operating system"
 msgstr "zjistit nástroj pro správu balíčků, používaný operačním systémem"
 
 #: fish/cmds.c:786
+<<<<<<< HEAD
 msgid "get product name of inspected operating system"
 msgstr "zjistit název produktu zkoumaného operačního systému"
 
@@ -1308,6 +1339,8 @@ msgid "return list of operating systems found by last inspection"
 msgstr "vypsat seznam operačních systémů nalezených při posledním zkoumání"
 
 #: fish/cmds.c:786
+=======
+>>>>>>> ec7fc14db08ff5c6bf8a02275e0cdde9414d6300
 msgid "get product name of inspected operating system"
 msgstr ""
 
@@ -1368,6 +1401,7 @@ msgid "test if block device"
 msgstr "zjistit zda se jedná o blokové zařízení"
 
 #: fish/cmds.c:802
+<<<<<<< HEAD
 msgid "test if character device"
 msgstr "zjistit zda se jedná o znakové zařízení"
 
@@ -1380,6 +1414,8 @@ msgid "test if a directory"
 msgstr "zjistit zda se jedná o složku"
 
 #: fish/cmds.c:802
+=======
+>>>>>>> ec7fc14db08ff5c6bf8a02275e0cdde9414d6300
 msgid "test if character device"
 msgstr ""
 
@@ -1468,6 +1504,7 @@ msgid "kill the hypervisor"
 msgstr "vynutit ukončení hypervizoru"
 
 #: fish/cmds.c:824
+<<<<<<< HEAD
 msgid "launch the backend"
 msgstr "spustit podpůrnou vrstvu"
 
@@ -1476,6 +1513,8 @@ msgid "change working directory"
 msgstr "změnit pracovní složku"
 
 #: fish/cmds.c:824
+=======
+>>>>>>> ec7fc14db08ff5c6bf8a02275e0cdde9414d6300
 msgid "launch the backend"
 msgstr ""
 
@@ -1524,6 +1563,7 @@ msgid "list 9p filesystems"
 msgstr "vypsat 9p souborové systémy"
 
 #: fish/cmds.c:843
+<<<<<<< HEAD
 msgid "list the block devices"
 msgstr "vypsat bloková zařízení"
 
@@ -1536,6 +1576,8 @@ msgid "list device mapper devices"
 msgstr "vypsat zařízení mapovače zařízení"
 
 #: fish/cmds.c:843
+=======
+>>>>>>> ec7fc14db08ff5c6bf8a02275e0cdde9414d6300
 msgid "list the block devices"
 msgstr ""
 
@@ -1628,6 +1670,7 @@ msgid "remove a key from a LUKS encrypted device"
 msgstr "odebrat klíč z LUKS šifrovaného zařízení"
 
 #: fish/cmds.c:871
+<<<<<<< HEAD
 msgid "open a LUKS-encrypted block device"
 msgstr "otevřít LUKS šifrované blokové zařízení"
 
@@ -1640,6 +1683,8 @@ msgid "get the UUID of a LUKS device"
 msgstr "zjistit UUID LUKS zařízení"
 
 #: fish/cmds.c:871
+=======
+>>>>>>> ec7fc14db08ff5c6bf8a02275e0cdde9414d6300
 msgid "open a LUKS-encrypted block device"
 msgstr ""
 
@@ -1668,6 +1713,7 @@ msgid "clear LVM device filter"
 msgstr "vyčistit filtr LVM zařízení"
 
 #: fish/cmds.c:878
+<<<<<<< HEAD
 msgid "remove all LVM LVs, VGs and PVs"
 msgstr "odebrat veškeré LVM LV svazky, VG skupiny a PV svazky"
 
@@ -1680,6 +1726,8 @@ msgid "set LVM device filter"
 msgstr "nastavit filtr LVM zařízení"
 
 #: fish/cmds.c:878
+=======
+>>>>>>> ec7fc14db08ff5c6bf8a02275e0cdde9414d6300
 msgid "remove all LVM LVs, VGs and PVs"
 msgstr ""
 
@@ -1724,6 +1772,7 @@ msgid "open the manual"
 msgstr "otevřít příručku"
 
 #: fish/cmds.c:893
+<<<<<<< HEAD
 msgid "maximum number of disks that may be added"
 msgstr "nejvyšší možný počet disků, který je možné přidat"
 
@@ -1736,6 +1785,8 @@ msgid "obtain metadata for an MD device"
 msgstr "získat metadata MD zařízení"
 
 #: fish/cmds.c:893
+=======
+>>>>>>> ec7fc14db08ff5c6bf8a02275e0cdde9414d6300
 msgid "maximum number of disks that may be added"
 msgstr ""
 
@@ -1756,6 +1807,7 @@ msgid "stop a Linux md (RAID) device"
 msgstr "zastavit Linux md (RAID) zařízení"
 
 #: fish/cmds.c:901
+<<<<<<< HEAD
 msgid "create a directory"
 msgstr "vytvořit složku"
 
@@ -1768,6 +1820,8 @@ msgid "create a directory and parents"
 msgstr "vytvořit složku a jí nadřazené"
 
 #: fish/cmds.c:901
+=======
+>>>>>>> ec7fc14db08ff5c6bf8a02275e0cdde9414d6300
 msgid "create a directory"
 msgstr ""
 
@@ -1808,6 +1862,7 @@ msgid "make FIFO (named pipe)"
 msgstr "vytvořit FIFO (pojmenovanou rouru)"
 
 #: fish/cmds.c:913
+<<<<<<< HEAD
 msgid "make a filesystem"
 msgstr "vytvořit souborový systém"
 
@@ -1820,6 +1875,8 @@ msgid "create a btrfs filesystem"
 msgstr "vytvořit btrfs souborový systém"
 
 #: fish/cmds.c:913
+=======
+>>>>>>> ec7fc14db08ff5c6bf8a02275e0cdde9414d6300
 msgid "make a filesystem"
 msgstr ""
 
@@ -1840,6 +1897,7 @@ msgid "create a mountpoint"
 msgstr "vytvořit přípojný bod"
 
 #: fish/cmds.c:918
+<<<<<<< HEAD
 msgid "make block, character or FIFO devices"
 msgstr "vytvořit bloková, znaková či FIFO zařízení"
 
@@ -1852,6 +1910,8 @@ msgid "make char device node"
 msgstr "vytvořit uzel znakového zařízení"
 
 #: fish/cmds.c:918
+=======
+>>>>>>> ec7fc14db08ff5c6bf8a02275e0cdde9414d6300
 msgid "make block, character or FIFO devices"
 msgstr ""
 
@@ -2368,6 +2428,7 @@ msgid "create partitions on a block device"
 msgstr "vytvořit oddíly na blokovém zařízení"
 
 #: fish/cmds.c:1084
+<<<<<<< HEAD
 msgid "modify a single partition on a block device"
 msgstr "změnit jednotlivý oddíl na blokovém zařízení"
 
@@ -2380,6 +2441,8 @@ msgid "display the kernel geometry"
 msgstr "zobrazit uspořádání, které má načtené jádro systému"
 
 #: fish/cmds.c:1084
+=======
+>>>>>>> ec7fc14db08ff5c6bf8a02275e0cdde9414d6300
 msgid "modify a single partition on a block device"
 msgstr ""
 
@@ -2448,6 +2511,7 @@ msgid "disable swap on swap partition by UUID"
 msgstr "vypnout swap na swap oddílu podle UUID"
 
 #: fish/cmds.c:1106
+<<<<<<< HEAD
 msgid "enable swap on device"
 msgstr "zapnout swap na zařízení"
 
@@ -2460,6 +2524,8 @@ msgid "enable swap on labeled swap partition"
 msgstr "zapnout swap na oddílu, opatřeném štítkem swap"
 
 #: fish/cmds.c:1106
+=======
+>>>>>>> ec7fc14db08ff5c6bf8a02275e0cdde9414d6300
 msgid "enable swap on device"
 msgstr ""
 
@@ -2516,6 +2582,7 @@ msgid "update file timestamps or create a new file"
 msgstr "aktualizovat časová razítka nebo vytvořit nový soubor"
 
 #: fish/cmds.c:1126
+<<<<<<< HEAD
 msgid "truncate a file to zero size"
 msgstr "zkrátit soubor na nulovou délku"
 
@@ -2528,6 +2595,8 @@ msgid "adjust ext2/ext3/ext4 filesystem parameters"
 msgstr "upravit parametry ext2/ext3/ext4 souborového systému"
 
 #: fish/cmds.c:1126
+=======
+>>>>>>> ec7fc14db08ff5c6bf8a02275e0cdde9414d6300
 msgid "truncate a file to zero size"
 msgstr ""
 
@@ -2640,6 +2709,7 @@ msgid "remove an LVM volume group"
 msgstr "odebrat LVM skupinu svazků"
 
 #: fish/cmds.c:1165
+<<<<<<< HEAD
 msgid "rename an LVM volume group"
 msgstr "přejmenovat LVM skupinu svazků"
 
@@ -2648,6 +2718,8 @@ msgid "list the LVM volume groups (VGs)"
 msgstr "vypsat LVM skupiny svazků (VG)"
 
 #: fish/cmds.c:1165
+=======
+>>>>>>> ec7fc14db08ff5c6bf8a02275e0cdde9414d6300
 msgid "rename an LVM volume group"
 msgstr ""
 
@@ -2664,6 +2736,7 @@ msgid "get the UUID of a volume group"
 msgstr "získat UUID skupiny svazků"
 
 #: fish/cmds.c:1173
+<<<<<<< HEAD
 msgid "count characters in a file"
 msgstr "spočítat znaky v souboru"
 
@@ -2676,6 +2749,8 @@ msgid "count words in a file"
 msgstr "spočítat slova v souboru"
 
 #: fish/cmds.c:1173
+=======
+>>>>>>> ec7fc14db08ff5c6bf8a02275e0cdde9414d6300
 msgid "count characters in a file"
 msgstr ""
 
