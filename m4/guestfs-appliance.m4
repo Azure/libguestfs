@@ -1,5 +1,5 @@
 # libguestfs
-# Copyright (C) 2009-2020 Red Hat Inc.
+# Copyright (C) 2009-2023 Red Hat Inc.
 #
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -115,11 +115,12 @@ if test "x$ENABLE_APPLIANCE" = "xyes"; then
                 )"
                 AS_CASE([$DISTRO],
                         [FEDORA | RHEL | CENTOS | ALMALINUX | CLOUDLINUX \
-			 | ROCKY],
+			 | ROCKY | VIRTUOZZO],
                             [DISTRO=REDHAT],
                         [OPENSUSE* | SLED | SLES],[DISTRO=SUSE],
                         [ARCH | MANJARO | ARTIX],[DISTRO=ARCHLINUX],
-                        [OPENMANDRIVA],[DISTRO=OPENMANDRIVA])
+                        [OPENMANDRIVA],[DISTRO=OPENMANDRIVA],
+                        [OPENCLOUDOS],[DISTRO=OPENCLOUDOS])
                 AC_MSG_RESULT([$DISTRO (from /etc/os-release)])
             else
                 AC_MSG_ERROR([/etc/os-release not available, please specify the distro using --with-distro=DISTRO])
