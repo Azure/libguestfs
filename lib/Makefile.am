@@ -1,5 +1,5 @@
 # libguestfs
-# Copyright (C) 2010-2023 Red Hat Inc.
+# Copyright (C) 2010-2025 Red Hat Inc.
 #
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -138,7 +138,7 @@ libguestfs_la_CFLAGS = \
 	$(PCRE2_CFLAGS) \
 	$(LIBVIRT_CFLAGS) \
 	$(LIBXML2_CFLAGS) \
-	$(JANSSON_CFLAGS)
+	$(JSON_C_CFLAGS)
 
 libguestfs_la_LIBADD = \
 	../common/errnostring/liberrnostring.la \
@@ -149,7 +149,7 @@ libguestfs_la_LIBADD = \
 	$(PCRE2_LIBS) \
 	$(LIBVIRT_LIBS) $(LIBXML2_LIBS) \
 	$(SELINUX_LIBS) \
-	$(JANSSON_LIBS) \
+	$(JSON_C_LIBS) \
 	../gnulib/lib/libgnu.la \
 	$(LIBSOCKET) \
 	$(LIB_CLOCK_GETTIME) \
@@ -178,10 +178,12 @@ libvirt_is_version_SOURCES = libvirt-is-version.c
 
 libvirt_is_version_LDADD = \
 	$(LIBVIRT_LIBS) \
-	$(LTLIBINTL)
+	$(LTLIBINTL) \
+	$(top_builddir)/gnulib/lib/.libs/libgnu.a
 
 libvirt_is_version_CPPFLAGS = \
-	-DLOCALEBASEDIR=\""$(datadir)/locale"\"
+	-DLOCALEBASEDIR=\""$(datadir)/locale"\" \
+	-I$(top_srcdir)/gnulib/lib -I$(top_builddir)/gnulib/lib
 
 libvirt_is_version_CFLAGS = \
 	$(WARN_CFLAGS) $(WERROR_CFLAGS) \

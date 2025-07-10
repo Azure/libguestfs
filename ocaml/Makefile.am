@@ -64,16 +64,16 @@ endif
 
 stamp-mlguestfs: libguestfsocaml.a $(guestfs_cmm)
 	$(OCAMLMKLIB) -o mlguestfs \
-	  -ldopt '$(LDFLAGS)' \
+	  -ldopt '$(LDFLAGS) -L../lib/.libs' \
 	  $(libguestfsocaml_a_OBJECTS) guestfs.cmo \
 	  $(LTLIBINTL) \
-	  -L../lib/.libs -lguestfs
+	  -lguestfs
 if HAVE_OCAMLOPT
 	$(OCAMLMKLIB) -o mlguestfs \
-	  -ldopt '$(LDFLAGS)' \
+	  -ldopt '$(LDFLAGS) -L../lib/.libs' \
 	  $(libguestfsocaml_a_OBJECTS) guestfs.cmx \
 	  $(LTLIBINTL) \
-	  -L../lib/.libs -lguestfs
+	  -lguestfs
 endif
 	touch $@
 
@@ -165,7 +165,7 @@ endif
 
 if HAVE_OCAMLOPT
 %.opt: %.cmx mlguestfs.cmxa
-	$(guestfs_am_v_ocamlopt)$(OCAMLFIND) ocamlopt $(OCAMLFLAGS) -cclib -L$(top_builddir)/lib/.libs -I . -package unix -linkpkg mlguestfs.cmxa $< -o $@
+	$(guestfs_am_v_ocamlopt)$(OCAMLFIND) ocamlopt $(OCAMLFLAGS) -ccopt -L$(top_builddir)/lib/.libs -I . -package unix -linkpkg mlguestfs.cmxa $< -o $@
 endif
 
 check-valgrind:
@@ -185,16 +185,16 @@ data_hook_files += *.cmx *.cmxa
 endif
 
 install-data-hook:
-	mkdir -p $(DESTDIR)$(OCAMLLIB)
-	mkdir -p $(DESTDIR)$(OCAMLLIB)/stublibs
-	rm -rf $(DESTDIR)$(OCAMLLIB)/guestfs
-	rm -rf $(DESTDIR)$(OCAMLLIB)/stublibs/dllmlguestfs.so*
+	mkdir -p $(DESTDIR)$(INSTALL_OCAMLLIB)
+	mkdir -p $(DESTDIR)$(INSTALL_OCAMLLIB)/stublibs
+	rm -rf $(DESTDIR)$(INSTALL_OCAMLLIB)/guestfs
+	rm -rf $(DESTDIR)$(INSTALL_OCAMLLIB)/stublibs/dllmlguestfs.so*
 	$(OCAMLFIND) install \
-	  -ldconf ignore -destdir $(DESTDIR)$(OCAMLLIB) \
+	  -ldconf ignore -destdir $(DESTDIR)$(INSTALL_OCAMLLIB) \
 	  guestfs \
 	  $(data_hook_files)
-	rm -f $(DESTDIR)$(OCAMLLIB)/guestfs/bindtests.*
-	rm $(DESTDIR)$(OCAMLLIB)/guestfs/libguestfsocaml.a
+	rm -f $(DESTDIR)$(INSTALL_OCAMLLIB)/guestfs/bindtests.*
+	rm $(DESTDIR)$(INSTALL_OCAMLLIB)/guestfs/libguestfsocaml.a
 
 CLEANFILES += $(noinst_DATA) $(check_DATA)
 

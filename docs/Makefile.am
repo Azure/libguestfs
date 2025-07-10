@@ -1,5 +1,5 @@
 # libguestfs documentation
-# Copyright (C) 2010-2023 Red Hat Inc.
+# Copyright (C) 2010-2025 Red Hat Inc.
 #
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -25,6 +25,8 @@ EXTRA_DIST = \
 	guestfs-internals.pod \
 	guestfs-performance.pod \
 	guestfs-recipes.pod \
+	guestfs-release-notes-1.56.pod \
+	guestfs-release-notes-1.54.pod \
 	guestfs-release-notes-1.52.pod \
 	guestfs-release-notes-1.50.pod \
 	guestfs-release-notes-1.48.pod \
@@ -66,6 +68,8 @@ man_MANS = \
 	guestfs-internals.1 \
 	guestfs-performance.1 \
 	guestfs-recipes.1 \
+	guestfs-release-notes-1.56.1 \
+	guestfs-release-notes-1.54.1 \
 	guestfs-release-notes-1.52.1 \
 	guestfs-release-notes-1.50.1 \
 	guestfs-release-notes-1.48.1 \
@@ -101,6 +105,8 @@ noinst_DATA = \
 	$(top_builddir)/website/guestfs-internals.1.html \
 	$(top_builddir)/website/guestfs-performance.1.html \
 	$(top_builddir)/website/guestfs-recipes.1.html \
+	$(top_builddir)/website/guestfs-release-notes-1.56.1.html \
+	$(top_builddir)/website/guestfs-release-notes-1.54.1.html \
 	$(top_builddir)/website/guestfs-release-notes-1.52.1.html \
 	$(top_builddir)/website/guestfs-release-notes-1.50.1.html \
 	$(top_builddir)/website/guestfs-release-notes-1.48.1.html \
@@ -204,6 +210,28 @@ stamp-guestfs-recipes.pod: guestfs-recipes.pod
 	  --man guestfs-recipes.1 \
 	  --html $(top_builddir)/website/guestfs-recipes.1.html \
 	  --license examples \
+	  $<
+	touch $@
+
+guestfs-release-notes-1.56.1 guestfs-release-notes-1.56.txt $(top_builddir)/website/guestfs-release-notes-1.56.1.html: stamp-guestfs-release-notes-1.56.pod
+
+stamp-guestfs-release-notes-1.56.pod: guestfs-release-notes-1.56.pod
+	$(PODWRAPPER) \
+	  --section 1 \
+	  --man guestfs-release-notes-1.56.1 \
+	  --html $(top_builddir)/website/guestfs-release-notes-1.56.1.html \
+	  --license GPLv2+ \
+	  $<
+	touch $@
+
+guestfs-release-notes-1.54.1 guestfs-release-notes-1.54.txt $(top_builddir)/website/guestfs-release-notes-1.54.1.html: stamp-guestfs-release-notes-1.54.pod
+
+stamp-guestfs-release-notes-1.54.pod: guestfs-release-notes-1.54.pod
+	$(PODWRAPPER) \
+	  --section 1 \
+	  --man guestfs-release-notes-1.54.1 \
+	  --html $(top_builddir)/website/guestfs-release-notes-1.54.1.html \
+	  --license GPLv2+ \
 	  $<
 	touch $@
 

@@ -1,5 +1,5 @@
 #!/bin/bash
-# Copyright (C) 2013-2023 Red Hat Inc.
+# Copyright (C) 2013-2025 Red Hat Inc.
 #
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -17,10 +17,10 @@
 
 # Test that disks map to the correct qemu -drive parameter.
 
+source ./functions.sh
 set -e
 set -x
 
-$TEST_FUNCTIONS
 skip_if_skipped
 skip_unless_libvirt_minimum_version 1 1 3
 
@@ -65,13 +65,6 @@ check_output
 grep -sq -- '-drive file=rbd:abc-def/ghi-jkl:auth_supported=none,' "$DEBUG_QEMU_FILE" || fail ceph2
 rm "$DEBUG_QEMU_FILE"
 
-# Gluster.
-
-$guestfish -d gluster run ||:
-check_output
-grep -sq -- '-drive file=gluster://1.2.3.4:1234/volname/image,' "$DEBUG_QEMU_FILE" || fail gluster
-rm "$DEBUG_QEMU_FILE"
-
 # iSCSI.
 
 $guestfish -d iscsi run ||:
@@ -84,13 +77,6 @@ rm "$DEBUG_QEMU_FILE"
 $guestfish -d nbd run ||:
 check_output
 grep -sq -- '-drive file=nbd:1.2.3.4:1234,' "$DEBUG_QEMU_FILE" || fail nbd
-rm "$DEBUG_QEMU_FILE"
-
-# Sheepdog.
-
-$guestfish -d sheepdog run ||:
-check_output
-grep -sq -- '-drive file=sheepdog:volume,' "$DEBUG_QEMU_FILE" || fail sheepdog
 rm "$DEBUG_QEMU_FILE"
 
 # Local, stored in a pool.

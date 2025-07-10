@@ -1,5 +1,5 @@
 (* libguestfs
- * Copyright (C) 2009-2023 Red Hat Inc.
+ * Copyright (C) 2009-2025 Red Hat Inc.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -147,8 +147,6 @@ Run it from the top source directory using the command
             Daemon.generate_daemon_optgroups_ml;
   output_to "daemon/optgroups.mli"
             Daemon.generate_daemon_optgroups_mli;
-  output_to "daemon/lvm-tokenization.c"
-            Daemon.generate_daemon_lvm_tokenization;
   output_to "daemon/structs-cleanups.c"
             Daemon.generate_daemon_structs_cleanups_c;
   output_to "daemon/structs-cleanups.h"
@@ -347,14 +345,6 @@ Run it from the top source directory using the command
   output_to "gobject/src/session.c"
             GObject.generate_gobject_session_source;
 
-  (* mlv2v may not be shipped in this source. *)
-  if is_regular_file "common/mlv2v/Makefile.am" then (
-    output_to "common/mlv2v/uefi.ml"
-              UEFI.generate_uefi_ml;
-    output_to "common/mlv2v/uefi.mli"
-              UEFI.generate_uefi_mli;
-  );
-
   (* mlcustomize may not be shipped in this source. *)
   if is_regular_file "common/mlcustomize/Makefile.am" then (
     output_to "common/mlcustomize/customize_cmdline.mli"
@@ -364,7 +354,11 @@ Run it from the top source directory using the command
     output_to "common/mlcustomize/customize-synopsis.pod"
               Customize.generate_customize_synopsis_pod;
     output_to "common/mlcustomize/customize-options.pod"
-              Customize.generate_customize_options_pod
+              Customize.generate_customize_options_pod;
+    output_to "common/mlcustomize/v2v-customize-synopsis.pod"
+              (Customize.generate_customize_synopsis_pod ~v2v:true);
+    output_to "common/mlcustomize/v2v-customize-options.pod"
+              (Customize.generate_customize_options_pod ~v2v:true)
   );
 
   output_to "rust/src/guestfs.rs"

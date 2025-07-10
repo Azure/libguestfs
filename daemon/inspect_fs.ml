@@ -1,5 +1,5 @@
 (* guestfs-inspection
- * Copyright (C) 2009-2023 Red Hat Inc.
+ * Copyright (C) 2009-2025 Red Hat Inc.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -259,25 +259,28 @@ and check_package_format { distro } =
   | None -> None
   | Some DISTRO_ALTLINUX
   | Some DISTRO_CENTOS
-  | Some DISTRO_ROCKY
+  | Some DISTRO_CIRCLE
   | Some DISTRO_FEDORA
+  | Some DISTRO_KYLIN
   | Some DISTRO_MAGEIA
   | Some DISTRO_MANDRIVA
   | Some DISTRO_MEEGO
   | Some DISTRO_NEOKYLIN
-  | Some DISTRO_OPENMANDRIVA
   | Some DISTRO_OPENCLOUDOS
+  | Some DISTRO_TENCENTOS
+  | Some DISTRO_OPENEULER
+  | Some DISTRO_OPENMANDRIVA
   | Some DISTRO_OPENSUSE
   | Some DISTRO_ORACLE_LINUX
   | Some DISTRO_REDHAT_BASED
   | Some DISTRO_RHEL
+  | Some DISTRO_ROCKY
   | Some DISTRO_SCIENTIFIC_LINUX
   | Some DISTRO_SLES
   | Some DISTRO_SUSE_BASED ->
      Some PACKAGE_FORMAT_RPM
   | Some DISTRO_DEBIAN
   | Some DISTRO_KALI_LINUX
-  | Some DISTRO_KYLIN (* supposedly another Ubuntu derivative *)
   | Some DISTRO_LINUX_MINT
   | Some DISTRO_UBUNTU ->
      Some PACKAGE_FORMAT_DEB
@@ -331,10 +334,12 @@ and check_package_management { distro; version } =
      Some PACKAGE_MANAGEMENT_DNF
 
   | Some DISTRO_CENTOS
-  | Some DISTRO_ROCKY
+  | Some DISTRO_CIRCLE
+  | Some DISTRO_KYLIN
   | Some DISTRO_ORACLE_LINUX
   | Some DISTRO_REDHAT_BASED
   | Some DISTRO_RHEL
+  | Some DISTRO_ROCKY
   | Some DISTRO_SCIENTIFIC_LINUX ->
      if major >= 8 then
        Some PACKAGE_MANAGEMENT_DNF
@@ -349,7 +354,6 @@ and check_package_management { distro; version } =
   | Some DISTRO_ALTLINUX
   | Some DISTRO_DEBIAN
   | Some DISTRO_KALI_LINUX
-  | Some DISTRO_KYLIN (* supposedly another Ubuntu derivative *)
   | Some DISTRO_LINUX_MINT
   | Some DISTRO_UBUNTU ->
      Some PACKAGE_MANAGEMENT_APT
@@ -383,6 +387,13 @@ and check_package_management { distro; version } =
 
   | Some DISTRO_OPENCLOUDOS ->
      Some PACKAGE_MANAGEMENT_DNF
+
+  | Some DISTRO_TENCENTOS ->
+     Some PACKAGE_MANAGEMENT_DNF
+
+  | Some DISTRO_OPENEULER->
+     Some PACKAGE_MANAGEMENT_DNF
+
   | Some DISTRO_BUILDROOT
   | Some DISTRO_CIRROS
   | Some DISTRO_COREOS

@@ -1,5 +1,5 @@
 (* guestfs-inspection
- * Copyright (C) 2009-2023 Red Hat Inc.
+ * Copyright (C) 2009-2025 Red Hat Inc.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -23,7 +23,7 @@ open Std_utils
 
 open Utils
 
-let cryptsetup_open ?(readonly = false) ?crypttype device key mapname =
+let cryptsetup_open ?(readonly = false) ?crypttype ?cipher device key mapname =
   (* Sanity check: /dev/mapper/mapname must not exist already.  Note
    * that the device-mapper control device (/dev/mapper/control) is
    * always there, so you can't ever have mapname == "control".
@@ -53,16 +53,17 @@ let cryptsetup_open ?(readonly = false) ?crypttype device key mapname =
   List.push_back_list args ["-d"; keyfile];
   if readonly then List.push_back args "--readonly";
   List.push_back_list args ["open"; device; mapname; "--type"; crypttype];
+  Option.iter (fun s -> List.push_back_list args ["--cipher"; s]) cipher;
 
   (* Make sure we always remove the temporary file. *)
-  protect ~f:(fun () -> ignore (command "cryptsetup" !args))
+  Fun.protect (fun () -> ignore (command "cryptsetup" !args))
     ~finally:(fun () -> unlink keyfile);
 
   udev_settle ()
 
 let cryptsetup_close device =
   (* Must be /dev/mapper/... *)
-  if not (String.is_prefix device "/dev/mapper/") then
+  if not (String.starts_with "/dev/mapper/" device) then
     failwithf "%s: you must call this on the /dev/mapper device created by cryptsetup-open" device;
 
   let mapname = String.sub device 12 (String.length device - 12) in

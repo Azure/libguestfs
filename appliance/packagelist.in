@@ -12,6 +12,7 @@ dnl   SUSE=1        For OpenSUSE.
 dnl   FRUGALWARE=1  For Frugalware.
 dnl   MAGEIA=1      For Mageia.
 dnl   OPENCLOUDOS=1 For OpencloudOS.
+dnl   TENCENTOS=1   For TencentOS.
 dnl
 dnl There is also a list of packages which are excluded if they appear
 dnl as dependencies of the packages below.  See: excludelist.in
@@ -50,7 +51,6 @@ ifelse(REDHAT,1,
   systemd              dnl for /sbin/reboot and udevd
   vim-minimal
   xz
-  zfs-fuse
   zstd
 )
 
@@ -62,6 +62,7 @@ dnl old name used in Jessie and earlier
   cryptsetup
   dash
   extlinux
+  fdisk
 dnl gfs-tools, gfs2-tools have been renamed to gfs2-utils
   gfs-tools
   gfs2-tools
@@ -74,7 +75,9 @@ dnl iproute has been renamed to iproute2
   iputils-ping
   iputils-arping
   iputils-tracepath
+dnl isc-dhcp-client has been replaced with dhcpcd-base
   isc-dhcp-client
+  dhcpcd-base
   ldmtool
   libc-bin
   librpm9
@@ -91,7 +94,6 @@ dnl iproute has been renamed to iproute2
   ufsutils
   vim-tiny
   xz-utils
-  zfs-fuse
   zstd
   uuid-runtime
 )
@@ -238,6 +240,29 @@ ifelse(OPENCLOUDOS,1,
   zstd
 )
 
+ifelse(TENCENTOS,1,
+  clevis-luks
+  cryptsetup
+  cryptsetup-luks
+  dhclient
+  gfs2-utils
+  glibc-gconv-extra
+  hfsplus-tools
+  iproute
+  iputils
+  kernel
+  ntfsprogs
+  ntfs-3g
+  openssh-clients
+  policycoreutils
+  rpm-libs
+  syslinux-extlinux
+  systemd
+  vim-minimal
+  xz
+  zstd
+)
+
 include(guestfsd.deps)
 
 acl
@@ -256,6 +281,7 @@ file
 findutils
 gawk
 gdisk
+gostsum
 grep
 gzip
 jfsutils

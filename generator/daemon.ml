@@ -1,5 +1,5 @@
 (* libguestfs
- * Copyright (C) 2009-2023 Red Hat Inc.
+ * Copyright (C) 2009-2025 Red Hat Inc.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -127,8 +127,6 @@ let generate_daemon_stubs actions () =
                     args_passed_to_daemon in
 
       if args_passed_to_daemon <> [] then (
-        pr "#ifdef HAVE_ATTRIBUTE_CLEANUP\n";
-        pr "\n";
         pr "#define CLEANUP_XDR_FREE_%s_ARGS \\\n" uc_name;
         pr "    __attribute__((cleanup(cleanup_xdr_free_%s_args)))\n" name;
         pr "\n";
@@ -140,9 +138,6 @@ let generate_daemon_stubs actions () =
            name;
         pr "}\n";
         pr "\n";
-        pr "#else /* !HAVE_ATTRIBUTE_CLEANUP */\n";
-        pr "#define CLEANUP_XDR_FREE_%s_ARGS\n" uc_name;
-        pr "#endif /* !HAVE_ATTRIBUTE_CLEANUP */\n";
         pr "\n"
       );
 
@@ -447,15 +442,37 @@ let generate_daemon_stubs actions () =
             pr "  ret.%s.%s_val = r;\n" n n;
             pr "  reply ((xdrproc_t) &xdr_guestfs_%s_ret, (char *) &ret);\n"
               name
-        | RStruct (n, _) ->
+        | RStruct (n, typ) ->
+            (* XXX RStruct containing an FDevice field would require
+             * reverse device name translation.  That is not implemented.
+             * See also RStructList immediately below this.
+             *)
+            let cols = (Structs.lookup_struct typ).s_cols in
+            assert (not (List.exists
+                           (function (_, FDevice) -> true | _ -> false) cols));
             pr "  struct guestfs_%s_ret ret;\n" name;
             pr "  ret.%s = *r;\n" n;
             pr "  reply ((xdrproc_t) xdr_guestfs_%s_ret, (char *) &ret);\n"
               name;
             pr "  xdr_free ((xdrproc_t) xdr_guestfs_%s_ret, (char *) &ret);\n"
               name
-        | RStructList (n, _) ->
+        | RStructList (n, typ) ->
             pr "  struct guestfs_%s_ret ret;\n" name;
+            let cols = (Structs.lookup_struct typ).s_cols in
+            List.iter (
+              function
+              | (fname, FDevice) ->
+                pr "  for (size_t i = 0; i < r->guestfs_int_%s_list_len; ++i) {\n"
+                  typ;
+                pr "    char *field = r->guestfs_int_%s_list_val[i].%s;\n"
+                  typ fname;
+                pr "    char *rr = reverse_device_name_translation (field);\n";
+                pr "    if (!rr) abort ();\n";
+                pr "    free (field);\n";
+                pr "    r->guestfs_int_%s_list_val[i].%s = rr;\n" typ fname;
+                pr "  }\n";
+              | _ -> ()
+            ) cols;
             pr "  ret.%s = *r;\n" n;
             pr "  reply ((xdrproc_t) xdr_guestfs_%s_ret, (char *) &ret);\n"
               name;
@@ -494,7 +511,7 @@ let rec generate_daemon_caml_interface modname () =
   generate_header OCamlStyle GPLv2plus;
 
   let is_ocaml_module_function = function
-    | { impl = OCaml m } when String.is_prefix m (modname ^ ".") -> true
+    | { impl = OCaml m } when String.starts_with (modname ^ ".") m -> true
     | { impl = OCaml _ } -> false
     | { impl = C } -> false
   in
@@ -589,6 +606,7 @@ let generate_daemon_caml_stubs () =
 #include <string.h>
 #include <inttypes.h>
 #include <errno.h>
+#include <assert.h>
 
 #include <caml/alloc.h>
 #include <caml/callback.h>
@@ -624,9 +642,12 @@ let generate_daemon_caml_stubs () =
       fun i ->
         pr "  v = Field (retv, %d);\n" i;
         function
-        | n, (FString|FUUID) ->
+        | n, (FString|FDevice) ->
            pr "  ret->%s = strdup (String_val (v));\n" n;
            pr "  if (ret->%s == NULL) return NULL;\n" n
+        | n, FUUID ->
+           pr "  assert (caml_string_length (v) == sizeof ret->%s);\n" n;
+           pr "  memcpy (ret->%s, String_val (v), sizeof ret->%s);\n" n n
         | n, FBuffer ->
            pr "  ret->%s_len = caml_string_length (v);\n" n;
            pr "  ret->%s = strdup (String_val (v));\n" n;
@@ -835,7 +856,7 @@ let generate_daemon_caml_stubs () =
        | RInt _ ->
           pr "  CAMLreturnT (int, Int_val (retv));\n"
        | RInt64 _ ->
-          pr "  CAMLreturnT (int, Int64_val (retv));\n"
+          pr "  CAMLreturnT (int64_t, Int64_val (retv));\n"
        | RBool _ ->
           pr "  CAMLreturnT (int, Bool_val (retv));\n"
        | RConstString _ -> assert false
@@ -929,196 +950,6 @@ let generate_daemon_dispatch () =
   pr "  }\n";
   pr "}\n";
   pr "\n"
-
-let generate_daemon_lvm_tokenization () =
-  generate_header CStyle GPLv2plus;
-
-  pr "\
-#include <config.h>
-
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include <inttypes.h>
-#include <errno.h>
-#include <rpc/types.h>
-#include <rpc/xdr.h>
-
-#include \"daemon.h\"
-#include \"c-ctype.h\"
-#include \"guestfs_protocol.h\"
-#include \"actions.h\"
-#include \"optgroups.h\"
-
-";
-
-  (* LVM columns and tokenization functions. *)
-  (* XXX This generates crap code.  We should rethink how we
-   * do this parsing.
-   *)
-  List.iter (
-    function
-    | typ, cols ->
-        pr "static const char lvm_%s_cols[] = \"%s\";\n"
-          typ (String.concat "," (List.map fst cols));
-        pr "\n";
-
-        pr "static int lvm_tokenize_%s (char *str, guestfs_int_lvm_%s *r)\n" typ typ;
-        pr "{\n";
-        pr "  char *tok, *p, *next;\n";
-        pr "  size_t i, j;\n";
-        pr "\n";
-        (*
-          pr "  fprintf (stderr, \"%%s: <<%%s>>\\n\", __func__, str);\n";
-          pr "\n";
-        *)
-        pr "  if (!str) {\n";
-        pr "    fprintf (stderr, \"%%s: failed: passed a NULL string\\n\", __func__);\n";
-        pr "    return -1;\n";
-        pr "  }\n";
-        pr "  if (!*str || c_isspace (*str)) {\n";
-        pr "    fprintf (stderr, \"%%s: failed: passed a empty string or one beginning with whitespace\\n\", __func__);\n";
-        pr "    return -1;\n";
-        pr "  }\n";
-        pr "  tok = str;\n";
-        List.iter (
-          fun (name, coltype) ->
-            pr "  if (!tok) {\n";
-            pr "    fprintf (stderr, \"%%s: failed: string finished early, around token %%s\\n\", __func__, \"%s\");\n" name;
-            pr "    return -1;\n";
-            pr "  }\n";
-            pr "  p = strchrnul (tok, '\\r');\n";
-            pr "  if (*p) next = p+1; else next = NULL;\n";
-            pr "  *p = '\\0';\n";
-            (match coltype with
-             | FString ->
-                 pr "  r->%s = strdup (tok);\n" name;
-                 pr "  if (r->%s == NULL) {\n" name;
-                 pr "    perror (\"strdup\");\n";
-                 pr "    return -1;\n";
-                 pr "  }\n"
-             | FUUID ->
-                 pr "  for (i = j = 0; i < 32; ++j) {\n";
-                 pr "    if (tok[j] == '\\0') {\n";
-                 pr "      fprintf (stderr, \"%%s: failed to parse UUID from '%%s'\\n\", __func__, tok);\n";
-                 pr "      return -1;\n";
-                 pr "    } else if (tok[j] != '-')\n";
-                 pr "      r->%s[i++] = tok[j];\n" name;
-                 pr "  }\n";
-             | FBytes ->
-                 pr "  if (sscanf (tok, \"%%\" SCNi64, &r->%s) != 1) {\n" name;
-                 pr "    fprintf (stderr, \"%%s: failed to parse size '%%s' from token %%s\\n\", __func__, tok, \"%s\");\n" name;
-                 pr "    return -1;\n";
-                 pr "  }\n";
-             | FInt64 ->
-                 pr "  if (sscanf (tok, \"%%\" SCNi64, &r->%s) != 1) {\n" name;
-                 pr "    fprintf (stderr, \"%%s: failed to parse int '%%s' from token %%s\\n\", __func__, tok, \"%s\");\n" name;
-                 pr "    return -1;\n";
-                 pr "  }\n";
-             | FOptPercent ->
-                 pr "  if (tok[0] == '\\0')\n";
-                 pr "    r->%s = -1;\n" name;
-                 pr "  else if (sscanf (tok, \"%%f\", &r->%s) != 1) {\n" name;
-                 pr "    fprintf (stderr, \"%%s: failed to parse float '%%s' from token %%s\\n\", __func__, tok, \"%s\");\n" name;
-                 pr "    return -1;\n";
-                 pr "  }\n";
-             | FBuffer | FInt32 | FUInt32 | FUInt64 | FChar ->
-                 assert false (* can never be an LVM column *)
-            );
-            pr "  tok = next;\n";
-        ) cols;
-
-        pr "  if (tok != NULL) {\n";
-        pr "    fprintf (stderr, \"%%s: failed: extra tokens at end of string\\n\", __func__);\n";
-        pr "    return -1;\n";
-        pr "  }\n";
-        pr "  return 0;\n";
-        pr "}\n";
-        pr "\n";
-
-        pr "guestfs_int_lvm_%s_list *\n" typ;
-        pr "parse_command_line_%ss (void)\n" typ;
-        pr "{\n";
-        pr "  char *out, *err;\n";
-        pr "  char *p, *pend;\n";
-        pr "  int r, i;\n";
-        pr "  guestfs_int_lvm_%s_list *ret;\n" typ;
-        pr "  void *newp;\n";
-        pr "\n";
-        pr "  ret = malloc (sizeof *ret);\n";
-        pr "  if (!ret) {\n";
-        pr "    reply_with_perror (\"malloc\");\n";
-        pr "    return NULL;\n";
-        pr "  }\n";
-        pr "\n";
-        pr "  ret->guestfs_int_lvm_%s_list_len = 0;\n" typ;
-        pr "  ret->guestfs_int_lvm_%s_list_val = NULL;\n" typ;
-        pr "\n";
-        pr "  r = command (&out, &err,\n";
-        pr "	       \"lvm\", \"%ss\",\n" typ;
-        pr "	       \"-o\", lvm_%s_cols, \"--unbuffered\", \"--noheadings\",\n" typ;
-        pr "	       \"--nosuffix\", \"--separator\", \"\\r\", \"--units\", \"b\", NULL);\n";
-        pr "  if (r == -1) {\n";
-        pr "    reply_with_error (\"%%s\", err);\n";
-        pr "    free (out);\n";
-        pr "    free (err);\n";
-        pr "    free (ret);\n";
-        pr "    return NULL;\n";
-        pr "  }\n";
-        pr "\n";
-        pr "  free (err);\n";
-        pr "\n";
-        pr "  /* Tokenize each line of the output. */\n";
-        pr "  p = out;\n";
-        pr "  i = 0;\n";
-        pr "  while (p) {\n";
-        pr "    pend = strchr (p, '\\n');	/* Get the next line of output. */\n";
-        pr "    if (pend) {\n";
-        pr "      *pend = '\\0';\n";
-        pr "      pend++;\n";
-        pr "    }\n";
-        pr "\n";
-        pr "    while (*p && c_isspace (*p))	/* Skip any leading whitespace. */\n";
-        pr "      p++;\n";
-        pr "\n";
-        pr "    if (!*p) {			/* Empty line?  Skip it. */\n";
-        pr "      p = pend;\n";
-        pr "      continue;\n";
-        pr "    }\n";
-        pr "\n";
-        pr "    /* Allocate some space to store this next entry. */\n";
-        pr "    newp = realloc (ret->guestfs_int_lvm_%s_list_val,\n" typ;
-        pr "		    sizeof (guestfs_int_lvm_%s) * (i+1));\n" typ;
-        pr "    if (newp == NULL) {\n";
-        pr "      reply_with_perror (\"realloc\");\n";
-        pr "      free (ret->guestfs_int_lvm_%s_list_val);\n" typ;
-        pr "      free (ret);\n";
-        pr "      free (out);\n";
-        pr "      return NULL;\n";
-        pr "    }\n";
-        pr "    ret->guestfs_int_lvm_%s_list_val = newp;\n" typ;
-        pr "\n";
-        pr "    /* Tokenize the next entry. */\n";
-        pr "    r = lvm_tokenize_%s (p, &ret->guestfs_int_lvm_%s_list_val[i]);\n" typ typ;
-        pr "    if (r == -1) {\n";
-        pr "      reply_with_error (\"failed to parse output of '%ss' command\");\n" typ;
-        pr "      free (ret->guestfs_int_lvm_%s_list_val);\n" typ;
-        pr "      free (ret);\n";
-        pr "      free (out);\n";
-        pr "      return NULL;\n";
-        pr "    }\n";
-        pr "\n";
-        pr "    ++i;\n";
-        pr "    p = pend;\n";
-        pr "  }\n";
-        pr "\n";
-        pr "  ret->guestfs_int_lvm_%s_list_len = i;\n" typ;
-        pr "\n";
-        pr "  free (out);\n";
-        pr "  return ret;\n";
-        pr "}\n"
-
-  ) ["pv", lvm_pv_cols; "vg", lvm_vg_cols; "lv", lvm_lv_cols]
 
 (* Generate a list of function names, for debugging in the daemon.. *)
 let generate_daemon_names () =
@@ -1315,7 +1146,6 @@ let generate_daemon_structs_cleanups_h () =
 #ifndef GUESTFS_DAEMON_STRUCTS_CLEANUPS_H_
 #define GUESTFS_DAEMON_STRUCTS_CLEANUPS_H_
 
-#ifdef HAVE_ATTRIBUTE_CLEANUP
 ";
 
   List.iter (
@@ -1326,16 +1156,7 @@ let generate_daemon_structs_cleanups_h () =
       pr "  __attribute__((cleanup(cleanup_free_int_%s_list)))\n" name
   ) structs;
 
-  pr "#else /* !HAVE_ATTRIBUTE_CLEANUP */\n";
-
-  List.iter (
-    fun { s_name = name } ->
-      pr "#define CLEANUP_FREE_%s\n" (String.uppercase_ascii name);
-      pr "#define CLEANUP_FREE_%s_LIST\n" (String.uppercase_ascii name)
-  ) structs;
-
   pr "\
-#endif /* !HAVE_ATTRIBUTE_CLEANUP */
 
 /* These functions are used internally by the CLEANUP_* macros.
  * Don't call them directly.

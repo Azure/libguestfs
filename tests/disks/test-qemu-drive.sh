@@ -17,9 +17,10 @@
 
 # Test that disks map to the correct qemu -drive parameter.
 
+source ./functions.sh
 set -e
+set -x
 
-$TEST_FUNCTIONS
 skip_if_skipped
 
 export LIBGUESTFS_BACKEND=direct
@@ -72,16 +73,6 @@ check_output
 grep -sq -- '-drive file=http://www.example.com/disk.img,' "$DEBUG_QEMU_FILE" || fail
 rm "$DEBUG_QEMU_FILE"
 
-# Gluster.
-
-guestfish <<EOF ||:
-  add "volname/image" "format:raw" "protocol:gluster" "server:www.example.com:24007"
-  run
-EOF
-check_output
-grep -sq -- '-drive file=gluster://www.example.com:24007/volname/image,' "$DEBUG_QEMU_FILE" || fail
-rm "$DEBUG_QEMU_FILE"
-
 # iSCSI.
 
 guestfish <<EOF ||:
@@ -117,16 +108,6 @@ guestfish <<EOF ||:
 EOF
 check_output
 grep -sq -- '-drive file=nbd:unix:/socket,' "$DEBUG_QEMU_FILE" || fail
-rm "$DEBUG_QEMU_FILE"
-
-# Sheepdog.
-
-guestfish <<EOF ||:
-  add "volume" "format:raw" "protocol:sheepdog"
-  run
-EOF
-check_output
-grep -sq -- '-drive file=sheepdog:volume,' "$DEBUG_QEMU_FILE" || fail
 rm "$DEBUG_QEMU_FILE"
 
 # SSH.
