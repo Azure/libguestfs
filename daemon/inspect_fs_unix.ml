@@ -1,5 +1,5 @@
 (* guestfs-inspection
- * Copyright (C) 2009-2023 Red Hat Inc.
+ * Copyright (C) 2009-2025 Red Hat Inc.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -32,6 +32,8 @@ let re_rhel_no_minor = PCRE.compile "Red Hat.*release (\\d+)"
 let re_centos_old = PCRE.compile "CentOS.*release (\\d+).*Update (\\d+)"
 let re_centos = PCRE.compile "CentOS.*release (\\d+)\\.(\\d+)"
 let re_centos_no_minor = PCRE.compile "CentOS.*release (\\d+)"
+let re_circle= PCRE.compile "Circle Linux.*release (\\d+)\\.(\\d+)"
+let re_circle_no_minor = PCRE.compile "Circle Linux.*release (\\d+)"
 let re_rocky = PCRE.compile "Rocky Linux.*release (\\d+)\\.(\\d+)"
 let re_rocky_no_minor = PCRE.compile "Rocky Linux.*release (\\d+)"
 let re_scientific_linux_old =
@@ -59,6 +61,7 @@ let re_neokylin_version = PCRE.compile "^V(\\d+)Update(\\d+)$"
 let re_openmandriva =
   PCRE.compile "OpenMandriva.*release (\\d+)\\.(\\d+)\\.?(\\d+)? .*"
 let re_opencloudos = PCRE.compile "OpenCloudOS.*release (\\d+)"
+let re_tencentos = PCRE.compile "TencentOS.* (\\d+)\\.(\\d+)"
 
 let arch_binaries =
   [ "/bin/bash"; "/bin/ls"; "/bin/echo"; "/bin/rm"; "/bin/sh" ]
@@ -111,7 +114,7 @@ let rec parse_os_release release_file data =
         * we detect that situation then bail out and use the release
         * files instead.
         *)
-       | { distro = Some (DISTRO_DEBIAN|DISTRO_CENTOS|DISTRO_ROCKY);
+       | { distro = Some (DISTRO_DEBIAN|DISTRO_CENTOS|DISTRO_CIRCLE|DISTRO_ROCKY);
            version = Some (_, 0) } ->
           false
 
@@ -145,6 +148,7 @@ and distro_of_os_release_id = function
   | "altlinux" -> Some DISTRO_ALTLINUX
   | "arch" -> Some DISTRO_ARCHLINUX
   | "centos" -> Some DISTRO_CENTOS
+  | "circle" -> Some DISTRO_CIRCLE
   | "coreos" -> Some DISTRO_COREOS
   | "debian" -> Some DISTRO_DEBIAN
   | "fedora" -> Some DISTRO_FEDORA
@@ -154,10 +158,12 @@ and distro_of_os_release_id = function
   | "kylin" -> Some DISTRO_KYLIN
   | "mageia" -> Some DISTRO_MAGEIA
   | "neokylin" -> Some DISTRO_NEOKYLIN
+  | "openEuler" -> Some DISTRO_OPENEULER
   | "openmandriva" -> Some DISTRO_OPENMANDRIVA
   | "opencloudos" -> Some DISTRO_OPENCLOUDOS
+  | "tencentos" -> Some DISTRO_TENCENTOS
   | "opensuse" -> Some DISTRO_OPENSUSE
-  | s when String.is_prefix s "opensuse-" -> Some DISTRO_OPENSUSE
+  | s when String.starts_with "opensuse-" s -> Some DISTRO_OPENSUSE
   | "pardus" -> Some DISTRO_PARDUS
   | "pld" -> Some DISTRO_PLD_LINUX
   | "rhel" -> Some DISTRO_RHEL
@@ -400,6 +406,9 @@ let linux_root_tests : tests = [
   "/etc/opencloudos-release", parse_generic ~rex:re_opencloudos
                                              DISTRO_OPENCLOUDOS;
 
+  "/etc/tencentos-release", parse_generic ~rex:re_tencentos
+                                             DISTRO_TENCENTOS;
+
   (* RHEL-based distros include a [/etc/redhat-release] file, hence their
    * checks need to be performed before the Red-Hat one.
    *)
@@ -415,6 +424,10 @@ let linux_root_tests : tests = [
                                        DISTRO_CENTOS;
   "/etc/centos-release", parse_generic ~rex:re_centos_no_minor
                                        DISTRO_CENTOS;
+  "/etc/circle-release", parse_generic ~rex:re_circle
+                                       DISTRO_CIRCLE;
+  "/etc/circle-release", parse_generic ~rex:re_circle_no_minor
+                                       DISTRO_CIRCLE;
   "/etc/rocky-release", parse_generic ~rex:re_rocky
                                        DISTRO_ROCKY;
   "/etc/rocky-release", parse_generic ~rex:re_rocky_no_minor
@@ -434,6 +447,10 @@ let linux_root_tests : tests = [
                                        DISTRO_CENTOS;
   "/etc/redhat-release", parse_generic ~rex:re_centos_no_minor
                                        DISTRO_CENTOS;
+  "/etc/redhat-release", parse_generic ~rex:re_circle
+                                       DISTRO_CIRCLE;
+  "/etc/redhat-release", parse_generic ~rex:re_circle_no_minor
+                                       DISTRO_CIRCLE;
   "/etc/redhat-release", parse_generic ~rex:re_rocky
                                        DISTRO_ROCKY;
   "/etc/redhat-release", parse_generic ~rex:re_rocky_no_minor
@@ -576,7 +593,7 @@ and check_hostname_from_file filename =
 
   let hostname = Chroot.f chroot read_small_file filename in
 
-  let keep_line line = line <> "" && not (String.is_prefix line "#") in
+  let keep_line line = line <> "" && not (String.starts_with "#" line) in
   let lines = Option.map (List.filter keep_line) hostname in
   match lines with
   | None | Some [] -> None
@@ -682,11 +699,11 @@ and check_hostname_freebsd () =
     let rec loop = function
       | [] ->
          raise Not_found
-      | line :: _ when String.is_prefix line "hostname=\"" ||
-                       String.is_prefix line "hostname='" ->
+      | line :: _ when String.starts_with "hostname=\"" line ||
+                       String.starts_with "hostname='" line ->
          let len = String.length line - 10 - 1 in
          String.sub line 10 len
-      | line :: _ when String.is_prefix line "hostname=" ->
+      | line :: _ when String.starts_with "hostname=" line ->
          let len = String.length line - 9 in
          String.sub line 9 len
       | _ :: lines ->

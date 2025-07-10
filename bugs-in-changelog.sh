@@ -1,6 +1,6 @@
 #!/bin/bash -
 # bugs-in-changelog.sh
-# Copyright (C) 2009-2023 Red Hat Inc.
+# Copyright (C) 2009-2025 Red Hat Inc.
 #
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -57,3 +57,31 @@ bugzilla \
         sprintf ("=item L<https://bugzilla.redhat.com/%s>\n\n%s\n",
                  $1, $2)
         }xe'
+
+# We can't fetch Jira subjects or github issues, but we can at least
+# list them.
+jiraids=$(
+    git log "$1" |
+    grep -Eio 'RHEL-[0-9]{3,}' |
+    sort -u
+)
+
+for id in $jiraids ; do
+    echo "=item L<https://issues.redhat.com/browse/$id>"
+    echo
+    echo "XXX"
+    echo
+done
+
+issues=$(
+    git log "$1" |
+    grep -Eio 'https?://github\.com/libguestfs/libguestfs/issues/[0-9]+' |
+    sort -u
+)
+
+for issue in $issues ; do
+    echo "=item L<$issue>"
+    echo
+    echo "XXX"
+    echo
+done

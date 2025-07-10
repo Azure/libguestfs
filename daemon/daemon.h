@@ -1,5 +1,5 @@
 /* libguestfs - the guestfsd daemon
- * Copyright (C) 2009-2023 Red Hat Inc.
+ * Copyright (C) 2009-2025 Red Hat Inc.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -93,11 +93,7 @@ extern char *read_whole_file (const char *filename, size_t *size_r);
 extern char *mountable_to_string (const mountable_t *mountable);
 extern void cleanup_free_mountable (mountable_t *mountable);
 
-#ifdef HAVE_ATTRIBUTE_CLEANUP
 #define CLEANUP_FREE_MOUNTABLE __attribute__((cleanup(cleanup_free_mountable)))
-#else
-#define CLEANUP_FREE_MOUNTABLE
-#endif
 
 /* cleanups.c */
 /* These functions are used internally by the CLEANUP_* macros.
@@ -106,13 +102,8 @@ extern void cleanup_free_mountable (mountable_t *mountable);
 extern void cleanup_aug_close (void *ptr);
 extern void cleanup_free_stringsbuf (void *ptr);
 
-#ifdef HAVE_ATTRIBUTE_CLEANUP
 #define CLEANUP_AUG_CLOSE __attribute__((cleanup(cleanup_aug_close)))
 #define CLEANUP_FREE_STRINGSBUF __attribute__((cleanup(cleanup_free_stringsbuf)))
-#else
-#define CLEANUP_AUG_CLOSE
-#define CLEANUP_FREE_STRINGSBUF
-#endif
 
 /* mount.c */
 extern int is_root_mounted (void);

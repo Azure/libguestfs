@@ -1,5 +1,5 @@
 (* guestfs-inspection
- * Copyright (C) 2009-2023 Red Hat Inc.
+ * Copyright (C) 2009-2025 Red Hat Inc.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -26,7 +26,11 @@ open Utils
 let rec findfs_uuid uuid =
   findfs "UUID" uuid
 and findfs_label label =
-  findfs "LABEL"label
+  findfs "LABEL" label
+and findfs_partuuid uuid =
+  findfs "PARTUUID" uuid
+and findfs_partlabel label =
+  findfs "PARTLABEL" label
 
 and findfs tag str =
   (* Kill the cache file, forcing blkid to reread values from the
@@ -42,8 +46,8 @@ and findfs tag str =
   (* Trim trailing \n if present. *)
   let out = String.trim out in
 
-  if String.is_prefix out "/dev/mapper/" ||
-     String.is_prefix out "/dev/dm-" then (
+  if String.starts_with "/dev/mapper/" out ||
+     String.starts_with "/dev/dm-" out then (
     match Lvm_utils.lv_canonical out with
     | None ->
        (* Ignore the case where 'out' doesn't appear to be an LV.

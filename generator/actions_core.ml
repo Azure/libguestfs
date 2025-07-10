@@ -1,5 +1,5 @@
 (* libguestfs
- * Copyright (C) 2009-2023 Red Hat Inc.
+ * Copyright (C) 2009-2025 Red Hat Inc.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -350,19 +350,12 @@ F<filename> is interpreted as a local file or device.
 This is the default if the optional protocol parameter
 is omitted.
 
-=item C<protocol = \"ftp\"|\"ftps\"|\"http\"|\"https\"|\"tftp\">
+=item C<protocol = \"ftp\"|\"ftps\"|\"http\"|\"https\">
 
-Connect to a remote FTP, HTTP or TFTP server.
+Connect to a remote FTP or HTTP server.
 The C<server> parameter must also be supplied - see below.
 
-See also: L<guestfs(3)/FTP, HTTP AND TFTP>
-
-=item C<protocol = \"gluster\">
-
-Connect to the GlusterFS server.
-The C<server> parameter must also be supplied - see below.
-
-See also: L<guestfs(3)/GLUSTER>
+See also: L<guestfs(3)/FTP AND HTTP>
 
 =item C<protocol = \"iscsi\">
 
@@ -389,13 +382,6 @@ The C<secret> parameter may be supplied.  See below.
 
 See also: L<guestfs(3)/CEPH>.
 
-=item C<protocol = \"sheepdog\">
-
-Connect to the Sheepdog server.
-The C<server> parameter may also be supplied - see below.
-
-See also: L<guestfs(3)/SHEEPDOG>.
-
 =item C<protocol = \"ssh\">
 
 Connect to the Secure Shell (ssh) server.
@@ -415,12 +401,10 @@ is a list of server(s).
  Protocol       Number of servers required
  --------       --------------------------
  file           List must be empty or param not used at all
- ftp|ftps|http|https|tftp  Exactly one
- gluster        Exactly one
+ ftp|ftps|http|https  Exactly one
  iscsi          Exactly one
  nbd            Exactly one
  rbd            Zero or more
- sheepdog       Zero or more
  ssh            Exactly one
 
 Each list element is a string specifying a server.  The string must be
@@ -437,8 +421,8 @@ for the protocol is used (see F</etc/services>).
 
 =item C<username>
 
-For the C<ftp>, C<ftps>, C<http>, C<https>, C<iscsi>, C<rbd>, C<ssh>
-and C<tftp> protocols, this specifies the remote username.
+For the C<ftp>, C<ftps>, C<http>, C<https>, C<iscsi>, C<rbd> and C<ssh>
+protocols, this specifies the remote username.
 
 If not given, then the local username is used for C<ssh>, and no authentication
 is attempted for ceph.  But note this sometimes may give unexpected results, for
@@ -1811,6 +1795,7 @@ See also C<guestfs_lvs_full>, C<guestfs_list_filesystems>." };
   { defaults with
     name = "pvs_full"; added = (0, 0, 4);
     style = RStructList ("physvols", "lvm_pv"), [], [];
+    impl = OCaml "Lvm_full.pvs_full";
     optional = Some "lvm2";
     shortdesc = "list the LVM physical volumes (PVs)";
     longdesc = "\
@@ -1820,6 +1805,7 @@ of the L<pvs(8)> command.  The \"full\" version includes all fields." };
   { defaults with
     name = "vgs_full"; added = (0, 0, 4);
     style = RStructList ("volgroups", "lvm_vg"), [], [];
+    impl = OCaml "Lvm_full.vgs_full";
     optional = Some "lvm2";
     shortdesc = "list the LVM volume groups (VGs)";
     longdesc = "\
@@ -1829,6 +1815,7 @@ of the L<vgs(8)> command.  The \"full\" version includes all fields." };
   { defaults with
     name = "lvs_full"; added = (0, 0, 4);
     style = RStructList ("logvols", "lvm_lv"), [], [];
+    impl = OCaml "Lvm_full.lvs_full";
     optional = Some "lvm2";
     shortdesc = "list the LVM logical volumes (LVs)";
     longdesc = "\
@@ -2397,6 +2384,19 @@ result into a list of lines.
 See also: C<guestfs_sh_lines>" };
 
   { defaults with
+    name = "command_out"; added = (1, 55, 6);
+    style = RErr, [StringList (PlainString, "arguments"); String (FileOut, "output")], [];
+    progress = true; cancellable = true;
+    test_excuse = "there is a separate test in the tests directory";
+    shortdesc = "run a command from the guest filesystem";
+    longdesc = "\
+This is the same as C<guestfs_command>, but streams the output
+back, handling the case where the output from the command is
+larger than the protocol limit.
+
+See also: C<guestfs_sh_out>" };
+
+  { defaults with
     name = "statvfs"; added = (1, 9, 2);
     style = RStruct ("statbuf", "statvfs"), [String (Pathname, "path")], [];
     impl = OCaml "Statvfs.statvfs";
@@ -2651,6 +2651,13 @@ parameter which must have one of the following values:
 
 Compute the cyclic redundancy check (CRC) specified by POSIX
 for the C<cksum> command.
+
+=item C<gost>
+
+=item C<gost12>
+
+Compute the checksum using GOST R34.11-94 or
+GOST R34.11-2012 message digest.
 
 =item C<md5>
 
@@ -3402,8 +3409,8 @@ are activated or deactivated." };
          ["umount"; "/"; "false"; "false"];
          ["lvresize"; "/dev/VG/LV"; "20"];
          ["e2fsck_f"; "/dev/VG/LV"];
-         ["e2fsck"; "/dev/VG/LV"; "true"; "false"];
-         ["e2fsck"; "/dev/VG/LV"; "false"; "true"];
+         ["e2fsck"; "/dev/VG/LV"; "true"; "false"; "false"];
+         ["e2fsck"; "/dev/VG/LV"; "false"; "true"; "false"];
          ["resize2fs"; "/dev/VG/LV"];
          ["mount"; "/dev/VG/LV"; "/"];
          ["cat"; "/new"]], "test content"), [];
@@ -3497,6 +3504,18 @@ This is the same as C<guestfs_sh>, but splits the result
 into a list of lines.
 
 See also: C<guestfs_command_lines>" };
+
+  { defaults with
+    name = "sh_out"; added = (1, 55, 6);
+    style = RErr, [String (PlainString, "command"); String (FileOut, "output")], [];
+    test_excuse = "there is a separate test in the tests directory";
+    shortdesc = "run a command via the shell";
+    longdesc = "\
+This is the same as C<guestfs_sh>, but streams the output
+back, handling the case where the output from the command is
+larger than the protocol limit.
+
+See also: C<guestfs_command_out>" };
 
   { defaults with
     name = "glob_expand"; added = (1, 0, 50);
@@ -5302,7 +5321,7 @@ See also C<guestfs_part_set_bootable>." };
   { defaults with
     name = "part_get_mbr_id"; added = (1, 3, 2);
     style = RInt "idbyte", [String (Device, "device"); Int "partnum"], [];
-    impl = OCaml "Parted.part_get_mbr_id";
+    impl = OCaml "Sfdisk.part_get_mbr_id";
     fish_output = Some FishOutputHexadecimal;
     tests = [
       InitEmpty, Always, TestResult (
@@ -5731,6 +5750,30 @@ which has the given label.  An error is returned if no such
 filesystem can be found.
 
 To find the label of a filesystem, use C<guestfs_vfs_label>." };
+
+  { defaults with
+    name = "findfs_partuuid"; added = (1, 53, 5);
+    style = RString (RDevice, "device"), [String (PlainString, "uuid")], [];
+    impl = OCaml "Findfs.findfs_partuuid";
+    shortdesc = "find a partition by UUID";
+    longdesc = "\
+This command searches the partitions and returns the one
+which has the given partition UUID.  An error is returned if no such
+partition can be found.
+
+To find the UUID of a partition, use C<guestfs_blkid> (C<PART_ENTRY_UUID>)." };
+
+  { defaults with
+    name = "findfs_partlabel"; added = (1, 53, 5);
+    style = RString (RDevice, "device"), [String (PlainString, "label")], [];
+    impl = OCaml "Findfs.findfs_partlabel";
+    shortdesc = "find a partition by label";
+    longdesc = "\
+This command searches the partitions and returns the one
+which has the given label.  An error is returned if no such
+partition can be found.
+
+To find the label of a partition, use C<guestfs_blkid> (C<PART_ENTRY_NAME>)." };
 
   { defaults with
     name = "is_chardev"; added = (1, 5, 10);
@@ -6640,7 +6683,7 @@ The usage of this device, for example C<filesystem> or C<raid>.
 
   { defaults with
     name = "e2fsck"; added = (1, 15, 17);
-    style = RErr, [String (Device, "device")], [OBool "correct"; OBool "forceall"];
+    style = RErr, [String (Device, "device")], [OBool "correct"; OBool "forceall"; OBool "forceno"];
     shortdesc = "check an ext2/ext3 filesystem";
     longdesc = "\
 This runs the ext2/ext3 filesystem checker on C<device>.
@@ -6654,14 +6697,24 @@ Automatically repair the file system. This option will cause e2fsck
 to automatically fix any filesystem problems that can be safely
 fixed without human intervention.
 
-This option may not be specified at the same time as the C<forceall> option.
+This option may not be specified at the same time as the C<forceall>
+or C<forceno> options.
 
 =item C<forceall>
 
 Assume an answer of ‘yes’ to all questions; allows e2fsck to be used
 non-interactively.
 
-This option may not be specified at the same time as the C<correct> option.
+This option may not be specified at the same time as the C<correct>
+or C<forceno> options.
+
+=item C<forceno>
+
+Open the filesystem readonly and assume an answer of ‘no’ to all
+questions; allows e2fsck to be used non-interactively.
+
+This option may not be specified at the same time as the C<correct>
+or C<forceall> options.
 
 =back" };
 
@@ -7300,20 +7353,6 @@ If C<devices> is an empty list, this does nothing." };
     longdesc = "\
 Enable or disable the seeding feature of a device that contains
 a btrfs filesystem." };
-
-  { defaults with
-    name = "btrfs_fsck"; added = (1, 17, 43);
-    style = RErr, [String (Device, "device")], [OInt64 "superblock"; OBool "repair"];
-    optional = Some "btrfs";
-    tests = [
-      InitPartition, Always, TestRun (
-        [["mkfs_btrfs"; "/dev/sda1"; ""; ""; "NOARG"; ""; "NOARG"; "NOARG"; ""; ""];
-         ["btrfs_fsck"; "/dev/sda1"; ""; ""]]), []
-    ];
-    shortdesc = "check a btrfs filesystem";
-    longdesc = "\
-Used to check a btrfs filesystem, C<device> is the device file where the
-filesystem is stored." };
 
   { defaults with
     name = "filesystem_available"; added = (1, 19, 5);
@@ -8128,7 +8167,7 @@ group with GUID C<diskgroup>." };
   { defaults with
     name = "part_set_gpt_type"; added = (1, 21, 1);
     style = RErr, [String (Device, "device"); Int "partnum"; String (GUID, "guid")], [];
-    optional = Some "gdisk";
+    impl = OCaml "Sfdisk.part_set_gpt_type";
     tests = [
       InitGPT, Always, TestLastFail (
         [["part_set_gpt_type"; "/dev/sda"; "1"; "f"]]), [];
@@ -8150,8 +8189,7 @@ for a useful list of type GUIDs." };
   { defaults with
     name = "part_get_gpt_type"; added = (1, 21, 1);
     style = RString (RPlainString, "guid"), [String (Device, "device"); Int "partnum"], [];
-    impl = OCaml "Parted.part_get_gpt_type";
-    optional = Some "gdisk";
+    impl = OCaml "Sfdisk.part_get_gpt_type";
     tests = [
       InitGPT, Always, TestResultString (
         [["part_set_gpt_type"; "/dev/sda"; "1";
@@ -8166,8 +8204,7 @@ Return the type GUID of numbered GPT partition C<partnum>." };
   { defaults with
     name = "part_set_gpt_attributes"; added = (1, 21, 1);
     style = RErr, [String (Device, "device"); Int "partnum"; Int64 "attributes"], [];
-    impl = OCaml "Parted.part_set_gpt_attributes";
-    optional = Some "gdisk";
+    impl = OCaml "Sfdisk.part_set_gpt_attributes";
     tests = [
       InitGPT, Always, TestResult (
         [["part_set_gpt_attributes"; "/dev/sda"; "1";
@@ -8186,14 +8223,13 @@ for a useful list of partition attributes." };
   { defaults with
     name = "part_get_gpt_attributes"; added = (1, 21, 1);
     style = RInt64 "attributes", [String (Device, "device"); Int "partnum"], [];
-    impl = OCaml "Parted.part_get_gpt_attributes";
-    optional = Some "gdisk";
+    impl = OCaml "Sfdisk.part_get_gpt_attributes";
     tests = [
       InitGPT, Always, TestResult (
         [["part_set_gpt_attributes"; "/dev/sda"; "1";
-          "0"];
+          (* bits 0, 2, 48 and 49 set *) "844424930131973"];
          ["part_get_gpt_attributes"; "/dev/sda"; "1"]],
-        "ret == 0"), [];
+        "ret == 844424930131973"), [];
     ];
     shortdesc = "get the attribute flags of a GPT partition";
     longdesc = "\
@@ -8987,7 +9023,7 @@ Recover bad superblocks from good copies." };
   { defaults with
     name = "part_set_gpt_guid"; added = (1, 29, 25);
     style = RErr, [String (Device, "device"); Int "partnum"; String (GUID, "guid")], [];
-    optional = Some "gdisk";
+    impl = OCaml "Sfdisk.part_set_gpt_guid";
     tests = [
       InitGPT, Always, TestLastFail (
         [["part_set_gpt_guid"; "/dev/sda"; "1"; "f"]]), [];
@@ -9006,8 +9042,7 @@ valid GUID." };
   { defaults with
     name = "part_get_gpt_guid"; added = (1, 29, 25);
     style = RString (RPlainString, "guid"), [String (Device, "device"); Int "partnum"], [];
-    impl = OCaml "Parted.part_get_gpt_guid";
-    optional = Some "gdisk";
+    impl = OCaml "Sfdisk.part_get_gpt_guid";
     tests = [
       InitGPT, Always, TestResultString (
         [["part_set_gpt_guid"; "/dev/sda"; "1";
@@ -9042,6 +9077,21 @@ Show the status of a running or paused balance on a btrfs filesystem." };
     shortdesc = "show status of running or finished scrub";
     longdesc = "\
 Show status of running or finished scrub on a btrfs filesystem." };
+
+  { defaults with
+    name = "btrfs_scrub_full"; added = (1, 55, 12);
+    style = RErr, [String (Pathname, "path")], [OBool "readonly"];
+    optional = Some "btrfs"; camel_name = "BTRFSScrubFull";
+    tests = [
+      InitPartition, Always, TestRun (
+        [["mkfs_btrfs"; "/dev/sda1"; ""; ""; "NOARG"; ""; "NOARG"; "NOARG"; ""; ""];
+         ["mount"; "/dev/sda1"; "/"];
+         ["btrfs_scrub_full"; "/"; "false"]]), [];
+    ];
+    shortdesc = "run a full scrub on a btrfs filesystem";
+    longdesc = "\
+Run a full scrub on a btrfs filesystem and wait for it to finish.
+If the filesystem has errors this will return an error." };
 
   { defaults with
     name = "btrfstune_seeding"; added = (1, 29, 29);
@@ -9206,7 +9256,7 @@ This is the internal call which implements C<guestfs_feature_available>." };
   { defaults with
     name = "part_set_disk_guid"; added = (1, 33, 2);
     style = RErr, [String (Device, "device"); String (GUID, "guid")], [];
-    optional = Some "gdisk";
+    impl = OCaml "Sfdisk.part_set_disk_guid";
     tests = [
       InitGPT, Always, TestLastFail (
         [["part_set_disk_guid"; "/dev/sda"; "f"]]), [];
@@ -9225,7 +9275,7 @@ or if C<guid> is not a valid GUID." };
   { defaults with
     name = "part_get_disk_guid"; added = (1, 33, 2);
     style = RString (RPlainString, "guid"), [String (Device, "device")], [];
-    optional = Some "gdisk";
+    impl = OCaml "Sfdisk.part_get_disk_guid";
     tests = [
       InitGPT, Always, TestResultString (
         [["part_set_disk_guid"; "/dev/sda";
@@ -9241,7 +9291,7 @@ Behaviour is undefined for other partition types." };
   { defaults with
     name = "part_set_disk_guid_random"; added = (1, 33, 2);
     style = RErr, [String (Device, "device")], [];
-    optional = Some "gdisk";
+    impl = OCaml "Sfdisk.part_set_disk_guid_random";
     tests = [
       InitGPT, Always, TestRun (
         [["part_set_disk_guid_random"; "/dev/sda"]]), [];
@@ -9374,6 +9424,8 @@ with large files, such as the resulting squashfs will be over 3GB big." };
       InitISOFS, Always, TestResultString (
         [["file_architecture"; "/bin-riscv64-dynamic"]], "riscv64"), [];
       InitISOFS, Always, TestResultString (
+        [["file_architecture"; "/bin-loongarch64-dynamic"]], "loongarch64"), [];
+      InitISOFS, Always, TestResultString (
         [["file_architecture"; "/bin-s390x-dynamic"]], "s390x"), [];
       InitISOFS, Always, TestResultString (
         [["file_architecture"; "/bin-sparc-dynamic"]], "sparc"), [];
@@ -9395,6 +9447,8 @@ with large files, such as the resulting squashfs will be over 3GB big." };
         [["file_architecture"; "/lib-ppc64le.so"]], "ppc64le"), [];
       InitISOFS, Always, TestResultString (
         [["file_architecture"; "/lib-riscv64.so"]], "riscv64"), [];
+      InitISOFS, Always, TestResultString (
+        [["file_architecture"; "/lib-loongarch64.so"]], "loongarch64"), [];
       InitISOFS, Always, TestResultString (
         [["file_architecture"; "/lib-s390x.so"]], "s390x"), [];
       InitISOFS, Always, TestResultString (
@@ -9453,6 +9507,10 @@ Intel Itanium.
 =item \"ppc64le\"
 
 64 bit Power PC (little endian).
+
+=item \"loongarch64\"
+
+64 bit LoongArch64 (little endian).
 
 =item \"riscv32\"
 
@@ -9650,7 +9708,7 @@ This returns the UUID of the LUKS device C<device>." };
 
   { defaults with
     name = "cryptsetup_open"; added = (1, 43, 2);
-    style = RErr, [String (Device, "device"); String (Key, "key"); String (PlainString, "mapname")], [OBool "readonly"; OString "crypttype"];
+    style = RErr, [String (Device, "device"); String (Key, "key"); String (PlainString, "mapname")], [OBool "readonly"; OString "crypttype"; OString "cipher";];
     impl = OCaml "Cryptsetup.cryptsetup_open";
     optional = Some "luks";
     test_excuse = "no way to format BitLocker, and smallest device is huge";
@@ -9691,6 +9749,9 @@ A Windows BitLocker device.
 
 The optional C<readonly> flag, if set to true, creates a
 read-only mapping.
+
+The optional C<cipher> parameter allows specifying which
+cipher to use.
 
 If this block device contains LVM volume groups, then
 calling C<guestfs_lvm_scan> with the C<activate>
@@ -9735,7 +9796,7 @@ C<device> is the encrypted block device.
 
 The appliance will connect to the Tang servers noted in the tree of
 Clevis pins that is bound to a keyslot of the LUKS header.  The Clevis
-pin tree may comprise C<sss> (redudancy) pins as internal nodes
+pin tree may comprise C<sss> (redundancy) pins as internal nodes
 (optionally), and C<tang> pins as leaves.  C<tpm2> pins are not
 supported.  The appliance unlocks the encrypted block device by
 combining responses from the Tang servers with metadata from the LUKS

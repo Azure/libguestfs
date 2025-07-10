@@ -1,5 +1,5 @@
 # libguestfs translations of man pages and POD files
-# Copyright (C) 2010-2023 Red Hat Inc.
+# Copyright (C) 2010-2025 Red Hat Inc.
 #
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -41,9 +41,9 @@ EXTRA_DIST = \
 SUBDIRS = $(linguas_translated)
 
 libguestfs-docs.pot:
-	cd $(top_srcdir) && $(PO4A_GETTEXTIZE) \
+	cd $(top_srcdir) && $(PO4A_UPDATEPO) \
 	  -f pod \
-	  -M utf-8 -L utf-8 \
+	  -M utf-8 \
 	  --package-name $(PACKAGE_NAME) \
 	  --package-version $(PACKAGE_VERSION) \
 	  --msgid-bugs-address guestfs@lists.libguestfs.org \

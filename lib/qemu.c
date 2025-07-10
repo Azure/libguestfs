@@ -1,5 +1,5 @@
 /* libguestfs
- * Copyright (C) 2009-2023 Red Hat Inc.
+ * Copyright (C) 2009-2025 Red Hat Inc.
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -37,7 +37,7 @@
 
 #include <libxml/uri.h>
 
-#include <jansson.h>
+#include <json.h>
 
 #include "full-write.h"
 #include "ignore-value.h"
@@ -46,18 +46,14 @@
 #include "guestfs-internal.h"
 #include "guestfs_protocol.h"
 
-#ifdef HAVE_ATTRIBUTE_CLEANUP
-#define CLEANUP_JSON_T_DECREF __attribute__((cleanup(cleanup_json_t_decref)))
+#define CLEANUP_JSON_OBJECT_PUT \
+  __attribute__((cleanup(cleanup_json_object_put)))
 
 static void
-cleanup_json_t_decref (void *ptr)
+cleanup_json_object_put (void *ptr)
 {
-  json_decref (* (json_t **) ptr);
+  json_object_put (* (json_object **) ptr);
 }
-
-#else
-#define CLEANUP_JSON_T_DECREF
-#endif
 
 struct qemu_data {
   int generation;               /* MEMO_GENERATION read from qemu.stat */
@@ -71,7 +67,7 @@ struct qemu_data {
 
   /* The following fields are derived from the fields above. */
   struct version qemu_version;  /* Parsed qemu version number. */
-  json_t *qmp_schema_tree;      /* qmp_schema parsed into a JSON tree */
+  json_object *qmp_schema_tree; /* qmp_schema parsed into a JSON tree */
   bool has_kvm;                 /* If KVM is available. */
 };
 
@@ -91,7 +87,7 @@ static int write_cache_query_kvm (guestfs_h *g, const struct qemu_data *data, co
 static int read_cache_qemu_stat (guestfs_h *g, struct qemu_data *data, const char *filename);
 static int write_cache_qemu_stat (guestfs_h *g, const struct qemu_data *data, const char *filename);
 static void parse_qemu_version (guestfs_h *g, const char *, struct version *qemu_version);
-static void parse_json (guestfs_h *g, const char *, json_t **);
+static void parse_json (guestfs_h *g, const char *, json_object **);
 static void parse_has_kvm (guestfs_h *g, const char *, bool *);
 static void read_all (guestfs_h *g, void *retv, const char *buf, size_t len);
 static int generic_read_cache (guestfs_h *g, const char *filename, char **strp);
@@ -309,7 +305,7 @@ test_qemu_devices (guestfs_h *g, struct qemu_data *data)
 #ifdef MACHINE_TYPE
                            MACHINE_TYPE ","
 #endif
-                           "accel=kvm:tcg");
+                           "accel=kvm:hvf:tcg");
   guestfs_int_cmd_add_arg (cmd, "-device");
   guestfs_int_cmd_add_arg (cmd, "?");
   guestfs_int_cmd_clear_capture_errors (cmd);
@@ -447,20 +443,24 @@ parse_qemu_version (guestfs_h *g, const char *qemu_help,
  * is not possible.
  */
 static void
-parse_json (guestfs_h *g, const char *json, json_t **treep)
+parse_json (guestfs_h *g, const char *json, json_object **treep)
 {
-  json_error_t err;
+  json_tokener *tok;
+  enum json_tokener_error err;
 
   if (!json)
     return;
 
-  *treep = json_loads (json, 0, &err);
-  if (*treep == NULL) {
-    if (strlen (err.text) > 0)
-      debug (g, "QMP parse error: %s (ignored)", err.text);
-    else
-      debug (g, "QMP unknown parse error (ignored)");
-  }
+  tok = json_tokener_new ();
+  json_tokener_set_flags (tok,
+                          JSON_TOKENER_STRICT | JSON_TOKENER_VALIDATE_UTF8);
+  *treep = json_tokener_parse_ex (tok, json, strlen (json));
+  err = json_tokener_get_error (tok);
+  if (err != json_tokener_success)
+    debug (g, "QMP parse error: %s (ignored)", json_tokener_error_desc (err));
+  json_tokener_free (tok);
+
+  /* Caller should do json_object_put (*treep) */
 }
 
 /**
@@ -474,37 +474,35 @@ parse_json (guestfs_h *g, const char *json, json_t **treep)
 static void
 parse_has_kvm (guestfs_h *g, const char *json, bool *ret)
 {
-  CLEANUP_JSON_T_DECREF json_t *tree = NULL;
-  json_error_t err;
-  json_t *return_node, *enabled_node;
+  CLEANUP_JSON_OBJECT_PUT json_object *tree = NULL;
+  json_tokener *tok;
+  enum json_tokener_error err;
+  json_object *return_node, *enabled_node;
 
   *ret = true;                  /* Assume KVM is enabled. */
 
   if (!json)
     return;
 
-  tree = json_loads (json, 0, &err);
-  if (tree == NULL) {
-    if (strlen (err.text) > 0)
-      debug (g, "QMP parse error: %s (ignored)", err.text);
-    else
-      debug (g, "QMP unknown parse error (ignored)");
+  tok = json_tokener_new ();
+  json_tokener_set_flags (tok,
+                          JSON_TOKENER_STRICT | JSON_TOKENER_VALIDATE_UTF8);
+  tree = json_tokener_parse_ex (tok, json, strlen (json));
+  err = json_tokener_get_error (tok);
+  if (err != json_tokener_success) {
+    debug (g, "QMP parse error: %s (ignored)", json_tokener_error_desc (err));
+    json_tokener_free (tok);
     return;
   }
+  json_tokener_free (tok);
 
-  return_node = json_object_get (tree, "return");
-  if (!json_is_object (return_node)) {
+  return_node = json_object_object_get (tree, "return");
+  if (json_object_get_type (return_node) != json_type_object) {
     debug (g, "QMP query-kvm: no \"return\" node (ignored)");
     return;
   }
-  enabled_node = json_object_get (return_node, "enabled");
-  /* Note that json_is_boolean will check that enabled_node != NULL. */
-  if (!json_is_boolean (enabled_node)) {
-    debug (g, "QMP query-kvm: no \"enabled\" node or not a boolean (ignored)");
-    return;
-  }
-
-  *ret = json_is_true (enabled_node);
+  enabled_node = json_object_object_get (return_node, "enabled");
+  *ret = json_object_get_boolean (enabled_node);
 }
 
 /**
@@ -574,7 +572,7 @@ generic_qmp_test (guestfs_h *g, struct qemu_data *data,
 #ifdef MACHINE_TYPE
                                      MACHINE_TYPE ","
 #endif
-                                     "accel=kvm:tcg");
+                                     "accel=kvm:hvf:tcg");
   guestfs_int_cmd_add_string_unquoted (cmd, " -qmp stdio");
   guestfs_int_cmd_clear_capture_errors (cmd);
 
@@ -665,54 +663,6 @@ guestfs_int_qemu_supports_device (guestfs_h *g,
                                   const char *device_name)
 {
   return strstr (data->qemu_devices, device_name) != NULL;
-}
-
-/**
- * Test if the qemu binary uses mandatory file locking, added in
- * QEMU >= 2.10 (but sometimes disabled).
- */
-int
-guestfs_int_qemu_mandatory_locking (guestfs_h *g,
-                                    const struct qemu_data *data)
-{
-  json_t *schema, *v, *meta_type, *members, *m, *name;
-  size_t i, j;
-
-  /* If there's no QMP schema, fall back to checking the version. */
-  if (!data->qmp_schema_tree) {
-  fallback:
-    return guestfs_int_version_ge (&data->qemu_version, 2, 10, 0);
-  }
-
-  /* Top element of qmp_schema_tree is the { "return": ... } wrapper.
-   * Extract the schema from the wrapper.  Note the returned ‘schema’
-   * will be an array.
-   */
-  schema = json_object_get (data->qmp_schema_tree, "return");
-  if (!json_is_array (schema))
-    goto fallback;
-
-  /* Now look for any member of the array which has:
-   * { "meta-type": "object",
-   *   "members": [ ... { "name": "locking", ... } ... ] ... }
-   */
-  json_array_foreach (schema, i, v) {
-    meta_type = json_object_get (v, "meta-type");
-    if (json_is_string (meta_type) &&
-        STREQ (json_string_value (meta_type), "object")) {
-      members = json_object_get (v, "members");
-      if (json_is_array (members)) {
-        json_array_foreach (members, j, m) {
-          name = json_object_get (m, "name");
-          if (json_is_string (name) &&
-              STREQ (json_string_value (name), "locking"))
-            return 1;
-        }
-      }
-    }
-  }
-
-  return 0;
 }
 
 bool
@@ -827,20 +777,6 @@ guestfs_int_drive_source_qemu_param (guestfs_h *g,
     return make_uri (g, "ftps", src->username, src->secret,
                      &src->servers[0], src->u.exportname);
 
-  case drive_protocol_gluster:
-    switch (src->servers[0].transport) {
-    case drive_transport_none:
-      return make_uri (g, "gluster", NULL, NULL,
-                       &src->servers[0], src->u.exportname);
-    case drive_transport_tcp:
-      return make_uri (g, "gluster+tcp", NULL, NULL,
-                       &src->servers[0], src->u.exportname);
-    case drive_transport_unix:
-      return make_uri (g, "gluster+unix", NULL, NULL,
-                       &src->servers[0], NULL);
-    }
-    break;
-
   case drive_protocol_http:
     return make_uri (g, "http", src->username, src->secret,
                      &src->servers[0], src->u.exportname);
@@ -940,20 +876,8 @@ guestfs_int_drive_source_qemu_param (guestfs_h *g,
                           secret ? secret : "");
   }
 
-  case drive_protocol_sheepdog:
-    if (src->nr_servers == 0)
-      return safe_asprintf (g, "sheepdog:%s", src->u.exportname);
-    else                        /* XXX How to pass multiple hosts? */
-      return safe_asprintf (g, "sheepdog:%s:%d:%s",
-                            src->servers[0].u.hostname, src->servers[0].port,
-                            src->u.exportname);
-
   case drive_protocol_ssh:
     return make_uri (g, "ssh", src->username, src->secret,
-                     &src->servers[0], src->u.exportname);
-
-  case drive_protocol_tftp:
-    return make_uri (g, "tftp", src->username, src->secret,
                      &src->servers[0], src->u.exportname);
   }
 
@@ -1023,11 +947,9 @@ guestfs_int_discard_possible (guestfs_h *g, struct drive *drv,
   switch (drv->src.protocol) {
     /* Protocols which support discard. */
   case drive_protocol_file:
-  case drive_protocol_gluster:
   case drive_protocol_iscsi:
   case drive_protocol_nbd:
   case drive_protocol_rbd:
-  case drive_protocol_sheepdog: /* XXX depends on server version */
     break;
 
     /* Protocols which don't support discard. */
@@ -1036,7 +958,6 @@ guestfs_int_discard_possible (guestfs_h *g, struct drive *drv,
   case drive_protocol_http:
   case drive_protocol_https:
   case drive_protocol_ssh:
-  case drive_protocol_tftp:
     NOT_SUPPORTED (g, -1,
                    _("discard cannot be enabled on this drive: "
                      "protocol ‘%s’ does not support discard"),
@@ -1057,7 +978,7 @@ guestfs_int_free_qemu_data (struct qemu_data *data)
     free (data->qemu_devices);
     free (data->qmp_schema);
     free (data->query_kvm);
-    json_decref (data->qmp_schema_tree);
+    json_object_put (data->qmp_schema_tree);
     free (data);
   }
 }

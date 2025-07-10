@@ -1,5 +1,5 @@
 (* libguestfs
- * Copyright (C) 2009-2023 Red Hat Inc.
+ * Copyright (C) 2009-2025 Red Hat Inc.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -178,6 +178,10 @@ Buildroot-derived distro, but not one we specifically recognize.
 
 CentOS.
 
+=item \"circle\"
+
+Circle Linux.
+
 =item \"cirros\"
 
 Cirros.
@@ -249,6 +253,10 @@ NetBSD.
 =item \"openbsd\"
 
 OpenBSD.
+
+=item \"openeuler\"
+
+openEuler.
 
 =item \"openmandriva\"
 

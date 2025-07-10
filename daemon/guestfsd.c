@@ -1,5 +1,5 @@
 /* libguestfs - the guestfsd daemon
- * Copyright (C) 2009-2023 Red Hat Inc.
+ * Copyright (C) 2009-2025 Red Hat Inc.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -228,7 +228,7 @@ main (int argc, char *argv[])
                  "libguestfs library chose to use.  Please run\n"
                  "'libguestfs-test-tool' and provide the complete, unedited\n"
                  "output to the libguestfs developers, either in a bug report\n"
-                 "or on the libguestfs redhat com mailing list.\n"
+                 "or on the guestfs@lists.libguestfs.org mailing list.\n"
                  "\n");
         error (EXIT_FAILURE, errno, "open: %s", channel);
       }

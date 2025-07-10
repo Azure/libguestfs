@@ -1,5 +1,5 @@
 # libguestfs
-# Copyright (C) 2009-2023 Red Hat Inc.
+# Copyright (C) 2009-2025 Red Hat Inc.
 #
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -20,7 +20,7 @@ dnl Define the host CPU architecture (defines 'host_cpu')
 AC_CANONICAL_HOST
 
 dnl Check for basic C environment.
-AC_PROG_CC_STDC
+AC_PROG_CC
 AC_PROG_INSTALL
 AC_PROG_CPP
 
@@ -55,9 +55,12 @@ AC_SUBST([WERROR_CFLAGS])
 CFLAGS="$CFLAGS -fno-strict-overflow -Wno-strict-overflow"
 
 dnl Work out how to specify the linker script to the linker.
+AS_CASE([$host_os],
+  [darwin*], [MAP_SCRIPT_FLAGS="-Wl,-map"],
+  [MAP_SCRIPT_FLAGS="-Wl,-M"])
 VERSION_SCRIPT_FLAGS=-Wl,--version-script=
 `/usr/bin/ld --help 2>&1 | grep -- --version-script >/dev/null` || \
-    VERSION_SCRIPT_FLAGS="-Wl,-M -Wl,"
+    VERSION_SCRIPT_FLAGS="$MAP_SCRIPT_FLAGS -Wl,"
 AC_SUBST(VERSION_SCRIPT_FLAGS)
 
 dnl Use -fvisibility=hidden by default in the library.
@@ -106,15 +109,12 @@ main (int argc, char *argv[])
     AC_MSG_RESULT([yes])
     AC_DEFINE([HAVE_ATTRIBUTE_CLEANUP],[1],[Define to 1 if '__attribute__((cleanup(...)))' works with this compiler.])
     ],[
-    AC_MSG_WARN(
+    AC_MSG_ERROR(
 ['__attribute__((cleanup(...)))' does not work.
 
 You may not be using a sufficiently recent version of GCC or CLANG, or
 you may be using a C compiler which does not support this attribute,
-or the configure test may be wrong.
-
-The code will still compile, but is likely to leak memory and other
-resources when it runs.])])
+or the configure test may be wrong.])])
 dnl restore CFLAGS
 CFLAGS="${acx_nbdkit_save_CFLAGS}"
 

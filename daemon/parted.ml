@@ -1,5 +1,5 @@
 (* guestfs-inspection
- * Copyright (C) 2009-2023 Red Hat Inc.
+ * Copyright (C) 2009-2025 Red Hat Inc.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -24,18 +24,6 @@ open Std_utils
 open Utils
 
 include Structs
-
-let part_get_mbr_id device partnum =
-  if partnum <= 0 then
-    failwith "partition number must be >= 1";
-
-  udev_settle ();
-  let out =
-    command "sfdisk" ["--part-type"; device; string_of_int partnum] in
-  udev_settle ();
-
-  (* It's printed in hex, possibly with a leading space. *)
-  sscanf out " %x" identity
 
 (* This is almost equivalent to print_partition_table in the C code. The
  * difference is that here we enforce the "BYT;" header internally.
@@ -110,7 +98,7 @@ let part_get_parttype device =
 
 let part_get_mbr_part_type device partnum =
   let parttype = part_get_parttype device in
-  let mbr_id = part_get_mbr_id device partnum in
+  let mbr_id = Sfdisk.part_get_mbr_id device partnum in
 
   (* 0x05 - extended partition.
    * 0x0f - extended partition using BIOS INT 13h extensions.
@@ -120,6 +108,7 @@ let part_get_mbr_part_type device partnum =
   | "msdos", (1|2|3|4), _ -> "primary"
   | "msdos", _, _ -> "logical"
   | _, _, _ -> "primary"
+<<<<<<< HEAD
 
 let part_set_gpt_attributes device partnum attributes =
   if partnum <= 0 then failwith "partition number must be >= 1";
@@ -188,13 +177,3 @@ let sgdisk_info_extract_field device partnum field extractor =
     | _ :: lines -> loop lines
   in
   loop lines
-
-let rec part_get_gpt_type device partnum =
-  sgdisk_info_extract_field device partnum "Partition GUID code"
-                            extract_guid
-and part_get_gpt_guid device partnum =
-  sgdisk_info_extract_field device partnum "Partition unique GUID"
-                            extract_guid
-and part_get_gpt_attributes device partnum =
-  sgdisk_info_extract_field device partnum "Attribute flags"
-                            extract_hex

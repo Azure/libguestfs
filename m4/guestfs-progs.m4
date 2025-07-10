@@ -1,5 +1,5 @@
 # libguestfs
-# Copyright (C) 2009-2023 Red Hat Inc.
+# Copyright (C) 2009-2025 Red Hat Inc.
 #
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -66,7 +66,8 @@ AM_CONDITIONAL([HAVE_XMLLINT],[test "x$XMLLINT" != "xno"])
 dnl po4a for translating man pages and POD files (optional).
 AC_CHECK_PROG([PO4A_GETTEXTIZE],[po4a-gettextize],[po4a-gettextize],[no])
 AC_CHECK_PROG([PO4A_TRANSLATE],[po4a-translate],[po4a-translate],[no])
-AM_CONDITIONAL([HAVE_PO4A], [test "x$PO4A_GETTEXTIZE" != "xno" && test "x$PO4A_TRANSLATE" != "xno"])
+AC_CHECK_PROG([PO4A_UPDATEPO],[po4a-updatepo],[po4a-updatepo],[no])
+AM_CONDITIONAL([HAVE_PO4A], [test "x$PO4A_GETTEXTIZE" != "xno" && test "x$PO4A_TRANSLATE" != "xno" && test "x$PO4A_UPDATEPO" != "xno"])
 
 dnl Check for sqlite3 (optional).
 AC_CHECK_PROG([SQLITE3],[sqlite3],[sqlite3],[no])
@@ -103,18 +104,6 @@ AC_DEFINE_UNQUOTED([XZCAT],["$XZCAT"],[Name of xzcat program.])
 dnl Check for zstdcat (required).
 AC_PATH_PROGS([ZSTDCAT],[zstdcat],[no])
 test "x$ZSTDCAT" = "xno" && AC_MSG_ERROR([zstdcat must be installed])
-
-dnl (f)lex and bison for virt-builder (required).
-dnl XXX Could be optional with some work.
-AC_PROG_LEX
-AC_PROG_YACC
-dnl These macros don't fail, instead they set some useless defaults.
-if test "x$LEX" = "x:"; then
-    AC_MSG_FAILURE([GNU 'flex' is required.])
-fi
-if test "x$YACC" = "xyacc"; then
-    AC_MSG_FAILURE([GNU 'bison' is required (yacc won't work).])
-fi
 
 dnl Check for valgrind
 AC_CHECK_PROG([VALGRIND],[valgrind],[valgrind],[no])
